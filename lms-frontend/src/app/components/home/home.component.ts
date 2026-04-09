@@ -9,7 +9,7 @@ import { ProgrammeService, Programme } from '../../services/programme.service';
 import { EventService, Event as AppEvent } from '../../services/event.service';
 import { ScheduleService, Schedule } from '../../services/schedule.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
