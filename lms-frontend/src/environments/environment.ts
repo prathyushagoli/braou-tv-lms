@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://lms-backend.onrender.com/api', // RENDER URL (Will be configurable)
-  backendUrl: 'https://lms-backend.onrender.com'
+  apiUrl: 'https://braou-tv-lms.onrender.com/api',
+  backendUrl: 'https://braou-tv-lms.onrender.com'
 };
