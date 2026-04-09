@@ -1,0 +1,122 @@
+<div class="user-portal">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <img src="assets/images/braou-tv-logo.png" alt="Logo" style="height: 80px; width: auto; object-fit: contain;">
+        <span class="logo-text">BRAOU TV</span>
+      </div>
+
+      <nav class="nav-links">
+        <a routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
+          </svg>
+          Home
+        </a>
+        <a routerLink="/live" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Zm6.035-7c0 .552-.448 3-1 3H11c-.552 0-1-2.448-1-3a1 1 0 1 1 2 0v1h2v-1a1 1 0 1 1 2 0Z" />
+          </svg>
+          Live TV
+        </a>
+        <a routerLink="/courses" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Courses
+        </a>
+        <a routerLink="/programmes" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 19V6a1 1 0 0 1 1-1h4.032a1 1 0 0 1 .768.36L11 8h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" />
+          </svg>
+          Programmes
+        </a>
+        <a routerLink="/events" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
+          </svg>
+          Events
+        </a>
+        <a routerLink="/schedules" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
+          </svg>
+          Schedules
+        </a>
+        <a routerLink="/archive" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20 7h-2.58A6 6 0 0 0 12 2a6 6 0 0 0-5.42 5H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-8-3.5a3.5 3.5 0 0 1 3.23 3.5H8.77A3.5 3.5 0 0 1 12 3.5Zm8 6.5H4V9h16v1ZM4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6H4Z" />
+          </svg>
+          Archived
+        </a>
+        <a routerLink="/about" routerLinkActive="active" class="nav-item">
+          <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          About Us
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Empty or additional global inputs can go here -->
+      </div>
+    </div>
+  </header>
+
+  <!-- DYNAMIC PAGE INJECTION -->
+  <main class="content-wrapper">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="assets/images/braou-tv-logo.png" alt="Logo" style="height: 80px; width: auto; object-fit: contain;">
+          <span class="logo-text">BRAOU TV</span>
+        </div>
+        <p class="brand-desc">Dr. B. R. Ambedkar Open University — India's first Open University, empowering learners
+          through accessible education.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-column">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a routerLink="/about">About Us</a></li>
+            <li><a routerLink="/live">Live TV</a></li>
+            <li><a routerLink="/courses">Courses</a></li>
+            <li><a routerLink="/programmes">Academic Programmes</a></li>
+            <li><a routerLink="/events">University Events</a></li>
+            <li><a routerLink="/schedules">Schedules</a></li>
+          </ul>
+        </div>
+
+        <div class="link-column">
+          <h4>CONTACT</h4>
+          <ul>
+            <li>Prof. D. Rabindranath Solomon</li>
+            <li>Director, Electronic Media Resources & Research Centre (EMR&RC)</li>
+            <li><a href="mailto:directoravprc@braou.ac.in">directoravprc&#64;braou.ac.in</a></li>
+            <li>040-23680320</li>
+            <li>9281013602</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dr. B. R. Ambedkar Open University. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

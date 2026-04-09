@@ -1,0 +1,261 @@
+<div class="home-master-container">
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero-section blueprint-grid">
+    <div class="hero-content-wrapper">
+
+      <!-- Left: Portrait Area -->
+      <div class="hero-left-column">
+        <div class="portrait-container">
+          <img class="ambedkar-img" src="assets/images/ambedkar.png" alt="Dr. B. R. Ambedkar">
+          <div class="icon-badge-overlay">
+            <svg aria-hidden="true" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+              </path>
+            </svg>
+          </div>
+        </div>
+        <div class="quote-area">
+          <p>"We may forego material benefits of civilization, but we cannot forego our right and opportunity to reap
+            the benefit of the highest education to the fullest extent."</p>
+          <span class="quote-author">— Dr. B. R. Ambedkar</span>
+        </div>
+      </div>
+
+      <!-- Right: Typography Area -->
+      <div class="hero-right-column">
+        <span class="welcome-label">WELCOME TO</span>
+        <h1 class="main-title">BRAOU <span class="highlight">TV</span></h1>
+        <h2 class="sub-title">Your Knowledge. Your Way.<br>Anytime, Anywhere.</h2>
+        <p class="description">Explore high-quality educational content, live programs, expert talks, and interactive
+          courses designed to empower lifelong learners.</p>
+
+        <div class="hero-button-group">
+          <a routerLink="/live" class="btn btn-primary btn-icon">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z">
+              </path>
+            </svg>
+            Watch Live
+          </a>
+          <a routerLink="/courses" class="btn btn-secondary btn-icon">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+              </path>
+            </svg>
+            Explore Courses
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. LIVE TV SECTION -->
+  <section class="module-section" *ngIf="activeLiveStream">
+    <div class="module-header">
+      <div class="header-title-pack">
+        <div class="tv-icon-base">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+            </path>
+          </svg>
+        </div>
+        <h2>Live TV</h2>
+        <span class="live-dot-badge"><span class="dot pulse"></span> LIVE NOW</span>
+      </div>
+    </div>
+
+    <div class="live-tv-player-card">
+      <div class="player-wrapper">
+        <iframe *ngIf="getSafeUrl(activeLiveStream.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="live-player-info">
+        <h3>{{ activeLiveStream.name }}</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. LATEST COURSES -->
+  <section class="module-section" *ngIf="latestCourses.length > 0">
+    <div class="module-header">
+      <div class="header-title-pack">
+        <div class="tv-icon-base book-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+            </path>
+          </svg>
+        </div>
+        <h2>Latest Courses</h2>
+      </div>
+      <a routerLink="/courses" class="btn-view-all">View all &rarr;</a>
+    </div>
+
+    <div class="card-grid">
+      <div class="ui-card" *ngFor="let course of latestCourses">
+        <div class="card-thumbnail">
+          <img [src]="getSafeThumbnail(course.url)" alt="Thumbnail" *ngIf="getSafeThumbnail(course.url)">
+        </div>
+        <div class="card-details">
+          <h3>{{ course.title }}</h3>
+          <p class="meta-sub">{{ course.subject || 'General' }}</p>
+          <div class="badges-row">
+            <span class="outline-badge">{{ course.type }}</span>
+            <span class="outline-badge" *ngIf="course.courseYear">Year {{ course.courseYear }}</span>
+            <span class="outline-badge" *ngIf="course.semester">Sem {{ course.semester }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. LATEST PROGRAMMES -->
+  <section class="module-section" *ngIf="latestProgrammes.length > 0">
+    <div class="module-header">
+      <div class="header-title-pack">
+        <div class="tv-icon-base cap-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+          </svg>
+        </div>
+        <h2>Academic Programmes</h2>
+      </div>
+      <a routerLink="/programmes" class="btn-view-all">View all &rarr;</a>
+    </div>
+
+    <div class="card-grid">
+      <div class="ui-card" *ngFor="let prog of latestProgrammes">
+        <div class="card-thumbnail">
+          <img [src]="getSafeThumbnail(prog.url)" alt="Thumbnail" *ngIf="getSafeThumbnail(prog.url)">
+        </div>
+        <div class="card-details">
+          <h3>{{ prog.title }}</h3>
+          <div class="badges-row-simple">
+            <span class="outline-badge">{{ prog.type }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. LATEST EVENTS -->
+  <section class="module-section" *ngIf="latestEvents.length > 0">
+    <div class="module-header">
+      <div class="header-title-pack">
+        <div class="tv-icon-base event-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h2>University Events</h2>
+      </div>
+      <a routerLink="/events" class="btn-view-all">View all &rarr;</a>
+    </div>
+
+    <div class="card-grid">
+      <div class="ui-card" *ngFor="let ev of latestEvents">
+        <div class="card-thumbnail">
+          <img [src]="getSafeThumbnail(ev.url)" alt="Thumbnail" *ngIf="getSafeThumbnail(ev.url)">
+        </div>
+        <div class="card-details">
+          <h3>{{ ev.title }}</h3>
+          <p class="meta-sub" *ngIf="ev.eventDate">📅 {{ ev.eventDate | date:'mediumDate' }}</p>
+          <div class="badges-row-simple">
+            <span class="outline-badge">{{ ev.type }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. UPCOMING SCHEDULES -->
+  <section class="module-section" *ngIf="latestSchedules.length > 0">
+    <div class="module-header">
+      <div class="header-title-pack">
+        <div class="tv-icon-base schedule-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+            </path>
+          </svg>
+        </div>
+        <h2>Upcoming Schedules</h2>
+      </div>
+      <a routerLink="/schedules" class="btn-view-all">View all &rarr;</a>
+    </div>
+
+    <div class="card-grid">
+      <div class="ui-card schedule-ui-card" *ngFor="let sch of latestSchedules" (click)="previewFile(sch.fileName)">
+        <div class="card-thumbnail pdf-thumbnail">
+          <iframe [src]="getSafePdfUrl(sch.fileName)" title="PDF Preview" scrolling="no"
+            class="pdf-thumbnail-frame"></iframe>
+          <div class="thumbnail-overlay"></div>
+        </div>
+        <div class="card-details">
+          <h3>{{ sch.title }}</h3>
+          <div class="card-actions-row">
+            <button class="btn-card-action" title="Preview File">
+              <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              Preview
+            </button>
+            <button class="btn-card-action btn-blue-action" (click)="downloadFile($event, sch.fileName)"
+              title="Download">
+              <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+              </svg>
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- CSS CONFETTI LAUNCH MODAL (NATIVE) -->
+<div class="modal-overlay-bg" *ngIf="showLaunchModal">
+  <!-- CSS Confetti Logic mapped via absolute pseudo elements -->
+  <div class="css-confetti"></div>
+  <div class="css-confetti css-confetti-2"></div>
+  <div class="css-confetti css-confetti-3"></div>
+  <div class="css-confetti css-confetti-4"></div>
+  <div class="css-confetti css-confetti-5"></div>
+
+  <div class="modal-card">
+    <button class="modal-close" (click)="toggleModal()">✕</button>
+    <div class="modal-internal">
+      <div class="modal-tv-icon">
+        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+          </path>
+        </svg>
+      </div>
+      <h2 class="modal-hero-title">BRAOU <span class="highlight">TV</span></h2>
+      <div class="modal-live-status">
+        <span class="live-pulse-dot"></span> IS LIVE NOW!
+      </div>
+      <p class="modal-launching-text">✨ Launching in a moment... ✨</p>
+
+      <div class="modal-progress">
+        <div class="modal-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>

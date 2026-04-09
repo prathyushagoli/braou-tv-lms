@@ -1,0 +1,89 @@
+<div class="user-live-container">
+
+  <div class="page-header">
+    <h1 class="page-title">Live TV</h1>
+  </div>
+
+  <div class="live-navigation">
+    <div class="tabs-container">
+      <button *ngFor="let type of liveTypes" class="tab-btn" [ngClass]="{'active': activeType === type}"
+        (click)="setActiveTab(type)">
+        {{ type }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Active Live Feed Section -->
+  <div class="live-feed-section" *ngIf="activeStream">
+
+    <div class="live-header-box">
+      <div class="pulse-container">
+        <div class="pulsing-recording-icon">
+          <span class="pulse-circle"></span>
+          <span class="live-text">Now Broadcasting</span>
+        </div>
+      </div>
+      <h2 class="live-label">LIVE SESSION</h2>
+    </div>
+
+    <div class="hero-player">
+      <iframe *ngIf="getSafeUrl(activeStream.url, true); let safeUrl" [src]="safeUrl" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="live-meta-info">
+      <h1>{{ activeStream.name }}</h1>
+    </div>
+
+  </div>
+
+  <div class="no-live-fallback" *ngIf="!activeStream">
+    <div class="fallback-content">
+      <svg aria-hidden="true" width="48" height="48" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z" />
+      </svg>
+      <h2>No Active Broadcast</h2>
+      <p>There are no live sessions broadcasting at the moment. Please check back later or browse past streams.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Past Sessions Section -->
+  <div class="past-sessions-section">
+    <div class="page-header">
+      <h2 class="page-title">Past Sessions</h2>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="streams-content-area">
+      <div class="grid-container" *ngIf="pastSessions.length > 0">
+        <div class="video-card" *ngFor="let stream of pastSessions">
+          <div class="iframe-container">
+            <iframe *ngIf="getSafeUrl(stream.url); let safeUrl" [src]="safeUrl" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+
+            <div class="invalid-url" *ngIf="!getSafeUrl(stream.url)">
+              <span>Media Unavailable</span>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <h3>{{ stream.name }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="pastSessions.length === 0">
+        <p>No past sessions available yet.</p>
+      </div>
+    </div>
+  </div>
+
+</div>

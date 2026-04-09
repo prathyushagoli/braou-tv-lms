@@ -1,0 +1,108 @@
+<div class="live-container">
+  <div class="page-header">
+    <h1>Live Streams</h1>
+    <button class="btn-primary" (click)="toggleAddForm()">
+      <span class="icon">+</span> Add Stream
+    </button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab === 'University live programs'" (click)="setTab('University live programs')">University Live Programs</button>
+    <button class="tab" [class.active]="activeTab === 'Teleconferences'" (click)="setTab('Teleconferences')">Teleconferences</button>
+  </div>
+  
+  <!-- Add Stream Form (Modal) -->
+  <div class="modal-overlay" *ngIf="showAddForm">
+    <div class="add-card">
+      <div class="card-header">
+        <h3>{{ editingStreamId ? 'Edit Live Stream' : 'Add Live Stream' }}</h3>
+        <button class="btn-close" (click)="toggleAddForm()">✕</button>
+      </div>
+      
+      <div class="form-group">
+        <label>Type <span class="mandatory">*</span></label>
+        <div class="custom-select-container">
+          <div class="custom-select-btn" (click)="dropdownOpen = !dropdownOpen">
+            {{ newStreamCategory }}
+            <span class="arrow">▼</span>
+          </div>
+          <ul class="custom-select-options" *ngIf="dropdownOpen">
+            <li (click)="newStreamCategory = 'University live programs'; dropdownOpen = false">University Live Programs</li>
+            <li (click)="newStreamCategory = 'Teleconferences'; dropdownOpen = false">Teleconferences</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Title <span class="mandatory">*</span></label>
+        <input type="text" [(ngModel)]="newStreamName" placeholder="Stream title" required>
+      </div>
+      
+      <div class="form-group">
+        <label>YouTube Live URL <span class="mandatory">*</span></label>
+        <input type="text" [(ngModel)]="newStreamUrl" placeholder="https://youtube.com/live/..." required>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
+        <button class="btn-add" (click)="saveStream()" [disabled]="!newStreamName || !newStreamUrl || !newStreamCategory">
+          {{ editingStreamId ? 'Save Changes' : 'Add Stream' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showDeleteConfirm">
+    <div class="delete-card">
+      <h3>Confirm Deletion</h3>
+      <p>Are you sure you want to delete this live stream? This action cannot be undone.</p>
+      <div class="form-actions delete-actions">
+        <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+        <button class="btn-danger" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Toggle Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showLiveConfirm">
+    <div class="delete-card">
+      <h3>Confirm Visibility</h3>
+      <p>Are you sure you want to {{ pendingLiveStatus ? 'start' : 'stop' }} this live stream? Note: Starting a stream will stop any currently running streams.</p>
+      <div class="form-actions delete-actions">
+        <button class="btn-cancel" (click)="cancelLiveToggle()">Cancel</button>
+        <button class="btn-primary" (click)="confirmLiveToggle()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stream-list">
+    <div class="stream-item" *ngFor="let stream of filteredStreams">
+      <div class="stream-info">
+        <div class="name-row">
+          <h3>{{ stream.name }}</h3>
+          <span class="live-badge" *ngIf="stream.live">
+            <span class="dot pulse"></span> LIVE
+          </span>
+        </div>
+        <p class="stream-url">{{ stream.url }}</p>
+      </div>
+      
+      <div class="stream-actions">
+        <div class="toggle-container">
+          <span class="toggle-label">Live</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="stream.live" (ngModelChange)="toggleLiveStatus(stream, $event)">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <button class="btn-edit" (click)="openEditForm(stream)">Edit</button>
+        <button class="btn-delete" (click)="promptDelete(stream.id!)">Delete</button>
+      </div>
+    </div>
+    
+    <div class="empty-state" *ngIf="filteredStreams.length === 0">
+      <p>No streams available in this category. Click "Add Stream" to create one.</p>
+    </div>
+  </div>
+</div>

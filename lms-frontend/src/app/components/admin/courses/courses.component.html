@@ -1,0 +1,151 @@
+<div class="courses-container">
+  <div class="page-header">
+    <h1>Courses</h1>
+    <button class="btn-primary" (click)="toggleAddForm()">
+      <span class="icon">+</span> Add Course
+    </button>
+  </div>
+  
+  <!-- Add/Edit Course Form (Modal) -->
+  <div class="modal-overlay" *ngIf="showAddForm">
+    <div class="add-card scrollable-card">
+      <div class="card-header">
+        <h3>{{ editingCourseId ? 'Edit Course' : 'Add Course' }}</h3>
+        <button class="btn-close" (click)="toggleAddForm()">✕</button>
+      </div>
+      
+      <!-- COURSE TYPE -->
+      <div class="form-group">
+        <label>Course Type <span class="mandatory">*</span></label>
+        <div class="custom-select-container">
+          <div class="custom-select-btn" (click)="toggleTypeDropdown($event)">
+            {{ newCourseType || 'Select Type' }}
+            <span class="arrow">▼</span>
+          </div>
+          <ul class="custom-select-options custom-scrollbar" *ngIf="typeDropdownOpen">
+            <li *ngFor="let type of courseTypes" (click)="selectType(type)">{{ type }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SUBJECT (Hidden if Ph.D or unselected) -->
+      <div class="form-group" *ngIf="requiresSubjectAndTerms">
+        <label>Subject <span class="mandatory">*</span></label>
+        <div class="custom-select-container">
+          <div class="custom-select-btn" (click)="toggleSubjectDropdown($event)" [class.disabled]="!availableSubjects.length">
+            {{ newCourseSubject || 'Select Subject' }}
+            <span class="arrow">▼</span>
+          </div>
+          <ul class="custom-select-options custom-scrollbar" *ngIf="subjectDropdownOpen && availableSubjects.length">
+            <li *ngFor="let sub of availableSubjects" (click)="selectSubject(sub)">{{ sub }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ROW: YEAR & SEMESTER (Hidden if Ph.D) -->
+      <div class="form-row" *ngIf="requiresSubjectAndTerms">
+        <div class="form-group half-width">
+          <label>Year</label>
+          <div class="custom-select-container">
+            <div class="custom-select-btn" (click)="toggleYearDropdown($event)">
+              {{ newCourseYear ? 'Year ' + newCourseYear : 'Select year' }}
+              <span class="arrow">▼</span>
+            </div>
+            <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="yearDropdownOpen">
+              <li (click)="selectYear(null)">Select year</li>
+              <li *ngFor="let yr of years" (click)="selectYear(yr)">Year {{ yr }}</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="form-group half-width">
+          <label>Semester</label>
+          <div class="custom-select-container">
+            <div class="custom-select-btn" (click)="toggleSemDropdown($event)">
+              {{ newCourseSemester ? 'Semester ' + newCourseSemester : 'Select semester' }}
+              <span class="arrow">▼</span>
+            </div>
+            <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="semDropdownOpen">
+              <li (click)="selectSem(null)">Select semester</li>
+              <li *ngFor="let sem of semesters" (click)="selectSem(sem)">Semester {{ sem }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- TITLE -->
+      <div class="form-group">
+        <label>Course Title <span class="mandatory">*</span></label>
+        <input type="text" [(ngModel)]="newCourseTitle" placeholder="Data Structures etc." required>
+      </div>
+      
+      <!-- URL -->
+      <div class="form-group">
+        <label>YouTube URL <span class="mandatory">*</span></label>
+        <input type="text" [(ngModel)]="newCourseUrl" placeholder="https://youtube.com/..." required>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
+        <button class="btn-add" (click)="saveCourse()" [disabled]="!isFormValid()">
+          {{ editingCourseId ? 'Save Changes' : 'Add Course' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" *ngIf="showDeleteConfirm">
+    <div class="delete-card">
+      <h3>Confirm Deletion</h3>
+      <p>Are you sure you want to delete this course? This action cannot be undone.</p>
+      <div class="form-actions delete-actions">
+        <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+        <button class="btn-danger" (click)="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar-container">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search course by title..." class="search-input">
+  </div>
+
+  <div class="table-container">
+    <table class="courses-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Subject</th>
+          <th>Year / Sem</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of filteredCourses">
+          <td>{{ course.title }}</td>
+          <td>{{ course.type }}</td>
+          <td>{{ course.subject || '—' }}</td>
+          <td>
+             <ng-container *ngIf="course.courseYear || course.semester; else noneMeta">
+               {{ course.courseYear ? 'Year ' + course.courseYear : '' }}
+               {{ course.courseYear && course.semester ? ' / ' : '' }}
+               {{ course.semester ? 'Sem ' + course.semester : '' }}
+             </ng-container>
+             <ng-template #noneMeta>—</ng-template>
+          </td>
+          <td class="table-actions">
+            <!-- Edit HTML Button -->
+            <button class="btn-edit" (click)="openEditForm(course)">Edit</button>
+            <!-- Delete HTML Button -->
+            <button class="btn-delete" (click)="promptDelete(course.id!)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredCourses.length === 0">
+          <td colspan="5" class="empty-state">No courses currently uploaded or matched your search.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="assets/images/braou-tv-logo.png" alt="Logo" style="height: 80px; width: auto; object-fit: contain;">
+      <span>BRAOU TV</span>
+    </div>
+
+    <nav class="nav-menu">
+      <a routerLink="/admin/live-stream" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Zm6.035-7c0 .552-.448 3-1 3H11c-.552 0-1-2.448-1-3a1 1 0 1 1 2 0v1h2v-1a1 1 0 1 1 2 0Z" />
+          </svg></span> Live
+      </a>
+      <a routerLink="/admin/courses" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023" />
+          </svg></span> Courses
+      </a>
+      <a routerLink="/admin/programmes" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 19V6a1 1 0 0 1 1-1h4.032a1 1 0 0 1 .768.36L11 8h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" />
+          </svg></span> Programmes
+      </a>
+      <a routerLink="/admin/events" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
+          </svg></span> Events
+      </a>
+      <a routerLink="/admin/schedules" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
+          </svg></span> Schedules
+      </a>
+      <a routerLink="/admin/archive" routerLinkActive="active" class="nav-item">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20 7h-2.1c-.8 0-1.5.7-1.5 1.5v.7A1.3 1.3 0 0 1 15 10.5H9c-.7 0-1.3-.6-1.3-1.3v-.7c0-.8-.7-1.5-1.5-1.5H4m16 0v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7m16 0h-2M4 7h2m7 5h2" />
+          </svg></span> Archived
+      </a>
+    </nav>
+
+    <div class="logout-container">
+      <button class="btn-logout" (click)="logout()">
+        <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2" />
+          </svg></span> Log Out
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

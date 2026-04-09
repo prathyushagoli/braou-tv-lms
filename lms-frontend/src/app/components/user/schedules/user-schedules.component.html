@@ -1,0 +1,44 @@
+<div class="user-schedules-container">
+  <div class="page-header">
+    <h1 class="page-title">Schedules</h1>
+  </div>
+
+  <div class="schedules-grid">
+    <div class="ui-card schedule-ui-card" *ngFor="let schedule of schedules" (click)="previewFile(schedule.fileName)">
+
+      <div class="card-thumbnail pdf-thumbnail">
+        <iframe [src]="getSafeUrl(schedule.fileName)" title="PDF Preview" scrolling="no"
+          class="pdf-thumbnail-frame"></iframe>
+        <div class="thumbnail-overlay"></div>
+      </div>
+
+      <div class="card-details">
+        <h3>{{ schedule.title }}</h3>
+        <div class="card-actions-row">
+          <button class="btn-card-action" title="Preview File">
+            <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            Preview
+          </button>
+          <button class="btn-card-action btn-blue-action" (click)="downloadFile($event, schedule.fileName)"
+            title="Download">
+            <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+            </svg>
+            Download
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="schedules.length === 0">
+    <p>No schedules currently available.</p>
+  </div>
+</div>

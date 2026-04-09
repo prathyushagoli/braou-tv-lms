@@ -1,0 +1,43 @@
+<div class="user-programmes-container">
+  <div class="page-header">
+    <h1 class="page-title">Programmes</h1>
+  </div>
+
+  <div class="programmes-navigation">
+    <div class="tabs-container">
+      <button *ngFor="let type of programmeTypes" class="tab-btn" [ngClass]="{'active': activeType === type}"
+        (click)="setActiveTab(type)">
+        {{ type }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="programmes-content-area">
+
+    <div class="grid-container" *ngIf="filteredProgrammes.length > 0">
+      <div class="video-card" *ngFor="let prog of filteredProgrammes">
+        <div class="iframe-container">
+          <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+
+          <div class="invalid-url" *ngIf="!getSafeUrl(prog.url)">
+            <span>Media Unavailable</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <h3>{{ prog.title }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State Matching Mockup perfectly -->
+    <div class="empty-state" *ngIf="filteredProgrammes.length === 0">
+      <p>No programmes available in this section yet.</p>
+    </div>
+
+  </div>
+</div>
