@@ -17,9 +17,10 @@ export class AdminLoginComponent {
   constructor(private router: Router) {}
 
   onSignIn() {
-    // Dummy authentication
-    if (this.email && this.password) {
+    if (this.email === 'braoutv@braou.ac.in' && this.password === 'Braou@234') {
       this.router.navigate(['/admin/live-stream']);
+    } else {
+      alert('Invalid Administrator Credentials!');
     }
   }
 }
