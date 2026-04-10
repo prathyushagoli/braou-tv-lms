@@ -8,12 +8,12 @@
     <div class="archive-item">
       <div class="archive-info" style="width: 100%;">
         <h3>{{ contactObj.name || 'No Name Set' }}</h3>
-        <p class="archive-url"><strong>Designation:</strong> {{ contactObj.designation || 'None' }}</p>
-        <p class="archive-url"><strong>Email:</strong> {{ contactObj.email || 'None' }}</p>
-        <p class="archive-url"><strong>Mobile 1:</strong> {{ contactObj.mobile1 || 'None' }}</p>
-        <p class="archive-url"><strong>Mobile 2:</strong> {{ contactObj.mobile2 || 'None' }}</p>
+        <p class="archive-url">{{ contactObj.designation || 'None' }}</p>
+        <p class="archive-url">{{ contactObj.email || 'None' }}</p>
+        <p class="archive-url">{{contactObj.mobile1 || 'None' }}</p>
+        <p class="archive-url">{{ contactObj.mobile2 || 'None' }}</p>
       </div>
-      
+
       <div class="archive-actions" style="margin-left: auto;">
         <!-- Edit Button -->
         <button class="btn-edit" (click)="openEditForm()">Edit</button>
@@ -28,7 +28,7 @@
         <h3>Edit Contact Details</h3>
         <button class="btn-close" (click)="closeEditForm()">✕</button>
       </div>
-      
+
       <div class="form-group">
         <label>Full Name</label>
         <input type="text" [(ngModel)]="editObj.name" (keydown.enter)="saveContact()" placeholder="Enter Full Name">
@@ -36,24 +36,28 @@
 
       <div class="form-group">
         <label>Designation</label>
-        <input type="text" [(ngModel)]="editObj.designation" (keydown.enter)="saveContact()" placeholder="Enter Designation">
+        <input type="text" [(ngModel)]="editObj.designation" (keydown.enter)="saveContact()"
+          placeholder="Enter Designation">
       </div>
 
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" [(ngModel)]="editObj.email" (keydown.enter)="saveContact()" placeholder="Enter Email Address">
+        <input type="email" [(ngModel)]="editObj.email" (keydown.enter)="saveContact()"
+          placeholder="Enter Email Address">
       </div>
 
       <div class="form-group">
-        <label>Mobile Number 1</label>
-        <input type="text" [(ngModel)]="editObj.mobile1" (keydown.enter)="saveContact()" placeholder="Enter Mobile Number 1">
+        <label>Phone Number 1</label>
+        <input type="text" [(ngModel)]="editObj.mobile1" (keydown.enter)="saveContact()"
+          placeholder="Enter Phone Number 1">
       </div>
 
       <div class="form-group">
-        <label>Mobile Number 2</label>
-        <input type="text" [(ngModel)]="editObj.mobile2" (keydown.enter)="saveContact()" placeholder="Enter Mobile Number 2">
+        <label>Phone Number 2</label>
+        <input type="text" [(ngModel)]="editObj.mobile2" (keydown.enter)="saveContact()"
+          placeholder="Enter Phone Number 2">
       </div>
-      
+
       <div class="form-actions">
         <button class="btn-cancel" (click)="closeEditForm()" [disabled]="isSaving || isSaved">Cancel</button>
         <button class="btn-add" (click)="saveContact()" [disabled]="isSaving || isSaved">
@@ -70,22 +74,24 @@
   <div class="page-header" style="margin-top: 3rem;">
     <h1>Launch Banner Settings</h1>
   </div>
-  
+
   <div class="archive-list">
     <div class="archive-item" style="flex-direction: column; align-items: stretch; gap: 1rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 0.5rem;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 0.5rem;">
         <div>
           <h3 style="margin: 0; color: white; font-size: 1.15rem; font-weight: 600;">Home Page Launch Module</h3>
-          <p style="margin: 0.25rem 0 0 0; color: #94a3b8; font-size: 0.875rem;">When toggled ON, the celebratory Launch Banner will prominently render universally across the entire User Home Page organically.</p>
+          <p style="margin: 0.25rem 0 0 0; color: #94a3b8; font-size: 0.875rem;">When toggled ON, the celebratory Launch
+            Banner will prominently render universally across the entire User Home Page organically.</p>
         </div>
-        
+
         <!-- Native Toggle Switch -->
         <label class="toggle-switch">
           <input type="checkbox" [(ngModel)]="contactObj.isLaunchVideoActive" (change)="saveContactConfigOnly()">
           <span class="slider round"></span>
         </label>
       </div>
-      
+
       <!-- Video URL Payload Configuration directly editable dynamically -->
       <div class="form-group" style="margin-bottom: 0;">
         <label>Custom Overlay YouTube URL</label>
