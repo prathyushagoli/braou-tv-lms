@@ -12,6 +12,9 @@ import { ContactService, Contact } from '../../../services/contact.service';
 })
 export class ContactComponent implements OnInit {
   contactObj: Contact = {};
+  editObj: Contact = {};
+  
+  showEditForm = false;
   isSaving = false;
   isSaved = false;
 
@@ -20,7 +23,7 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
     this.contactService.getContact().subscribe({
       next: (data) => {
-        if (data) this.contactObj = data;
+        if (data) Object.assign(this.contactObj, data);
       },
       error: (err) => console.error('Error fetching contact', err)
     });
@@ -28,24 +31,36 @@ export class ContactComponent implements OnInit {
 
   @HostListener('document:keydown.enter', ['$event'])
   handleEnter(event: KeyboardEvent) {
-    if (!this.isSaving && !this.isSaved) {
+    if (this.showEditForm && !this.isSaving && !this.isSaved) {
       event.preventDefault();
       this.saveContact();
     }
+  }
+
+  openEditForm() {
+    this.editObj = { ...this.contactObj };
+    this.showEditForm = true;
+    this.isSaved = false;
+    this.isSaving = false;
+  }
+
+  closeEditForm() {
+    this.showEditForm = false;
   }
 
   saveContact() {
     this.isSaving = true;
     this.isSaved = false;
     
-    this.contactService.updateContact(this.contactObj).subscribe({
+    this.contactService.updateContact(this.editObj).subscribe({
       next: (data) => {
         this.contactObj = data;
         this.isSaving = false;
         this.isSaved = true;
         setTimeout(() => {
           this.isSaved = false;
-        }, 1500);
+          this.closeEditForm();
+        }, 1000);
       },
       error: (err) => {
         console.error('Error updating contact', err);
