@@ -12,6 +12,7 @@ import { ContactService, Contact } from '../../../services/contact.service';
 })
 export class UserLayoutComponent implements OnInit {
   contactObj: Contact | null = null;
+  isMobileMenuOpen = false;
 
   constructor(private contactService: ContactService) {}
 
@@ -22,5 +23,13 @@ export class UserLayoutComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching contact', err)
     });
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
   }
 }

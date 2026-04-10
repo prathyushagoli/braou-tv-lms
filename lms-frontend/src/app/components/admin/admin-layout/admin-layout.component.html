@@ -1,49 +1,70 @@
 <div class="admin-layout">
-  <aside class="sidebar">
-    <div class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="brand" style="display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0; border: none;">
       <span style="display: flex; align-items: center; gap: 0.3rem; font-weight: bold; font-size: 1.25rem;">
         <span style="color: #3b82f6;">BRAOU</span>
         <span style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
       </span>
     </div>
+    <button class="hamburger-btn" (click)="toggleMobileMenu()">
+      <svg aria-hidden="true" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" *ngIf="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+
+  <aside class="sidebar" [class.mobile-open]="isMobileMenuOpen">
+    <div class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="display: flex; align-items: center; gap: 0.3rem; font-weight: bold; font-size: 1.25rem;">
+        <span style="color: #3b82f6;">BRAOU</span>
+        <span style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      </span>
+      <button class="close-sidebar-btn" (click)="closeMobileMenu()">
+        ✕
+      </button>
+    </div>
 
     <nav class="nav-menu">
-      <a routerLink="/admin/live-stream" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/live-stream" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Zm6.035-7c0 .552-.448 3-1 3H11c-.552 0-1-2.448-1-3a1 1 0 1 1 2 0v1h2v-1a1 1 0 1 1 2 0Z" />
           </svg></span> Live
       </a>
-      <a routerLink="/admin/courses" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/courses" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023" />
           </svg></span> Courses
       </a>
-      <a routerLink="/admin/programmes" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/programmes" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 19V6a1 1 0 0 1 1-1h4.032a1 1 0 0 1 .768.36L11 8h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" />
           </svg></span> Programmes
       </a>
-      <a routerLink="/admin/events" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/events" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
           </svg></span> Events
       </a>
-      <a routerLink="/admin/schedules" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/schedules" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M4 10h16M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-16v2m8-2v2" />
           </svg></span> Schedules
       </a>
-      <a routerLink="/admin/archive" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/archive" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
           <path fill-rule="evenodd" d="M20 7h-2.58A6 6 0 0 0 12 2a6 6 0 0 0-5.42 5H4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-8-3.5a3.5 3.5 0 0 1 3.23 3.5H8.77A3.5 3.5 0 0 1 12 3.5Zm8 6.5H4V9h16v1ZM4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6H4Z" clip-rule="evenodd"/>
         </svg></span> Archived
       </a>
-      <a routerLink="/admin/contact" routerLinkActive="active" class="nav-item">
+      <a routerLink="/admin/contact" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">
         <span class="icon"><svg aria-hidden="true" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
           <path fill-rule="evenodd" d="M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm-7 11a7 7 0 0 1 14 0v3a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3Z" clip-rule="evenodd"/>
         </svg></span> Contact Us

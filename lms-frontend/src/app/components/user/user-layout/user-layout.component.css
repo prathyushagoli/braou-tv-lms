@@ -219,3 +219,47 @@
   color: white;
   text-decoration: underline;
 }
+
+/* === Mobile Nav Drawer Styles === */
+.mobile-toggle {
+  display: none;
+  background: transparent;
+  color: #1e293b;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    border-bottom: 2px solid #3b82f6;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 40;
+    pointer-events: none;
+    align-items: center;
+  }
+
+  .nav-links.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+

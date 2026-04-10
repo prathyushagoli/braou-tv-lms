@@ -10,8 +10,17 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent {
+  isMobileMenuOpen = false;
   
   constructor(private router: Router) {}
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
 
   logout() {
     localStorage.removeItem('isAdminLoggedIn');
