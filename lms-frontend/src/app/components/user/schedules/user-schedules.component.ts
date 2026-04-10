@@ -28,7 +28,7 @@ export class UserSchedulesComponent implements OnInit {
   ngOnInit() {
     this.scheduleService.getSchedules().subscribe({
       next: (data: Schedule[]) => {
-        this.schedules = data;
+        this.schedules = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
       },
       error: (err: any) => {

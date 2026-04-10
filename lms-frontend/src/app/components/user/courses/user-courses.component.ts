@@ -53,7 +53,7 @@ export class UserCoursesComponent implements OnInit {
   ngOnInit() {
     this.courseService.getCourses().subscribe({
       next: (data: Course[]) => {
-        this.courses = data;
+        this.courses = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
         this.extractFilters();
         

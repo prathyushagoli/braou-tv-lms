@@ -28,7 +28,7 @@ export class UserEventsComponent implements OnInit {
   ngOnInit() {
     this.eventService.getEvents().subscribe({
       next: (data: Event[]) => {
-        this.events = data;
+        this.events = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
         this.filterEvents();
       },

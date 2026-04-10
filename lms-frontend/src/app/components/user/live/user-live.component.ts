@@ -29,7 +29,7 @@ export class UserLiveComponent implements OnInit {
   ngOnInit() {
     this.liveStreamService.getStreams().subscribe({
       next: (data: LiveStream[]) => {
-        this.streams = data;
+        this.streams = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
         this.filterStreams();
       },

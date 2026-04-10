@@ -84,7 +84,8 @@ export class HomeComponent implements OnInit {
 
   fetchLatestData() {
     this.courseService.getCourses().subscribe(data => {
-      this.latestCourses = data.slice(-4).reverse();
+      const sorted = data.sort((a, b) => (b.id || 0) - (a.id || 0));
+      this.latestCourses = sorted.slice(0, 4);
       
       const faculties = new Set<string>([
         'Faculty of Arts',
@@ -100,15 +101,18 @@ export class HomeComponent implements OnInit {
     });
     
     this.programmeService.getProgrammes().subscribe(data => {
-      this.latestProgrammes = data.slice(-4).reverse();
+      const sorted = data.sort((a, b) => (b.id || 0) - (a.id || 0));
+      this.latestProgrammes = sorted.slice(0, 4);
     });
     
     this.eventService.getEvents().subscribe(data => {
-      this.latestEvents = data.slice(-4).reverse();
+      const sorted = data.sort((a, b) => (b.id || 0) - (a.id || 0));
+      this.latestEvents = sorted.slice(0, 4);
     });
     
     this.scheduleService.getSchedules().subscribe(data => {
-      this.latestSchedules = data.slice(-4).reverse();
+      const sorted = data.sort((a, b) => (b.id || 0) - (a.id || 0));
+      this.latestSchedules = sorted.slice(0, 4);
     });
   }
 

@@ -22,7 +22,7 @@ export class UserArchiveComponent implements OnInit {
   ngOnInit() {
     this.archiveService.getArchives().subscribe({
       next: (data: Archive[]) => {
-        this.archives = data;
+        this.archives = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
       },
       error: (err: any) => {

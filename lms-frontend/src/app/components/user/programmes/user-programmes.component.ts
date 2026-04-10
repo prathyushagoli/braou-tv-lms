@@ -26,7 +26,7 @@ export class UserProgrammesComponent implements OnInit {
   ngOnInit() {
     this.programmeService.getProgrammes().subscribe({
       next: (data: Programme[]) => {
-        this.programmes = data;
+        this.programmes = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
         this.filterProgrammes();
       },
