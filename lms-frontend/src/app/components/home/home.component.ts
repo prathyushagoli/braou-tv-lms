@@ -188,10 +188,13 @@ export class HomeComponent implements OnInit {
     this.isVideoLaunched = false;
     this.fireConfettiLoop();
 
-    // After 10s organically load the YouTube iframe
+    // After 10s organically load the YouTube iframe only if a URL actually exists!
     setTimeout(() => {
-      this.clearConfetti();
-      this.isVideoLaunched = true;
+      if (this.contactObj && this.contactObj.launchVideoUrl && this.contactObj.launchVideoUrl.trim().length > 0) {
+        this.clearConfetti();
+        this.isVideoLaunched = true;
+      }
+      // If no video URL is provided, the UI simply remains in the highly animated launch state indefinitely!
     }, 10000);
   }
 
