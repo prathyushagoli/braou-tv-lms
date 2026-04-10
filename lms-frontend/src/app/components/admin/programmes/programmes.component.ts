@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProgrammeService, Programme } from '../../../services/programme.service';
@@ -28,6 +28,9 @@ export class ProgrammesComponent implements OnInit {
   newProgrammeUrl = '';
   newProgrammeType = 'Academic Discussions';
   searchType = '';
+  isSaving = false;
+  isDeleting = false;
+  isSaved = false;
 
   tabs = ['Academic Discussions', 'Faculty Interviews', 'Special Lectures', 'Documentary'];
 
@@ -40,10 +43,23 @@ export class ProgrammesComponent implements OnInit {
   loadProgrammes() {
     this.programmeService.getProgrammes().subscribe({
       next: (data: Programme[]) => {
-        this.programmes = data;
+        this.programmes = data.sort((a, b) => (b.id || 0) - (a.id || 0));
       },
       error: (err: any) => console.error('Error loading programmes', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.newProgrammeTitle.trim() && this.newProgrammeUrl.trim()) {
+        event.preventDefault();
+        this.saveProgramme();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    }
   }
 
   get filteredProgrammes(): Programme[] {
@@ -70,7 +86,9 @@ export class ProgrammesComponent implements OnInit {
   }
 
   saveProgramme() {
-    if (this.newProgrammeTitle.trim() && this.newProgrammeUrl.trim() && this.newProgrammeType) {
+    if (this.newProgrammeTitle.trim() && this.newProgrammeUrl.trim()) {
+      this.isSaving = true;
+      this.isSaved = false;
       if (this.editingProgrammeId) {
         // Edit mode
         const updatedProgramme: Programme = {
@@ -82,9 +100,17 @@ export class ProgrammesComponent implements OnInit {
         this.programmeService.updateProgramme(this.editingProgrammeId, updatedProgramme).subscribe({
           next: () => {
             this.loadProgrammes();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error updating programme', err)
+          error: (err: any) => {
+            console.error('Error updating programme', err);
+            this.isSaving = false;
+          }
         });
       } else {
         // Add mode
@@ -96,10 +122,18 @@ export class ProgrammesComponent implements OnInit {
         
         this.programmeService.addProgramme(newProgramme).subscribe({
           next: (savedProgramme: Programme) => {
-            this.programmes.push(savedProgramme);
-            this.toggleAddForm();
+            this.programmes.unshift(savedProgramme);
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error adding programme', err)
+          error: (err: any) => {
+            console.error('Error adding programme', err);
+            this.isSaving = false;
+          }
         });
       }
     }
@@ -117,12 +151,22 @@ export class ProgrammesComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingProgrammeId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.programmeService.deleteProgramme(this.deletingProgrammeId).subscribe({
         next: () => {
           this.programmes = this.programmes.filter(p => p.id !== this.deletingProgrammeId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err: any) => console.error('Error deleting programme', err)
+        error: (err: any) => {
+          console.error('Error deleting programme', err);
+          this.isDeleting = false;
+        }
       });
     }
   }

@@ -30,6 +30,9 @@ export class CoursesComponent implements OnInit {
   newCourseFaculty = '';
   newCourseYear: number | null = null;
   newCourseSemester: number | null = null;
+  isSaving = false;
+  isDeleting = false;
+  isSaved = false;
 
   searchQuery = '';
 
@@ -124,11 +127,24 @@ export class CoursesComponent implements OnInit {
   loadCourses() {
     this.courseService.getCourses().subscribe({
       next: (data) => {
-        this.courses = data;
+        this.courses = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.extractCourseFilters();
       },
       error: (err) => console.error('Error loading courses', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.isFormValid()) {
+        event.preventDefault();
+        this.saveCourse();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    }
   }
 
   extractCourseFilters() {
@@ -339,6 +355,8 @@ export class CoursesComponent implements OnInit {
 
   saveCourse() {
     if (this.isFormValid()) {
+      this.isSaving = true;
+      this.isSaved = false;
       const payload: Course = {
         title: this.newCourseTitle,
         type: this.newCourseType,
@@ -353,17 +371,33 @@ export class CoursesComponent implements OnInit {
         this.courseService.updateCourse(this.editingCourseId, payload).subscribe({
           next: () => {
             this.loadCourses();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err) => console.error('Error updating course', err)
+          error: (err) => {
+            console.error('Error updating course', err);
+            this.isSaving = false;
+          }
         });
       } else {
         this.courseService.addCourse(payload).subscribe({
           next: () => {
             this.loadCourses();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err) => console.error('Error adding course', err)
+          error: (err) => {
+            console.error('Error adding course', err);
+            this.isSaving = false;
+          }
         });
       }
     }
@@ -381,12 +415,22 @@ export class CoursesComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingCourseId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.courseService.deleteCourse(this.deletingCourseId).subscribe({
         next: () => {
           this.courses = this.courses.filter(c => c.id !== this.deletingCourseId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err) => console.error('Error deleting course', err)
+        error: (err) => {
+          console.error('Error deleting course', err);
+          this.isDeleting = false;
+        }
       });
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScheduleService, Schedule } from '../../../services/schedule.service';
@@ -25,6 +25,9 @@ export class ScheduleComponent implements OnInit {
   selectedFile: File | null = null;
   
   isDragging = false;
+  isSaving = false;
+  isDeleting = false;
+  isSaved = false;
 
   constructor(private scheduleService: ScheduleService, private http: HttpClient) {}
 
@@ -35,10 +38,23 @@ export class ScheduleComponent implements OnInit {
   loadSchedules() {
     this.scheduleService.getSchedules().subscribe({
       next: (data: Schedule[]) => {
-        this.schedules = data;
+        this.schedules = data.sort((a, b) => (b.id || 0) - (a.id || 0));
       },
       error: (err: any) => console.error('Error loading schedules', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.newScheduleTitle.trim() && (this.selectedFile || this.editingScheduleId)) {
+        event.preventDefault();
+        this.saveSchedule();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    }
   }
 
   toggleAddForm() {
@@ -94,24 +110,42 @@ export class ScheduleComponent implements OnInit {
 
   saveSchedule() {
     if (this.newScheduleTitle.trim() && (this.selectedFile || this.editingScheduleId)) {
+      this.isSaving = true;
+      this.isSaved = false;
       if (this.editingScheduleId) {
-        // Edit mode (file is optional if it's already uploaded, but Service expects a File | null)
+        // Edit mode
         this.scheduleService.updateSchedule(this.editingScheduleId, this.newScheduleTitle, this.selectedFile).subscribe({
           next: () => {
             this.loadSchedules();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error updating schedule', err)
+          error: (err: any) => {
+            console.error('Error updating schedule', err);
+            this.isSaving = false;
+          }
         });
       } else {
-        // Add mode (must have file)
+        // Add mode
         if (this.selectedFile) {
            this.scheduleService.addSchedule(this.newScheduleTitle, this.selectedFile).subscribe({
              next: (savedSchedule: Schedule) => {
-               this.schedules.push(savedSchedule);
-               this.toggleAddForm();
+               this.schedules.unshift(savedSchedule);
+               this.isSaving = false;
+               this.isSaved = true;
+               setTimeout(() => {
+                 this.toggleAddForm();
+                 this.isSaved = false;
+               }, 1000);
              },
-             error: (err: any) => console.error('Error adding schedule', err)
+             error: (err: any) => {
+               console.error('Error adding schedule', err);
+               this.isSaving = false;
+             }
            });
         }
       }
@@ -130,12 +164,22 @@ export class ScheduleComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingScheduleId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.scheduleService.deleteSchedule(this.deletingScheduleId).subscribe({
         next: () => {
           this.schedules = this.schedules.filter(s => s.id !== this.deletingScheduleId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err: any) => console.error('Error deleting schedule', err)
+        error: (err: any) => {
+          console.error('Error deleting schedule', err);
+          this.isDeleting = false;
+        }
       });
     }
   }

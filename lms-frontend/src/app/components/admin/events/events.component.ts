@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EventService, Event } from '../../../services/event.service';
@@ -29,6 +29,9 @@ export class EventsComponent implements OnInit {
   newEventType = 'Convocations';
   newEventDate = '';
   searchType = '';
+  isSaving = false;
+  isDeleting = false;
+  isSaved = false;
 
   tabs = ['Convocations', 'Seminars', 'Concerts', 'Workshop'];
 
@@ -41,10 +44,23 @@ export class EventsComponent implements OnInit {
   loadEvents() {
     this.eventService.getEvents().subscribe({
       next: (data: Event[]) => {
-        this.events = data;
+        this.events = data.sort((a, b) => (b.id || 0) - (a.id || 0));
       },
       error: (err: any) => console.error('Error loading events', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.newEventTitle.trim() && this.newEventUrl.trim() && this.newEventType) {
+        event.preventDefault();
+        this.saveEvent();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    }
   }
 
   get filteredEvents(): Event[] {
@@ -73,6 +89,8 @@ export class EventsComponent implements OnInit {
 
   saveEvent() {
     if (this.newEventTitle.trim() && this.newEventUrl.trim() && this.newEventType) {
+      this.isSaving = true;
+      this.isSaved = false;
       if (this.editingEventId) {
         // Edit mode
         const updatedEvent: Event = {
@@ -85,9 +103,17 @@ export class EventsComponent implements OnInit {
         this.eventService.updateEvent(this.editingEventId, updatedEvent).subscribe({
           next: () => {
             this.loadEvents();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error updating event', err)
+          error: (err: any) => {
+            console.error('Error updating event', err);
+            this.isSaving = false;
+          }
         });
       } else {
         // Add mode
@@ -100,10 +126,18 @@ export class EventsComponent implements OnInit {
         
         this.eventService.addEvent(newEvent).subscribe({
           next: (savedEvent: Event) => {
-            this.events.push(savedEvent);
-            this.toggleAddForm();
+            this.events.unshift(savedEvent);
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error adding event', err)
+          error: (err: any) => {
+            console.error('Error adding event', err);
+            this.isSaving = false;
+          }
         });
       }
     }
@@ -121,12 +155,22 @@ export class EventsComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingEventId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.eventService.deleteEvent(this.deletingEventId).subscribe({
         next: () => {
           this.events = this.events.filter(e => e.id !== this.deletingEventId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err: any) => console.error('Error deleting event', err)
+        error: (err: any) => {
+          console.error('Error deleting event', err);
+          this.isDeleting = false;
+        }
       });
     }
   }

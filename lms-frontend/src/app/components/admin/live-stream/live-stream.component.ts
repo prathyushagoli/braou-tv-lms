@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LiveStreamService, LiveStream } from '../../../services/live-stream.service';
@@ -28,6 +28,11 @@ export class LiveStreamComponent implements OnInit {
   pendingLiveStreamId: number | null = null;
   pendingLiveStatus: boolean = false;
   
+  isSaving = false;
+  isDeleting = false;
+  isTogglingLive = false;
+  isSaved = false;
+  
   newStreamName = '';
   newStreamUrl = '';
   newStreamCategory = 'University live programs';
@@ -44,10 +49,26 @@ export class LiveStreamComponent implements OnInit {
   loadStreams() {
     this.liveStreamService.getStreams().subscribe({
       next: (data) => {
-        this.streams = data;
+        this.streams = data.sort((a, b) => (b.id || 0) - (a.id || 0));
       },
       error: (err) => console.error('Error loading streams', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.newStreamName.trim() && this.newStreamUrl.trim() && this.newStreamCategory) {
+        event.preventDefault();
+        this.saveStream();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    } else if (this.showLiveConfirm && !this.isTogglingLive && !this.isSaved) {
+      event.preventDefault();
+      this.confirmLiveToggle();
+    }
   }
 
   get filteredStreams(): LiveStream[] {
@@ -81,21 +102,31 @@ export class LiveStreamComponent implements OnInit {
 
   saveStream() {
     if (this.newStreamName.trim() && this.newStreamUrl.trim() && this.newStreamCategory) {
+      this.isSaving = true;
+      this.isSaved = false;
       if (this.editingStreamId) {
         // Edit mode
         const updatedStream: LiveStream = {
           name: this.newStreamName,
           url: this.newStreamUrl,
           category: this.newStreamCategory,
-          live: false
+          live: this.streams.find(s => s.id === this.editingStreamId)?.live || false
         };
         
         this.liveStreamService.updateStream(this.editingStreamId, updatedStream).subscribe({
           next: () => {
             this.loadStreams();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err) => console.error('Error updating stream', err)
+          error: (err) => {
+            console.error('Error updating stream', err);
+            this.isSaving = false;
+          }
         });
       } else {
         // Add mode
@@ -108,10 +139,18 @@ export class LiveStreamComponent implements OnInit {
         
         this.liveStreamService.addStream(newStream).subscribe({
           next: (savedStream) => {
-            this.streams.push(savedStream);
-            this.toggleAddForm();
+            this.streams.unshift(savedStream);
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err) => console.error('Error adding stream', err)
+          error: (err) => {
+            console.error('Error adding stream', err);
+            this.isSaving = false;
+          }
         });
       }
     }
@@ -129,12 +168,22 @@ export class LiveStreamComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingStreamId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.liveStreamService.deleteStream(this.deletingStreamId).subscribe({
         next: () => {
           this.streams = this.streams.filter(s => s.id !== this.deletingStreamId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err) => console.error('Error deleting stream', err)
+        error: (err) => {
+          console.error('Error deleting stream', err);
+          this.isDeleting = false;
+        }
       });
     }
   }
@@ -156,8 +205,9 @@ export class LiveStreamComponent implements OnInit {
   }
 
   confirmLiveToggle() {
-    this.showLiveConfirm = false;
     if (this.pendingLiveStreamId !== null) {
+      this.isTogglingLive = true;
+      this.isSaved = false;
       const stream = this.streams.find(s => s.id === this.pendingLiveStreamId);
       if (stream) {
         stream.live = this.pendingLiveStatus;
@@ -170,14 +220,25 @@ export class LiveStreamComponent implements OnInit {
         }
         
         this.liveStreamService.updateLiveStatus(stream.id!, this.pendingLiveStatus).subscribe({
-          next: () => this.loadStreams(),
+          next: () => {
+            this.isTogglingLive = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.cancelLiveToggle();
+              this.isSaved = false;
+            }, 1000);
+          },
           error: (err) => {
             console.error('Error updating live status', err);
             this.loadStreams();
+            this.isTogglingLive = false;
           }
         });
+      } else {
+        this.isTogglingLive = false;
+        this.showLiveConfirm = false;
+        this.pendingLiveStreamId = null;
       }
-      this.pendingLiveStreamId = null;
     }
   }
   

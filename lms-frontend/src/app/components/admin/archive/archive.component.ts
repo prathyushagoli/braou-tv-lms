@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ArchiveService, Archive } from '../../../services/archive.service';
@@ -22,6 +22,9 @@ export class ArchiveComponent implements OnInit {
   
   newArchiveTitle = '';
   newArchiveUrl = '';
+  isSaving = false;
+  isDeleting = false;
+  isSaved = false;
 
   constructor(private archiveService: ArchiveService) {}
 
@@ -32,10 +35,23 @@ export class ArchiveComponent implements OnInit {
   loadArchives() {
     this.archiveService.getArchives().subscribe({
       next: (data: Archive[]) => {
-        this.archives = data;
+        this.archives = data.sort((a, b) => (b.id || 0) - (a.id || 0));
       },
       error: (err: any) => console.error('Error loading archives', err)
     });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    if (this.showAddForm && !this.isSaving && !this.isSaved) {
+      if (this.newArchiveTitle.trim() && this.newArchiveUrl.trim()) {
+        event.preventDefault();
+        this.saveArchive();
+      }
+    } else if (this.showDeleteConfirm && !this.isDeleting && !this.isSaved) {
+      event.preventDefault();
+      this.confirmDelete();
+    }
   }
 
   toggleAddForm() {
@@ -54,6 +70,8 @@ export class ArchiveComponent implements OnInit {
 
   saveArchive() {
     if (this.newArchiveTitle.trim() && this.newArchiveUrl.trim()) {
+      this.isSaving = true;
+      this.isSaved = false;
       if (this.editingArchiveId) {
         // Edit mode
         const updatedArchive: Archive = {
@@ -64,9 +82,17 @@ export class ArchiveComponent implements OnInit {
         this.archiveService.updateArchive(this.editingArchiveId, updatedArchive).subscribe({
           next: () => {
             this.loadArchives();
-            this.toggleAddForm();
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error updating archive video', err)
+          error: (err: any) => {
+            console.error('Error updating archive video', err);
+            this.isSaving = false;
+          }
         });
       } else {
         // Add mode
@@ -77,10 +103,18 @@ export class ArchiveComponent implements OnInit {
         
         this.archiveService.addArchive(newArchive).subscribe({
           next: (savedArchive: Archive) => {
-            this.archives.push(savedArchive);
-            this.toggleAddForm();
+            this.archives.unshift(savedArchive);
+            this.isSaving = false;
+            this.isSaved = true;
+            setTimeout(() => {
+              this.toggleAddForm();
+              this.isSaved = false;
+            }, 1000);
           },
-          error: (err: any) => console.error('Error adding archive video', err)
+          error: (err: any) => {
+            console.error('Error adding archive video', err);
+            this.isSaving = false;
+          }
         });
       }
     }
@@ -98,12 +132,22 @@ export class ArchiveComponent implements OnInit {
 
   confirmDelete() {
     if (this.deletingArchiveId) {
+      this.isDeleting = true;
+      this.isSaved = false;
       this.archiveService.deleteArchive(this.deletingArchiveId).subscribe({
         next: () => {
           this.archives = this.archives.filter(a => a.id !== this.deletingArchiveId);
-          this.cancelDelete();
+          this.isDeleting = false;
+          this.isSaved = true;
+          setTimeout(() => {
+            this.cancelDelete();
+            this.isSaved = false;
+          }, 1000);
         },
-        error: (err: any) => console.error('Error deleting archive video', err)
+        error: (err: any) => {
+          console.error('Error deleting archive video', err);
+          this.isDeleting = false;
+        }
       });
     }
   }

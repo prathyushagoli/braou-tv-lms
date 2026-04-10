@@ -4,7 +4,6 @@ import lms_backend.entity.Schedule;
 import lms_backend.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -96,9 +95,9 @@ public class ScheduleController {
                             .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + schedule.getFileName() + "\"")
                             .body((Resource) new ByteArrayResource(schedule.getFileData()));
                 } else {
-                    return ResponseEntity.<Resource>notFound().build();
+                    return ResponseEntity.notFound().build();
                 }
-            }).orElse(ResponseEntity.<Resource>notFound().build());
+            }).orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString() + " - " + e.getMessage());

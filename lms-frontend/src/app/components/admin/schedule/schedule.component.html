@@ -16,7 +16,7 @@
       
       <div class="form-group">
         <label>Title <span class="mandatory">*</span></label>
-        <input type="text" [(ngModel)]="newScheduleTitle" placeholder="Schedule title" required>
+        <input type="text" [(ngModel)]="newScheduleTitle" (keydown.enter)="saveSchedule()" placeholder="Schedule title" required>
       </div>
       
       <div class="form-group">
@@ -48,9 +48,12 @@
       </div>
       
       <div class="form-actions">
-        <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
-        <button class="btn-add" (click)="saveSchedule()" [disabled]="!newScheduleTitle || (!selectedFile && !editingScheduleId)">
-          {{ editingScheduleId ? 'Save Changes' : 'Add Schedule' }}
+        <button class="btn-cancel" (click)="toggleAddForm()" [disabled]="isSaving || isSaved">Cancel</button>
+        <button class="btn-add" (click)="saveSchedule()" [disabled]="!newScheduleTitle || (!selectedFile && !editingScheduleId) || isSaving || isSaved">
+          <span *ngIf="isSaving" class="btn-spinner"></span>
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="isSaved">Saved ✓</span>
+          <span *ngIf="!isSaving && !isSaved">{{ editingScheduleId ? 'Save Changes' : 'Add Schedule' }}</span>
         </button>
       </div>
     </div>
@@ -62,8 +65,13 @@
       <h3>Confirm Deletion</h3>
       <p>Are you sure you want to delete this schedule? This action cannot be undone.</p>
       <div class="form-actions delete-actions">
-        <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
-        <button class="btn-danger" (click)="confirmDelete()">Delete</button>
+        <button class="btn-cancel" (click)="cancelDelete()" [disabled]="isDeleting || isSaved">Cancel</button>
+        <button class="btn-danger" (click)="confirmDelete()" [disabled]="isDeleting || isSaved">
+          <span *ngIf="isDeleting" class="btn-spinner"></span>
+          <span *ngIf="isDeleting">Deleting...</span>
+          <span *ngIf="isSaved">Deleted ✓</span>
+          <span *ngIf="!isDeleting && !isSaved">Delete</span>
+        </button>
       </div>
     </div>
   </div>

@@ -38,23 +38,26 @@
       
       <div class="form-group">
         <label>Title <span class="mandatory">*</span></label>
-        <input type="text" [(ngModel)]="newEventTitle" placeholder="Event title" required>
+        <input type="text" [(ngModel)]="newEventTitle" (keydown.enter)="saveEvent()" placeholder="Event title" required>
       </div>
       
       <div class="form-group">
         <label>YouTube URL <span class="mandatory">*</span></label>
-        <input type="text" [(ngModel)]="newEventUrl" placeholder="https://youtube.com/..." required>
+        <input type="text" [(ngModel)]="newEventUrl" (keydown.enter)="saveEvent()" placeholder="https://youtube.com/..." required>
       </div>
 
       <div class="form-group">
         <label>Date (optional)</label>
-        <input type="date" [(ngModel)]="newEventDate">
+        <input type="date" [(ngModel)]="newEventDate" (keydown.enter)="saveEvent()">
       </div>
       
       <div class="form-actions">
-        <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
-        <button class="btn-add" (click)="saveEvent()" [disabled]="!newEventTitle || !newEventUrl || !newEventType">
-          {{ editingEventId ? 'Save Changes' : 'Add Event' }}
+        <button class="btn-cancel" (click)="toggleAddForm()" [disabled]="isSaving || isSaved">Cancel</button>
+        <button class="btn-add" (click)="saveEvent()" [disabled]="!newEventTitle || !newEventUrl || !newEventType || isSaving || isSaved">
+          <span *ngIf="isSaving" class="btn-spinner"></span>
+          <span *ngIf="isSaving">Saving...</span>
+          <span *ngIf="isSaved">Saved ✓</span>
+          <span *ngIf="!isSaving && !isSaved">{{ editingEventId ? 'Save Changes' : 'Add Event' }}</span>
         </button>
       </div>
     </div>
@@ -66,8 +69,13 @@
       <h3>Confirm Deletion</h3>
       <p>Are you sure you want to delete this event? This action cannot be undone.</p>
       <div class="form-actions delete-actions">
-        <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
-        <button class="btn-danger" (click)="confirmDelete()">Delete</button>
+        <button class="btn-cancel" (click)="cancelDelete()" [disabled]="isDeleting || isSaved">Cancel</button>
+        <button class="btn-danger" (click)="confirmDelete()" [disabled]="isDeleting || isSaved">
+          <span *ngIf="isDeleting" class="btn-spinner"></span>
+          <span *ngIf="isDeleting">Deleting...</span>
+          <span *ngIf="isSaved">Deleted ✓</span>
+          <span *ngIf="!isDeleting && !isSaved">Delete</span>
+        </button>
       </div>
     </div>
   </div>
