@@ -2,6 +2,7 @@ package lms_backend.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Schedule {
@@ -13,6 +14,12 @@ public class Schedule {
     private String title;
     
     private String fileName;
+    
+    private String fileType;
+    
+    @JsonIgnore
+    @Column(columnDefinition = "bytea")
+    private byte[] fileData;
 
     @Column(updatable = false)
     private LocalDate createdAt;
@@ -60,5 +67,21 @@ public class Schedule {
     
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public byte[] getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(byte[] fileData) {
+        this.fileData = fileData;
     }
 }
