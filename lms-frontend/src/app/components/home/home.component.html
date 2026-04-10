@@ -281,18 +281,22 @@
 
     <!-- Countdown / Confetti Loader State -->
     <div class="modal-internal" *ngIf="!isVideoLaunched">
-      <div class="modal-tv-icon pulse-tv-icon">
-        <svg width="80" height="80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"
-            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-          </path>
-        </svg>
+      
+      <!-- New Glowing Orbs and Ring Container -->
+      <div class="pulsing-orbs mt-4 mb-4">
+        <div class="pinging-rings"></div>
+        <img src="assets/images/braou-tv-launch-logo.png" alt="BRAOU TV Target" class="bouncing-logo">
       </div>
-      <h2 class="modal-hero-title"><span style="color: white; font-weight: 800;">BRAOU</span> <span
-          style="color: #3b82f6;">TV</span></h2>
-      <div class="modal-live-status">
-        <span class="live-pulse-dot" style="background-color: lightgreen; box-shadow: 0 0 8px red;"></span> <span
-          style="color: lightgreen; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
+
+      <!-- Typography precisely matching Home Page aesthetics -->
+      <h2 class="modal-hero-title mt-4 mb-4" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; letter-spacing: 0;">
+        <span style="color: white; font-weight: 800;">BRAOU</span> 
+        <span style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      </h2>
+      
+      <div class="modal-live-status mt-2 mb-4">
+        <span class="live-pulse-dot" style="background-color: #10b981; box-shadow: 0 0 8px #10b981;"></span> 
+        <span style="color: #10b981; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
       </div>
 
       <div class="modal-progress mt-4">

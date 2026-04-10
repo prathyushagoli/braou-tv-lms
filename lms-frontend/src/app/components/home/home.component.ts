@@ -188,18 +188,18 @@ export class HomeComponent implements OnInit {
     this.isVideoLaunched = false;
     this.fireConfettiLoop();
 
-    // After 3.5s organically scale-in the YouTube iframe
+    // After 10s organically load the YouTube iframe
     setTimeout(() => {
       this.clearConfetti();
       this.isVideoLaunched = true;
-    }, 3500);
+    }, 10000);
   }
 
   fireConfettiLoop() {
     if (typeof confetti === 'undefined') return;
     
-    // Side confetti streams continuously for 3 seconds
-    var duration = 3000;
+    // Side confetti streams continuously for 10 seconds
+    var duration = 10000;
     var animationEnd = Date.now() + duration;
     
     var defaults = {
