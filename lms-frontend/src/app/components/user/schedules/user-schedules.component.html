@@ -3,49 +3,42 @@
     <h1 class="page-title">Schedules</h1>
   </div>
 
-  <div class="grid-container" *ngIf="paginatedSchedules.length > 0">
-    <div class="ui-card schedule-ui-card" *ngFor="let schedule of paginatedSchedules" (click)="previewFile(schedule.fileName)">
+  <div class="schedules-grid" *ngIf="schedules.length > 0">
+    <div class="ui-card schedule-ui-card" *ngFor="let schedule of schedules" (click)="previewFile(schedule.fileName)">
 
       <div class="card-thumbnail pdf-thumbnail">
         <iframe [src]="getSafeUrl(schedule.fileName)" title="PDF Preview" scrolling="no"
           class="pdf-thumbnail-frame"></iframe>
         <div class="thumbnail-overlay"></div>
       </div>
-
-      <div class="card-content">
-        <span class="schedule-date-chip">
-          <svg class="calendar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          {{ formatDate(schedule.createdAt) }}
-        </span>
-
-        <h3 class="schedule-title">{{ schedule.title }}</h3>
-        <p class="schedule-file-name" title="{{ schedule.fileName }}">
-          {{ schedule.fileName }}
-        </p>
-      </div>
-
-      <div class="card-actions">
-        <button class="download-btn" (click)="downloadFile($event, schedule.fileName)" title="Download Document">
-          Download PDF
-        </button>
+      
+      <div class="card-details">
+        <h3>{{ schedule.title }}</h3>
+        <div class="card-actions-row">
+          <button class="btn-card-action" title="Preview File">
+            <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            Preview
+          </button>
+          <button class="btn-card-action btn-blue-action" (click)="downloadFile($event, schedule.fileName)"
+            title="Download">
+            <svg aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+            </svg>
+            Download
+          </button>
+        </div>
       </div>
 
     </div>
   </div>
 
-  <div class="pagination-container" *ngIf="totalPages > 1">
-    <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
-    <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
-    <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
-  </div>
-
-  <div class="empty-state" *ngIf="paginatedSchedules.length === 0">
+  <div class="empty-state" *ngIf="schedules.length === 0">
     <div class="empty-content">
       <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M14 2H6a2 2 0 0 0-2 2v16h16V8l-6-6z" />

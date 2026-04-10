@@ -49,30 +49,10 @@ export class UserLiveComponent implements OnInit {
     
     // Everything else maps explicitly to the past sessions array internally
     this.pastSessions = this.filteredStreams.filter(s => !s.live);
-    this.currentPage = 1;
     this.activeVideoId = undefined;
   }
 
-  currentPage = 1;
-  itemsPerPage = 12;
   activeVideoId: number | undefined = undefined;
-
-  get paginatedSessions() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.pastSessions.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.pastSessions.length / this.itemsPerPage) || 1;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.activeVideoId = undefined;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
 
   playVideo(sessionId: number | undefined) {
     this.activeVideoId = sessionId;
@@ -90,9 +70,7 @@ export class UserLiveComponent implements OnInit {
     if (!videoId) return null;
     // Note: Due to strict modern browser policies, autoplaying with audio may be blocked
     // requiring the user to tap play manually if they haven't interacted with the page yet.
-    const urlStr = autoplay 
-      ? `https://www.youtube.com/embed/${videoId}?autoplay=1`
-      : `https://www.youtube.com/embed/${videoId}`;
+    const urlStr = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(urlStr);
   }
 }

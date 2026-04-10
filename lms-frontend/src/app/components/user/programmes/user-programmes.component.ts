@@ -45,26 +45,10 @@ export class UserProgrammesComponent implements OnInit {
              p.type.toLowerCase() === (this.activeType + 's').toLowerCase() ||
              p.type.toLowerCase().replace('-', ' ') === this.activeType.toLowerCase();
     });
-    this.currentPage = 1;
     this.activeVideoId = undefined;
   }
 
-  get paginatedProgrammes() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredProgrammes.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.filteredProgrammes.length / this.itemsPerPage) || 1;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.activeVideoId = undefined;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
+  activeVideoId: number | undefined = undefined;
 
   playVideo(progId: number | undefined) {
     this.activeVideoId = progId;
@@ -80,7 +64,7 @@ export class UserProgrammesComponent implements OnInit {
   getSafeUrl(url: string | undefined): SafeResourceUrl | null {
     const videoId = this.extractVideoId(url);
     if (!videoId) return null;
-    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }

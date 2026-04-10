@@ -108,7 +108,7 @@
 
     <div class="live-tv-player-card">
       <div class="player-wrapper">
-        <iframe *ngIf="getSafeUrl(activeLiveStream.url); let safeUrl" [src]="safeUrl" frameborder="0"
+        <iframe *ngIf="getSafeUrl(activeLiveStream.url, false); let safeUrl" [src]="safeUrl" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>
@@ -137,25 +137,27 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let course of latestCourses">
-        <div class="card-thumbnail">
           <!-- Facade Wrapper -->
-          <div class="facade-container facade-home" *ngIf="activeVideoKey !== 'course-' + course.id" (click)="playVideo('course-' + course.id)">
-            <img [src]="'https://img.youtube.com/vi/' + extractVideoId(course.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-container" *ngIf="activeVideoKey !== 'course-' + course.id" (click)="playVideo('course-' + course.id)">
+            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(course.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
             <div class="facade-play-btn">
-              <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
+              <svg viewBox="0 0 68 48" class="youtube-play-icon">
+                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
+                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
               </svg>
             </div>
           </div>
 
           <!-- iframe conditionally renders -->
-          <ng-container *ngIf="activeVideoKey === 'course-' + course.id">
+          <div class="iframe-container" *ngIf="activeVideoKey === 'course-' + course.id">
             <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+              allowfullscreen>
             </iframe>
-          </ng-container>
-        </div>
+            <div class="invalid-url" *ngIf="!getSafeUrl(course.url)">
+              <span>Media Unavailable</span>
+            </div>
+          </div>
         <div class="card-details">
           <h3>{{ course.title }}</h3>
           <p class="meta-sub">{{ course.subject || 'General' }}</p>
@@ -186,25 +188,27 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let prog of latestProgrammes">
-        <div class="card-thumbnail">
           <!-- Facade Wrapper -->
-          <div class="facade-container facade-home" *ngIf="activeVideoKey !== 'prog-' + prog.id" (click)="playVideo('prog-' + prog.id)">
-            <img [src]="'https://img.youtube.com/vi/' + extractVideoId(prog.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-container" *ngIf="activeVideoKey !== 'prog-' + prog.id" (click)="playVideo('prog-' + prog.id)">
+            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(prog.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
             <div class="facade-play-btn">
-              <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
+              <svg viewBox="0 0 68 48" class="youtube-play-icon">
+                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
+                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
               </svg>
             </div>
           </div>
 
           <!-- iframe conditionally renders -->
-          <ng-container *ngIf="activeVideoKey === 'prog-' + prog.id">
+          <div class="iframe-container" *ngIf="activeVideoKey === 'prog-' + prog.id">
             <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+              allowfullscreen>
             </iframe>
-          </ng-container>
-        </div>
+            <div class="invalid-url" *ngIf="!getSafeUrl(prog.url)">
+              <span>Media Unavailable</span>
+            </div>
+          </div>
         <div class="card-details">
           <h3>{{ prog.title }}</h3>
           <div class="badges-row-simple">
@@ -232,25 +236,27 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let ev of latestEvents">
-        <div class="card-thumbnail">
           <!-- Facade Wrapper -->
-          <div class="facade-container facade-home" *ngIf="activeVideoKey !== 'event-' + ev.id" (click)="playVideo('event-' + ev.id)">
-            <img [src]="'https://img.youtube.com/vi/' + extractVideoId(ev.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-container" *ngIf="activeVideoKey !== 'event-' + ev.id" (click)="playVideo('event-' + ev.id)">
+            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(ev.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
             <div class="facade-play-btn">
-              <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
+              <svg viewBox="0 0 68 48" class="youtube-play-icon">
+                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
+                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
               </svg>
             </div>
           </div>
 
           <!-- iframe conditionally renders -->
-          <ng-container *ngIf="activeVideoKey === 'event-' + ev.id">
+          <div class="iframe-container" *ngIf="activeVideoKey === 'event-' + ev.id">
             <iframe *ngIf="getSafeUrl(ev.url); let safeUrl" [src]="safeUrl" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+              allowfullscreen>
             </iframe>
-          </ng-container>
-        </div>
+            <div class="invalid-url" *ngIf="!getSafeUrl(ev.url)">
+              <span>Media Unavailable</span>
+            </div>
+          </div>
         <div class="card-details">
           <h3>{{ ev.title }}</h3>
           <p class="meta-sub" *ngIf="ev.eventDate">📅 {{ ev.eventDate | date:'mediumDate' }}</p>

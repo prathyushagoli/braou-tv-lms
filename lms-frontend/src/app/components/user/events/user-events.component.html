@@ -17,22 +17,23 @@
   <!-- Content Grid -->
   <div class="events-content-area">
 
-    <div class="grid-container" *ngIf="paginatedEvents.length > 0">
-      <div class="video-card" *ngFor="let event of paginatedEvents">
+    <div class="grid-container" *ngIf="filteredEvents.length > 0">
+      <div class="video-card" *ngFor="let event of filteredEvents">
         
         <!-- Facade Wrapper -->
         <div class="facade-container" *ngIf="activeVideoId !== event.id" (click)="playVideo(event.id)">
-          <img [src]="'https://img.youtube.com/vi/' + extractVideoId(event.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(event.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
           <div class="facade-play-btn">
-            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
+            <svg viewBox="0 0 68 48" class="youtube-play-icon">
+              <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
             </svg>
           </div>
         </div>
 
         <!-- iframe conditionally renders -->
         <div class="iframe-container" *ngIf="activeVideoId === event.id">
-          <iframe [src]="getSafeUrl(event.url)" frameborder="0"
+          <iframe *ngIf="getSafeUrl(event.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>

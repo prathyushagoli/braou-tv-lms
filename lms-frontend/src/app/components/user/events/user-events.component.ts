@@ -39,8 +39,6 @@ export class UserEventsComponent implements OnInit {
     this.filterEvents();
   }
 
-  currentPage = 1;
-  itemsPerPage = 12;
   activeVideoId: number | undefined = undefined;
 
   filterEvents() {
@@ -50,25 +48,7 @@ export class UserEventsComponent implements OnInit {
              (e.type + 's').toLowerCase() === this.activeType.toLowerCase() ||
              e.type.toLowerCase() === (this.activeType + 's').toLowerCase();
     });
-    this.currentPage = 1;
     this.activeVideoId = undefined;
-  }
-
-  get paginatedEvents() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredEvents.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.filteredEvents.length / this.itemsPerPage) || 1;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.activeVideoId = undefined;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
   }
 
   playVideo(eventId: number | undefined) {
@@ -85,7 +65,7 @@ export class UserEventsComponent implements OnInit {
   getSafeUrl(url: string | undefined): SafeResourceUrl | null {
     const videoId = this.extractVideoId(url);
     if (!videoId) return null;
-    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }

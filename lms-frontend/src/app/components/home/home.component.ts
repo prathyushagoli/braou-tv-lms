@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
     return (match && match[2].length === 11) ? match[2] : null;
   }
 
-  getSafeUrl(url: string | undefined, autoplay: boolean = false): SafeResourceUrl | null {
+  getSafeUrl(url: string | undefined, autoplay: boolean = true): SafeResourceUrl | null {
     const videoId = this.extractVideoId(url);
     if (!videoId) return null;
     const urlStr = autoplay 
