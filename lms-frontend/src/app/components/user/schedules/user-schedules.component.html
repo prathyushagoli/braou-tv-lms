@@ -7,7 +7,7 @@
     <div class="ui-card schedule-ui-card" *ngFor="let schedule of schedules" (click)="previewFile(schedule.fileName)">
 
       <div class="card-thumbnail pdf-thumbnail">
-        <iframe [src]="getSafeUrl(schedule.fileName)" title="PDF Preview" scrolling="no"
+        <iframe loading="lazy" [src]="getSafeUrl(schedule.fileName)" title="PDF Preview" scrolling="no"
           class="pdf-thumbnail-frame"></iframe>
         <div class="thumbnail-overlay"></div>
       </div>

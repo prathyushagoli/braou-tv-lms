@@ -20,7 +20,7 @@
     <div class="grid-container" *ngIf="filteredEvents.length > 0">
       <div class="video-card" *ngFor="let event of filteredEvents">
         <div class="iframe-container">
-          <iframe *ngIf="getSafeUrl(event.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          <iframe loading="lazy" *ngIf="getSafeUrl(event.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
