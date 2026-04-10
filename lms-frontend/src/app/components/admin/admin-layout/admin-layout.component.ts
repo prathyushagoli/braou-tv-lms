@@ -14,6 +14,7 @@ export class AdminLayoutComponent {
   constructor(private router: Router) {}
 
   logout() {
+    localStorage.removeItem('isAdminLoggedIn');
     this.router.navigate(['/admin']);
   }
 }

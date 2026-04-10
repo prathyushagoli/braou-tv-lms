@@ -18,6 +18,7 @@ export class AdminLoginComponent {
 
   onSignIn() {
     if (this.email === 'braoutv@braou.ac.in' && this.password === 'Braou@234') {
+      localStorage.setItem('isAdminLoggedIn', 'true');
       this.router.navigate(['/admin/live-stream']);
     } else {
       alert('Invalid Administrator Credentials!');

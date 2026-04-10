@@ -17,6 +17,7 @@ import { UserEventsComponent } from './components/user/events/user-events.compon
 import { UserProgrammesComponent } from './components/user/programmes/user-programmes.component';
 import { UserCoursesComponent } from './components/user/courses/user-courses.component';
 import { UserLiveComponent } from './components/user/live/user-live.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { 
@@ -37,6 +38,7 @@ export const routes: Routes = [
   { 
     path: 'admin', 
     component: AdminLayoutComponent,
+    canActivate: [adminGuard],
     children: [
       { path: 'live-stream', component: LiveStreamComponent },
       { path: 'programmes', component: ProgrammesComponent },
