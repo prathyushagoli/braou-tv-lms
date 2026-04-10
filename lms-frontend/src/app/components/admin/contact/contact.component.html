@@ -93,7 +93,7 @@
         <label>YouTube URL</label>
         <div style="display: flex; gap: 1rem;">
           <input type="text" [(ngModel)]="contactObj.launchVideoUrl" placeholder="https://youtube.com/...">
-          <button class="btn-add" (click)="saveContactConfigOnly()"
+          <button class="btn-add btn-save-banner" (click)="saveContactConfigOnly()"
             [disabled]="isSavingBanner || contactObj.launchVideoUrl === originalLaunchVideoUrl">
             <span *ngIf="isSavingBanner" class="btn-spinner"></span>
             <span *ngIf="!isSavingBanner">Save</span>
