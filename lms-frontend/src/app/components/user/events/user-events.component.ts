@@ -39,6 +39,10 @@ export class UserEventsComponent implements OnInit {
     this.filterEvents();
   }
 
+  currentPage = 1;
+  itemsPerPage = 12;
+  activeVideoId: number | undefined = undefined;
+
   filterEvents() {
     this.filteredEvents = this.events.filter(e => {
       // Basic fallback matches for casing
@@ -46,9 +50,31 @@ export class UserEventsComponent implements OnInit {
              (e.type + 's').toLowerCase() === this.activeType.toLowerCase() ||
              e.type.toLowerCase() === (this.activeType + 's').toLowerCase();
     });
+    this.currentPage = 1;
+    this.activeVideoId = undefined;
   }
 
-  // Same Youtube parsing logic as the unified Archive modules natively
+  get paginatedEvents() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredEvents.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredEvents.length / this.itemsPerPage) || 1;
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.activeVideoId = undefined;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  playVideo(eventId: number | undefined) {
+    this.activeVideoId = eventId;
+  }
+
   extractVideoId(url: string | undefined): string | null {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

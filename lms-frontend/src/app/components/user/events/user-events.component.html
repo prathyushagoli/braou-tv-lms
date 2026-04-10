@@ -17,14 +17,25 @@
   <!-- Content Grid -->
   <div class="events-content-area">
 
-    <div class="grid-container" *ngIf="filteredEvents.length > 0">
-      <div class="video-card" *ngFor="let event of filteredEvents">
-        <div class="iframe-container">
-          <iframe *ngIf="getSafeUrl(event.url); let safeUrl" [src]="safeUrl" frameborder="0"
+    <div class="grid-container" *ngIf="paginatedEvents.length > 0">
+      <div class="video-card" *ngFor="let event of paginatedEvents">
+        
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoId !== event.id" (click)="playVideo(event.id)">
+          <img [src]="'https://img.youtube.com/vi/' + extractVideoId(event.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- iframe conditionally renders -->
+        <div class="iframe-container" *ngIf="activeVideoId === event.id">
+          <iframe [src]="getSafeUrl(event.url)" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
-
           <div class="invalid-url" *ngIf="!getSafeUrl(event.url)">
             <span>Media Unavailable</span>
           </div>

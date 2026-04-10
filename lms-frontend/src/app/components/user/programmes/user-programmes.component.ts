@@ -45,9 +45,31 @@ export class UserProgrammesComponent implements OnInit {
              p.type.toLowerCase() === (this.activeType + 's').toLowerCase() ||
              p.type.toLowerCase().replace('-', ' ') === this.activeType.toLowerCase();
     });
+    this.currentPage = 1;
+    this.activeVideoId = undefined;
   }
 
-  // Same Youtube parsing logic unified safely.
+  get paginatedProgrammes() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredProgrammes.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredProgrammes.length / this.itemsPerPage) || 1;
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.activeVideoId = undefined;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  playVideo(progId: number | undefined) {
+    this.activeVideoId = progId;
+  }
+
   extractVideoId(url: string | undefined): string | null {
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

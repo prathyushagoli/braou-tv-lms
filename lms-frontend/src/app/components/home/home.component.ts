@@ -37,6 +37,12 @@ export class HomeComponent implements OnInit {
   isVideoLaunched = false;
   private confettiInterval: any;
 
+  activeVideoKey: string | undefined = undefined;
+
+  playVideo(key: string | undefined) {
+    this.activeVideoKey = key;
+  }
+
   constructor(
     private liveStreamService: LiveStreamService,
     private courseService: CourseService,

@@ -102,14 +102,24 @@
 <!-- Content Grid -->
 <div class="courses-content-area">
 
-    <div class="grid-container" *ngIf="filteredCourses.length > 0">
-      <div class="video-card" *ngFor="let course of filteredCourses">
-        <div class="iframe-container">
-          <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
+    <div class="grid-container" *ngIf="paginatedCourses.length > 0">
+      <div class="video-card" *ngFor="let course of paginatedCourses">
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoId !== course.id" (click)="playVideo(course.id)">
+          <img [src]="'https://img.youtube.com/vi/' + extractVideoId(course.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Real iframe renders only on click -->
+        <div class="iframe-container" *ngIf="activeVideoId === course.id">
+          <iframe [src]="getSafeUrl(course.url)" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
-
           <div class="invalid-url" *ngIf="!getSafeUrl(course.url)">
             <span>Media Unavailable</span>
           </div>
@@ -133,9 +143,16 @@
     </div>
 
     <!-- Empty State -->
-    <div class="empty-state" *ngIf="filteredCourses.length === 0">
-      <p>No courses available in this section yet.</p>
+    <div class="empty-state" *ngIf="paginatedCourses.length === 0">
+      <p>No courses match your criteria.</p>
     </div>
 
-  </div>
+    <!-- Pagination Controls -->
+    <div class="pagination-container" *ngIf="totalPages > 1">
+      <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
+    </div>
+
+</div>
 </div>

@@ -32,6 +32,25 @@ export class UserSchedulesComponent implements OnInit {
       error: (err: any) => console.error('Error fetching schedules', err)
     });
   }
+
+  currentPage = 1;
+  itemsPerPage = 12;
+
+  get paginatedSchedules() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.schedules.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.schedules.length / this.itemsPerPage) || 1;
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
   
   // Custom date formatting for "April 9th, 2026" format
   formatDate(isoDate: string | undefined): string {

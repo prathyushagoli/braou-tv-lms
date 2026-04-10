@@ -17,14 +17,25 @@
   <!-- Content Grid -->
   <div class="programmes-content-area">
 
-    <div class="grid-container" *ngIf="filteredProgrammes.length > 0">
-      <div class="video-card" *ngFor="let prog of filteredProgrammes">
-        <div class="iframe-container">
-          <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
+    <div class="grid-container" *ngIf="paginatedProgrammes.length > 0">
+      <div class="video-card" *ngFor="let prog of paginatedProgrammes">
+        
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoId !== prog.id" (click)="playVideo(prog.id)">
+          <img [src]="'https://img.youtube.com/vi/' + extractVideoId(prog.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- iframe conditionally renders -->
+        <div class="iframe-container" *ngIf="activeVideoId === prog.id">
+          <iframe [src]="getSafeUrl(prog.url)" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
-
           <div class="invalid-url" *ngIf="!getSafeUrl(prog.url)">
             <span>Media Unavailable</span>
           </div>
@@ -36,9 +47,16 @@
       </div>
     </div>
 
-    <!-- Empty State Matching Mockup perfectly -->
-    <div class="empty-state" *ngIf="filteredProgrammes.length === 0">
-      <p>No programmes available in this section yet.</p>
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="paginatedProgrammes.length === 0">
+      <p>No programmes available in this section.</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container" *ngIf="totalPages > 1">
+      <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
     </div>
 
   </div>

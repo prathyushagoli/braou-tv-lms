@@ -3,28 +3,51 @@
     <h1 class="page-title">Archived Videos</h1>
   </div>
 
-  <div class="grid-container">
-    <div class="video-card" *ngFor="let archive of archives">
-      <div class="iframe-container">
-        <!-- Render iFrame if secure URL validates properly -->
-        <iframe *ngIf="getSafeUrl(archive.url); let safeUrl" [src]="safeUrl" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+  <!-- Content Grid -->
+  <div class="archive-content-area">
 
-        <!-- Fallback if URL is invalid -->
-        <div class="invalid-url" *ngIf="!getSafeUrl(archive.url)">
-          <span>Video Unavailable</span>
+    <div class="grid-container" *ngIf="paginatedArchives.length > 0">
+      <div class="video-card" *ngFor="let archive of paginatedArchives">
+        
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoId !== archive.id" (click)="playVideo(archive.id)">
+          <img [src]="'https://img.youtube.com/vi/' + extractVideoId(archive.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="iframe-container" *ngIf="activeVideoId === archive.id">
+          <!-- Render iFrame if secure URL validates properly -->
+          <iframe *ngIf="getSafeUrl(archive.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+
+          <div class="invalid-url" *ngIf="!getSafeUrl(archive.url)">
+            <span>Media Unavailable</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <h3>{{ archive.title }}</h3>
         </div>
       </div>
-
-      <div class="card-footer">
-        <h3>{{ archive.title }}</h3>
-      </div>
     </div>
-  </div>
 
-  <div class="empty-state" *ngIf="archives.length === 0">
-    <p>No archived videos currently available.</p>
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="paginatedArchives.length === 0">
+      <p>No archives available yet.</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container" *ngIf="totalPages > 1">
+      <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
+    </div>
+
   </div>
 </div>

@@ -155,6 +155,10 @@ export class UserCoursesComponent implements OnInit {
     }
   }
 
+  currentPage = 1;
+  itemsPerPage = 12;
+  activeVideoId: number | undefined = undefined;
+
   filterCourses() {
     this.filteredCourses = this.courses.filter(c => {
       const typeMatch = this.activeType === 'All Courses' || (c.type && c.type.toLowerCase() === this.activeType.toLowerCase());
@@ -166,6 +170,29 @@ export class UserCoursesComponent implements OnInit {
       
       return typeMatch && subjectMatch && facultyMatch && yearMatch && semMatch && searchMatch;
     });
+    this.currentPage = 1; // Reset to first page on new filter
+    this.activeVideoId = undefined;
+  }
+
+  get paginatedCourses() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredCourses.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredCourses.length / this.itemsPerPage) || 1;
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.activeVideoId = undefined; // Reset playing video on page change
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  playVideo(courseId: number | undefined) {
+    this.activeVideoId = courseId;
   }
 
   extractVideoId(url: string | undefined): string | null {

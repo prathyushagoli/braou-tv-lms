@@ -62,9 +62,20 @@
 
     <!-- Content Grid -->
     <div class="streams-content-area">
-      <div class="grid-container" *ngIf="pastSessions.length > 0">
-        <div class="video-card" *ngFor="let stream of pastSessions">
-          <div class="iframe-container">
+      <div class="grid-container" *ngIf="paginatedSessions.length > 0">
+        <div class="video-card" *ngFor="let stream of paginatedSessions">
+          
+          <!-- Facade Wrapper -->
+          <div class="facade-container" *ngIf="activeVideoId !== stream.id" (click)="playVideo(stream.id)">
+            <img [src]="'https://img.youtube.com/vi/' + extractVideoId(stream.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
+            <div class="facade-play-btn">
+              <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="iframe-container" *ngIf="activeVideoId === stream.id">
             <iframe *ngIf="getSafeUrl(stream.url); let safeUrl" [src]="safeUrl" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
@@ -82,9 +93,17 @@
       </div>
 
       <!-- Empty State -->
-      <div class="empty-state" *ngIf="pastSessions.length === 0">
+      <div class="empty-state" *ngIf="paginatedSessions.length === 0">
         <p>No past sessions available yet.</p>
       </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-container" *ngIf="totalPages > 1">
+        <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+        <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
+      </div>
+
     </div>
   </div>
 
