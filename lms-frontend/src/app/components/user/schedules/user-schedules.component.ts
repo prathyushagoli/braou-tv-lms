@@ -15,6 +15,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class UserSchedulesComponent implements OnInit {
   schedules: Schedule[] = [];
+  isLoading: boolean = true;
   private backendUrl = `${environment.apiUrl}/schedules/files/`;
 
   constructor(
@@ -28,8 +29,12 @@ export class UserSchedulesComponent implements OnInit {
     this.scheduleService.getSchedules().subscribe({
       next: (data: Schedule[]) => {
         this.schedules = data;
+        this.isLoading = false;
       },
-      error: (err: any) => console.error('Error fetching schedules', err)
+      error: (err: any) => {
+        console.error('Error fetching schedules', err);
+        this.isLoading = false;
+      }
     });
   }
 

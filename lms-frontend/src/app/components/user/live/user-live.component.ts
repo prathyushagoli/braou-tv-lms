@@ -12,6 +12,7 @@ import { LiveStreamService, LiveStream } from '../../../services/live-stream.ser
 })
 export class UserLiveComponent implements OnInit {
   streams: LiveStream[] = [];
+  isLoading: boolean = true;
   filteredStreams: LiveStream[] = [];
   
   liveTypes: string[] = ['University live programs', 'Teleconferences'];
@@ -29,9 +30,13 @@ export class UserLiveComponent implements OnInit {
     this.liveStreamService.getStreams().subscribe({
       next: (data: LiveStream[]) => {
         this.streams = data;
+        this.isLoading = false;
         this.filterStreams();
       },
-      error: (err: any) => console.error('Error fetching university live streams', err)
+      error: (err: any) => {
+        console.error('Error fetching university live streams', err);
+        this.isLoading = false;
+      }
     });
   }
 

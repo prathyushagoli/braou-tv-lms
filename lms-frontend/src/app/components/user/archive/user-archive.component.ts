@@ -12,6 +12,7 @@ import { ArchiveService, Archive } from '../../../services/archive.service';
 })
 export class UserArchiveComponent implements OnInit {
   archives: Archive[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private archiveService: ArchiveService,
@@ -22,8 +23,12 @@ export class UserArchiveComponent implements OnInit {
     this.archiveService.getArchives().subscribe({
       next: (data: Archive[]) => {
         this.archives = data;
+        this.isLoading = false;
       },
-      error: (err: any) => console.error('Error fetching archives', err)
+      error: (err: any) => {
+        console.error('Error fetching archives', err);
+        this.isLoading = false;
+      }
     });
   }
 

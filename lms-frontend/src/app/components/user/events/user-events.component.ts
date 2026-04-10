@@ -13,6 +13,7 @@ import { EventService, Event } from '../../../services/event.service';
 })
 export class UserEventsComponent implements OnInit {
   events: Event[] = [];
+  isLoading: boolean = true;
   filteredEvents: Event[] = [];
   
   eventTypes: string[] = ['Convocations', 'Seminars', 'Concerts', 'Workshop'];
@@ -28,9 +29,13 @@ export class UserEventsComponent implements OnInit {
     this.eventService.getEvents().subscribe({
       next: (data: Event[]) => {
         this.events = data;
+        this.isLoading = false;
         this.filterEvents();
       },
-      error: (err: any) => console.error('Error fetching university events', err)
+      error: (err: any) => {
+        console.error('Error fetching university events', err);
+        this.isLoading = false;
+      }
     });
   }
 

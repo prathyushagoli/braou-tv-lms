@@ -15,8 +15,14 @@
     </div>
   </div>
 
-  <!-- Active Live Feed Section -->
-  <div class="live-feed-section" *ngIf="activeStream">
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading streams...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <!-- Active Live Feed Section -->
+    <div class="live-feed-section" *ngIf="activeStream">
 
     <div class="live-header-box">
       <div class="pulse-container">
@@ -100,5 +106,5 @@
 
     </div>
   </div>
-
+  </ng-container>
 </div>

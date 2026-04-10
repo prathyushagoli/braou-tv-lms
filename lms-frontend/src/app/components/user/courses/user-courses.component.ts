@@ -16,6 +16,7 @@ import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 })
 export class UserCoursesComponent implements OnInit {
   courses: Course[] = [];
+  isLoading: boolean = true;
   filteredCourses: Course[] = [];
   searchQuery: string = '';
   
@@ -53,6 +54,7 @@ export class UserCoursesComponent implements OnInit {
     this.courseService.getCourses().subscribe({
       next: (data: Course[]) => {
         this.courses = data;
+        this.isLoading = false;
         this.extractFilters();
         
         this.route.queryParams.subscribe(params => {
@@ -63,7 +65,10 @@ export class UserCoursesComponent implements OnInit {
           this.filterCourses();
         });
       },
-      error: (err: any) => console.error('Error fetching university courses', err)
+      error: (err: any) => {
+        console.error('Error fetching university courses', err);
+        this.isLoading = false;
+      }
     });
   }
 

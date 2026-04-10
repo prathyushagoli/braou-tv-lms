@@ -3,7 +3,12 @@
     <h1 class="page-title">Schedules</h1>
   </div>
 
-  <div class="schedules-grid" *ngIf="schedules.length > 0">
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading schedules...</p>
+  </div>
+
+  <div class="schedules-grid" *ngIf="!isLoading && schedules.length > 0">
     <div class="ui-card schedule-ui-card" *ngFor="let schedule of schedules" (click)="previewFile(schedule.fileName)">
 
       <div class="card-thumbnail pdf-thumbnail">
@@ -38,7 +43,7 @@
     </div>
   </div>
 
-  <div class="empty-state" *ngIf="schedules.length === 0">
+  <div class="empty-state" *ngIf="!isLoading && schedules.length === 0">
     <div class="empty-content">
       <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M14 2H6a2 2 0 0 0-2 2v16h16V8l-6-6z" />

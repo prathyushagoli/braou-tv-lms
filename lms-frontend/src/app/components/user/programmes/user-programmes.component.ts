@@ -12,6 +12,7 @@ import { ProgrammeService, Programme } from '../../../services/programme.service
 })
 export class UserProgrammesComponent implements OnInit {
   programmes: Programme[] = [];
+  isLoading: boolean = true;
   filteredProgrammes: Programme[] = [];
   
   programmeTypes: string[] = ['Academic Discussions', 'Faculty Interviews', 'Special Lectures', 'Documentary'];
@@ -26,9 +27,13 @@ export class UserProgrammesComponent implements OnInit {
     this.programmeService.getProgrammes().subscribe({
       next: (data: Programme[]) => {
         this.programmes = data;
+        this.isLoading = false;
         this.filterProgrammes();
       },
-      error: (err: any) => console.error('Error fetching university programmes', err)
+      error: (err: any) => {
+        console.error('Error fetching university programmes', err);
+        this.isLoading = false;
+      }
     });
   }
 

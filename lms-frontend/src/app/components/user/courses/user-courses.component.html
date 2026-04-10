@@ -102,7 +102,12 @@
 <!-- Content Grid -->
 <div class="courses-content-area">
 
-    <div class="grid-container" *ngIf="filteredCourses.length > 0">
+    <div class="loading-state" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading courses...</p>
+    </div>
+
+    <div class="grid-container" *ngIf="!isLoading && filteredCourses.length > 0">
       <div class="video-card" *ngFor="let course of filteredCourses">
         <!-- Facade Wrapper -->
         <div class="facade-container" *ngIf="activeVideoId !== course.id" (click)="playVideo(course.id)">
@@ -144,7 +149,7 @@
     </div>
 
     <!-- Empty State -->
-    <div class="empty-state" *ngIf="filteredCourses.length === 0">
+    <div class="empty-state" *ngIf="!isLoading && filteredCourses.length === 0">
       <p>No courses match your criteria.</p>
     </div>
 
