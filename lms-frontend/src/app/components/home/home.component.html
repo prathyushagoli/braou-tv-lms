@@ -75,7 +75,14 @@
       </svg>
     </div>
     <div class="launch-content">
-      <h2>Launch <span class="text-blue">BRAOU TV</span></h2>
+      <h2 style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: white; margin-right: 0.25rem;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M13.5 21v-3.5m0 0a3.5 3.5 0 00-7 0v3.5A7.5 7.5 0 0021 13.5h-3.5a3.5 3.5 0 00-7 0M10.5 21v-3.5a3.5 3.5 0 017 0v3.5m-3.5-3.5v-10A1.5 1.5 0 0113.5 6a1.5 1.5 0 011.5 1.5v10m-3.5 0v3.5a2.5 2.5 0 01-5 0">
+          </path>
+        </svg>
+        Launch <span style="color: #3b82f6;">BRAOU</span> <span style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      </h2>
       <p>Experience the grand inauguration of our educational broadcasting platform</p>
     </div>
     <button class="btn-launch-now" (click)="initiateLaunch()">
