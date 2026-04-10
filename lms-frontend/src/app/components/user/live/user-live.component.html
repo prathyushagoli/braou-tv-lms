@@ -29,7 +29,7 @@
     </div>
 
     <div class="hero-player">
-      <iframe loading="lazy" *ngIf="getSafeUrl(activeStream.url, true); let safeUrl" [src]="safeUrl" frameborder="0"
+      <iframe *ngIf="getSafeUrl(activeStream.url, true); let safeUrl" [src]="safeUrl" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
@@ -65,7 +65,7 @@
       <div class="grid-container" *ngIf="pastSessions.length > 0">
         <div class="video-card" *ngFor="let stream of pastSessions">
           <div class="iframe-container">
-            <iframe loading="lazy" *ngIf="getSafeUrl(stream.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            <iframe *ngIf="getSafeUrl(stream.url); let safeUrl" [src]="safeUrl" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen>
             </iframe>

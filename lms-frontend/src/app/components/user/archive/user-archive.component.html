@@ -7,7 +7,7 @@
     <div class="video-card" *ngFor="let archive of archives">
       <div class="iframe-container">
         <!-- Render iFrame if secure URL validates properly -->
-        <iframe loading="lazy" *ngIf="getSafeUrl(archive.url); let safeUrl" [src]="safeUrl" frameborder="0"
+        <iframe *ngIf="getSafeUrl(archive.url); let safeUrl" [src]="safeUrl" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>

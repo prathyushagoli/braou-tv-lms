@@ -108,7 +108,7 @@
 
     <div class="live-tv-player-card">
       <div class="player-wrapper">
-        <iframe loading="lazy" *ngIf="getSafeUrl(activeLiveStream.url); let safeUrl" [src]="safeUrl" frameborder="0"
+        <iframe *ngIf="getSafeUrl(activeLiveStream.url); let safeUrl" [src]="safeUrl" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>
@@ -138,7 +138,7 @@
     <div class="card-grid">
       <div class="ui-card" *ngFor="let course of latestCourses">
         <div class="card-thumbnail">
-          <iframe loading="lazy" *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
           </iframe>
@@ -174,7 +174,7 @@
     <div class="card-grid">
       <div class="ui-card" *ngFor="let prog of latestProgrammes">
         <div class="card-thumbnail">
-          <iframe loading="lazy" *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
           </iframe>
@@ -207,7 +207,7 @@
     <div class="card-grid">
       <div class="ui-card" *ngFor="let ev of latestEvents">
         <div class="card-thumbnail">
-          <iframe loading="lazy" *ngIf="getSafeUrl(ev.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          <iframe *ngIf="getSafeUrl(ev.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
           </iframe>
@@ -242,7 +242,7 @@
     <div class="card-grid">
       <div class="ui-card schedule-ui-card" *ngFor="let sch of latestSchedules" (click)="previewFile(sch.fileName)">
         <div class="card-thumbnail pdf-thumbnail">
-          <iframe loading="lazy" [src]="getSafePdfUrl(sch.fileName)" title="PDF Preview" scrolling="no"
+          <iframe [src]="getSafePdfUrl(sch.fileName)" title="PDF Preview" scrolling="no"
             class="pdf-thumbnail-frame"></iframe>
           <div class="thumbnail-overlay"></div>
         </div>
@@ -306,7 +306,7 @@
 
     <!-- YouTube Frame State -->
     <div class="video-container-launch" *ngIf="isVideoLaunched">
-      <iframe loading="lazy" *ngIf="contactObj?.launchVideoUrl; else fallbackText" [src]="getSafeUrl(contactObj?.launchVideoUrl, true)"
+      <iframe *ngIf="contactObj?.launchVideoUrl; else fallbackText" [src]="getSafeUrl(contactObj?.launchVideoUrl, true)"
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>

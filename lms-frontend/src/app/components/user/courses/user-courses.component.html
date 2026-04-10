@@ -105,7 +105,7 @@
     <div class="grid-container" *ngIf="filteredCourses.length > 0">
       <div class="video-card" *ngFor="let course of filteredCourses">
         <div class="iframe-container">
-          <iframe loading="lazy" *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
+          <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
