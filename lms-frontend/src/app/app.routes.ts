@@ -1,52 +1,35 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { AdminLoginComponent } from './components/admin/login/login.component';
-import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
-import { LiveStreamComponent } from './components/admin/live-stream/live-stream.component';
-import { ProgrammesComponent } from './components/admin/programmes/programmes.component';
-import { EventsComponent } from './components/admin/events/events.component';
-import { ArchiveComponent } from './components/admin/archive/archive.component';
-import { ScheduleComponent } from './components/admin/schedule/schedule.component';
-import { CoursesComponent } from './components/admin/courses/courses.component';
-import { ContactComponent } from './components/admin/contact/contact.component';
 import { UserLayoutComponent } from './components/user/user-layout/user-layout.component';
-import { AboutComponent } from './components/user/about/about.component';
-import { UserArchiveComponent } from './components/user/archive/user-archive.component';
-import { UserSchedulesComponent } from './components/user/schedules/user-schedules.component';
-import { UserEventsComponent } from './components/user/events/user-events.component';
-import { UserProgrammesComponent } from './components/user/programmes/user-programmes.component';
-import { UserCoursesComponent } from './components/user/courses/user-courses.component';
-import { UserLiveComponent } from './components/user/live/user-live.component';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { 
     path: '', 
-    component: UserLayoutComponent,
+    component: UserLayoutComponent, // Shell component loaded initially
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'about', component: AboutComponent },
-      { path: 'archive', component: UserArchiveComponent },
-      { path: 'schedules', component: UserSchedulesComponent },
-      { path: 'events', component: UserEventsComponent },
-      { path: 'programmes', component: UserProgrammesComponent },
-      { path: 'courses', component: UserCoursesComponent },
-      { path: 'live', component: UserLiveComponent }
+      { path: '', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
+      { path: 'about', loadComponent: () => import('./components/user/about/about.component').then(m => m.AboutComponent) },
+      { path: 'archive', loadComponent: () => import('./components/user/archive/user-archive.component').then(m => m.UserArchiveComponent) },
+      { path: 'schedules', loadComponent: () => import('./components/user/schedules/user-schedules.component').then(m => m.UserSchedulesComponent) },
+      { path: 'events', loadComponent: () => import('./components/user/events/user-events.component').then(m => m.UserEventsComponent) },
+      { path: 'programmes', loadComponent: () => import('./components/user/programmes/user-programmes.component').then(m => m.UserProgrammesComponent) },
+      { path: 'courses', loadComponent: () => import('./components/user/courses/user-courses.component').then(m => m.UserCoursesComponent) },
+      { path: 'live', loadComponent: () => import('./components/user/live/user-live.component').then(m => m.UserLiveComponent) }
     ]
   },
-  { path: 'admin', component: AdminLoginComponent },
+  { path: 'admin', loadComponent: () => import('./components/admin/login/login.component').then(m => m.AdminLoginComponent) },
   { 
     path: 'admin', 
-    component: AdminLayoutComponent,
+    loadComponent: () => import('./components/admin/admin-layout/admin-layout.component').then(m => m.AdminLayoutComponent),
     canActivate: [adminGuard],
     children: [
-      { path: 'live-stream', component: LiveStreamComponent },
-      { path: 'programmes', component: ProgrammesComponent },
-      { path: 'events', component: EventsComponent },
-      { path: 'archive', component: ArchiveComponent },
-      { path: 'schedules', component: ScheduleComponent },
-      { path: 'courses', component: CoursesComponent },
-      { path: 'contact', component: ContactComponent }
+      { path: 'live-stream', loadComponent: () => import('./components/admin/live-stream/live-stream.component').then(m => m.LiveStreamComponent) },
+      { path: 'programmes', loadComponent: () => import('./components/admin/programmes/programmes.component').then(m => m.ProgrammesComponent) },
+      { path: 'events', loadComponent: () => import('./components/admin/events/events.component').then(m => m.EventsComponent) },
+      { path: 'archive', loadComponent: () => import('./components/admin/archive/archive.component').then(m => m.ArchiveComponent) },
+      { path: 'schedules', loadComponent: () => import('./components/admin/schedule/schedule.component').then(m => m.ScheduleComponent) },
+      { path: 'courses', loadComponent: () => import('./components/admin/courses/courses.component').then(m => m.CoursesComponent) },
+      { path: 'contact', loadComponent: () => import('./components/admin/contact/contact.component').then(m => m.ContactComponent) }
     ]
   }
 ];

@@ -155,8 +155,6 @@ export class UserCoursesComponent implements OnInit {
     }
   }
 
-  currentPage = 1;
-  itemsPerPage = 12;
   activeVideoId: number | undefined = undefined;
 
   filterCourses() {
@@ -170,27 +168,8 @@ export class UserCoursesComponent implements OnInit {
       
       return typeMatch && subjectMatch && facultyMatch && yearMatch && semMatch && searchMatch;
     });
-    this.currentPage = 1; // Reset to first page on new filter
     this.activeVideoId = undefined;
   }
-
-  get paginatedCourses() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredCourses.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.filteredCourses.length / this.itemsPerPage) || 1;
-  }
-
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.activeVideoId = undefined; // Reset playing video on page change
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-
   playVideo(courseId: number | undefined) {
     this.activeVideoId = courseId;
   }
@@ -205,7 +184,7 @@ export class UserCoursesComponent implements OnInit {
   getSafeUrl(url: string | undefined): SafeResourceUrl | null {
     const videoId = this.extractVideoId(url);
     if (!videoId) return null;
-    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }
