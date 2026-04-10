@@ -3,37 +3,95 @@
     <div class="logo-box" style="margin-bottom: 0.5rem; display: flex; justify-content: center;">
       <img src="assets/images/braou-tv-logo.png" alt="Logo" style="height: 100px; width: auto; object-fit: contain;">
     </div>
-    
+
     <h2 style="display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
       <span style="color: #3b82f6;">BRAOU</span>
-      <span style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      <span
+        style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
       <span style="margin-left: 0.3rem;">Admin</span>
     </h2>
-    <p class="subtitle">Sign in to manage your platform</p>
-    
-    <form (ngSubmit)="onSignIn()">
+    <p class="subtitle" *ngIf="currentView === 'FORGOT'">Reset your password</p>
+
+    <!-- Global Alert Block -->
+    <div class="alert-box" *ngIf="message" [ngClass]="{'alert-error': isError, 'alert-success': !isError}">
+      {{ message }}
+    </div>
+
+    <!-- === LOGIN VIEW === -->
+    <form (ngSubmit)="onSignIn()" *ngIf="currentView === 'LOGIN'">
       <div class="form-group">
         <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          [(ngModel)]="email" 
-          placeholder="admin@braou.ac.in" 
-          required>
+        <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Enter email" required>
       </div>
-      
+
       <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          required>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label for="password" style="margin-bottom: 0;">Password</label>
+          <a class="forgot-link" (click)="switchToForgot()">Forgot Password?</a>
+        </div>
+        <div class="password-wrapper">
+          <input [type]="showLoginPassword ? 'text' : 'password'" id="password" name="password" placeholder="Enter password" [(ngModel)]="password"
+            required>
+          <span class="password-toggle" (click)="showLoginPassword = !showLoginPassword" title="Toggle visibility">
+            <svg *ngIf="!showLoginPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <svg *ngIf="showLoginPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+          </span>
+        </div>
       </div>
-      
-      <button type="submit" class="btn-signin">Sign In</button>
+
+      <button type="submit" class="btn-signin" [disabled]="isLoading">
+        {{ isLoading ? 'Authenticating...' : 'Login' }}
+      </button>
     </form>
+
+    <!-- === FORGOT PASSWORD VIEW === -->
+    <form (ngSubmit)="onForgotPassword()" *ngIf="currentView === 'FORGOT'">
+      <div class="form-group">
+        <label for="forgotEmail">Email Address</label>
+        <input type="email" id="forgotEmail" name="forgotEmail" [(ngModel)]="email" placeholder="Enter email" required>
+      </div>
+
+      <button type="submit" class="btn-signin" [disabled]="isLoading">
+        {{ isLoading ? 'Generating OTP...' : 'Send OTP' }}
+      </button>
+
+      <div class="text-center" style="margin-top: 1rem;">
+        <a class="forgot-link" (click)="switchToLogin()">← Back to Login</a>
+      </div>
+    </form>
+
+    <!-- === RESET PASSWORD VIEW === -->
+    <form (ngSubmit)="onResetPassword()" *ngIf="currentView === 'RESET'">
+      <div class="form-group">
+        <label for="resetEmail">Email</label>
+        <input type="email" id="resetEmail" name="resetEmail" [(ngModel)]="email" readonly class="readonly-input">
+      </div>
+
+      <div class="form-group">
+        <label for="otpCode">OTP</label>
+        <input type="text" id="otpCode" name="otpCode" [(ngModel)]="otp" placeholder="Enter OTP" required>
+      </div>
+
+      <div class="form-group">
+        <label for="newPass">New Password</label>
+        <div class="password-wrapper">
+          <input [type]="showResetPassword ? 'text' : 'password'" id="newPass" name="newPass" [(ngModel)]="newPassword" placeholder="Enter new password"
+            required>
+          <span class="password-toggle" (click)="showResetPassword = !showResetPassword" title="Toggle visibility">
+            <svg *ngIf="!showResetPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <svg *ngIf="showResetPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-signin" [disabled]="isLoading">
+        {{ isLoading ? 'Securing Profile...' : 'Update password' }}
+      </button>
+
+      <div class="text-center" style="margin-top: 1rem;">
+        <a class="forgot-link" (click)="switchToLogin()">← Back to Login</a>
+      </div>
+    </form>
+
   </div>
 </div>
