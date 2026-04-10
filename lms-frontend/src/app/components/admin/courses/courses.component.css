@@ -3,6 +3,10 @@
   max-width: 1400px;
   margin: 0 auto;
   font-size: 0.825rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .page-header {
@@ -192,7 +196,8 @@ h1 {
 .table-container {
   background-color: #1e293b;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: auto;
+  flex: 1;
   border: 1px solid #1e293b;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -216,6 +221,9 @@ h1 {
   color: #94a3b8;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .courses-table tbody tr:last-child td {
