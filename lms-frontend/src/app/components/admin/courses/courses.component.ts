@@ -406,7 +406,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
             this.loadCourses();
             this.isSaving = false;
             this.isSaved = true;
-            this.triggerSnackbar('Course formally added!');
+            this.triggerSnackbar('Course added successfully!');
             setTimeout(() => {
               // Instead of closing the modal, simply scrub inputs dynamically preparing subsequent bulk entries identically!
               this.resetForm();
