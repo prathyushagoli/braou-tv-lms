@@ -611,10 +611,14 @@
   position: relative;
   width: 750px;
   max-width: 95%;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
   border: 1px solid #334155;
   border-radius: 20px;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   box-shadow: 0 25px 50px rgba(0,0,0,0.6);
   z-index: 10;
   animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -775,23 +779,23 @@
 
 .modal-progress {
   width: 80%;
-  height: 6px;
+  height: 4px;
   background-color: rgba(255,255,255,0.1);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
 }
 
 .modal-progress-bar {
   height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #3b82f6, #10b981, #fcd34d);
-  animation: forceLoad 10s linear forwards;
+  width: 30%;
+  background: linear-gradient(90deg, #3b82f6, #ef4444);
+  animation: loading 2s ease-in-out infinite alternate;
 }
 
-@keyframes forceLoad {
-  0% { width: 0%; }
-  100% { width: 100%; }
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(330%); }
 }
 
 /* CSS Pseudo Confetti (Simulating Particle Canvas heavily optimized) */
