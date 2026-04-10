@@ -12,7 +12,6 @@
         <p class="archive-url"><strong>Email:</strong> {{ contactObj.email || 'None' }}</p>
         <p class="archive-url"><strong>Mobile 1:</strong> {{ contactObj.mobile1 || 'None' }}</p>
         <p class="archive-url"><strong>Mobile 2:</strong> {{ contactObj.mobile2 || 'None' }}</p>
-        <p class="archive-url"><strong>Launch Video:</strong> <a *ngIf="contactObj.launchVideoUrl" [href]="contactObj.launchVideoUrl" target="_blank">{{ contactObj.launchVideoUrl }}</a><span *ngIf="!contactObj.launchVideoUrl">None</span></p>
       </div>
       
       <div class="archive-actions" style="margin-left: auto;">
@@ -54,11 +53,6 @@
         <label>Mobile Number 2</label>
         <input type="text" [(ngModel)]="editObj.mobile2" (keydown.enter)="saveContact()" placeholder="Enter Mobile Number 2">
       </div>
-
-      <div class="form-group">
-        <label>Launch Video URL</label>
-        <input type="text" [(ngModel)]="editObj.launchVideoUrl" (keydown.enter)="saveContact()" placeholder="Enter YouTube URL for Launch">
-      </div>
       
       <div class="form-actions">
         <button class="btn-cancel" (click)="closeEditForm()" [disabled]="isSaving || isSaved">Cancel</button>
@@ -68,6 +62,40 @@
           <span *ngIf="isSaved">Saved ✓</span>
           <span *ngIf="!isSaving && !isSaved">Save Changes</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Launch Banner Configuration Card -->
+  <div class="page-header" style="margin-top: 3rem;">
+    <h1>Launch Banner Settings</h1>
+  </div>
+  
+  <div class="archive-list">
+    <div class="archive-item" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem; margin-bottom: 0.5rem;">
+        <div>
+          <h3 style="margin: 0; color: #1e293b; font-size: 1.25rem;">Home Page Launch Module</h3>
+          <p style="margin: 0.25rem 0 0 0; color: #64748b; font-size: 0.95rem;">When toggled ON, the celebratory Launch Banner will prominently render universally across the entire User Home Page organically.</p>
+        </div>
+        
+        <!-- Native Toggle Switch -->
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="contactObj.isLaunchVideoActive" (change)="saveContactConfigOnly()">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      
+      <!-- Video URL Payload Configuration directly editable dynamically -->
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Custom Overlay YouTube URL</label>
+        <div style="display: flex; gap: 1rem;">
+          <input type="text" [(ngModel)]="contactObj.launchVideoUrl" placeholder="https://youtube.com/...">
+          <button class="btn-add" (click)="saveContactConfigOnly()" [disabled]="isSavingBanner">
+            <span *ngIf="isSavingBanner" class="btn-spinner"></span>
+            <span *ngIf="!isSavingBanner">Save Links</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

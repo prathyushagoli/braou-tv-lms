@@ -15,6 +15,7 @@ public class Contact {
     private String mobile1;
     private String mobile2;
     private String launchVideoUrl;
+    private Boolean isLaunchVideoActive = false;
 
     public Contact() {
     }
@@ -73,5 +74,13 @@ public class Contact {
 
     public void setLaunchVideoUrl(String launchVideoUrl) {
         this.launchVideoUrl = launchVideoUrl;
+    }
+
+    public Boolean getIsLaunchVideoActive() {
+        return isLaunchVideoActive;
+    }
+
+    public void setIsLaunchVideoActive(Boolean isLaunchVideoActive) {
+        this.isLaunchVideoActive = isLaunchVideoActive;
     }
 }

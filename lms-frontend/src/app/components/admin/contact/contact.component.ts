@@ -68,4 +68,24 @@ export class ContactComponent implements OnInit {
       }
     });
   }
+
+  isSavingBanner = false;
+  
+  saveContactConfigOnly() {
+    if (!this.contactObj) return;
+    this.isSavingBanner = true;
+    
+    this.contactService.updateContact(this.contactObj).subscribe({
+      next: (data) => {
+        this.contactObj = data;
+        setTimeout(() => {
+          this.isSavingBanner = false;
+        }, 700);
+      },
+      error: (err) => {
+        console.error('Error updating launch configuration', err);
+        this.isSavingBanner = false;
+      }
+    });
+  }
 }

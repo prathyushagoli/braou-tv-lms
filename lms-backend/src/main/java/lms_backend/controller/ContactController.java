@@ -30,6 +30,7 @@ public class ContactController {
         contact.setMobile1(req.getMobile1());
         contact.setMobile2(req.getMobile2());
         contact.setLaunchVideoUrl(req.getLaunchVideoUrl());
+        contact.setIsLaunchVideoActive(req.getIsLaunchVideoActive());
 
         Contact updated = contactRepository.save(contact);
         return ResponseEntity.ok(updated);

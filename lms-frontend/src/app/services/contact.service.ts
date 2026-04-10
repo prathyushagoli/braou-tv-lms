@@ -10,6 +10,7 @@ export interface Contact {
   mobile1?: string;
   mobile2?: string;
   launchVideoUrl?: string;
+  isLaunchVideoActive?: boolean;
 }
 
 @Injectable({

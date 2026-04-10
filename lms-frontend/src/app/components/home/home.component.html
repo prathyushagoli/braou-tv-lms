@@ -19,7 +19,10 @@
       <!-- Right: Typography Area -->
       <div class="hero-right-column">
         <span class="welcome-label">WELCOME TO</span>
-        <h1 class="main-title" style="display: flex; align-items: center; gap: 0.5rem;"><span style="color: #3b82f6;">BRAOU</span> <span style="background-color: white; color: red; font-size: 0.95em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span></h1>
+        <h1 class="main-title" style="display: flex; align-items: center; gap: 0.5rem;"><span
+            style="color: #3b82f6;">BRAOU</span> <span
+            style="background-color: white; color: red; font-size: 0.95em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+        </h1>
         <h2 class="sub-title">Your Knowledge. Your Way.<br>Anytime, Anywhere.</h2>
         <p class="description">Explore high-quality educational content, live programs, expert talks, and interactive
           courses designed to empower lifelong learners.</p>
@@ -49,13 +52,11 @@
             Explore Courses
           </a>
         </div>
-        
+
         <div class="faculty-labels-container" *ngIf="uniqueFaculties.length > 0">
-          <a *ngFor="let fac of uniqueFaculties" 
-             [routerLink]="['/courses']" 
-             [queryParams]="{ faculty: fac }" 
-             class="faculty-label-badge">
-             {{ fac }}
+          <a *ngFor="let fac of uniqueFaculties" [routerLink]="['/courses']" [queryParams]="{ faculty: fac }"
+            class="faculty-label-badge">
+            {{ fac }}
           </a>
         </div>
       </div>
@@ -64,12 +65,13 @@
   </section>
 
   <!-- LAUNCH BRAOU TV BANNER -->
-  <section class="launch-banner">
+  <section class="launch-banner" *ngIf="contactObj?.isLaunchVideoActive">
     <div class="launch-icon-wrapper">
       <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M13.5 21v-3.5m0 0a3.5 3.5 0 00-7 0v3.5A7.5 7.5 0 0021 13.5h-3.5a3.5 3.5 0 00-7 0M10.5 21v-3.5a3.5 3.5 0 017 0v3.5m-3.5-3.5v-10A1.5 1.5 0 0113.5 6a1.5 1.5 0 011.5 1.5v10m-3.5 0v3.5a2.5 2.5 0 01-5 0"></path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3 4 2-5-4 12z"></path>
+          d="M13.5 21v-3.5m0 0a3.5 3.5 0 00-7 0v3.5A7.5 7.5 0 0021 13.5h-3.5a3.5 3.5 0 00-7 0M10.5 21v-3.5a3.5 3.5 0 017 0v3.5m-3.5-3.5v-10A1.5 1.5 0 0113.5 6a1.5 1.5 0 011.5 1.5v10m-3.5 0v3.5a2.5 2.5 0 01-5 0">
+        </path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3 4 2-5-4 12z"></path>
       </svg>
     </div>
     <div class="launch-content">
@@ -274,7 +276,7 @@
 <div class="modal-overlay-bg launch-modal-overlay" *ngIf="showLaunchModal">
   <div class="modal-card" [class.launch-expanded]="isVideoLaunched">
     <button class="modal-close" (click)="closeLaunchModal()">✕</button>
-    
+
     <!-- Countdown / Confetti Loader State -->
     <div class="modal-internal" *ngIf="!isVideoLaunched">
       <div class="modal-tv-icon pulse-tv-icon">
@@ -284,11 +286,12 @@
           </path>
         </svg>
       </div>
-      <h2 class="modal-hero-title"><span style="color: white; font-weight: 800;">BRAOU</span> <span style="color: #3b82f6;">TV</span></h2>
+      <h2 class="modal-hero-title"><span style="color: white; font-weight: 800;">BRAOU</span> <span
+          style="color: #3b82f6;">TV</span></h2>
       <div class="modal-live-status">
-        <span class="live-pulse-dot" style="background-color: red; box-shadow: 0 0 8px red;"></span> <span style="color: red; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
+        <span class="live-pulse-dot" style="background-color: lightgreen; box-shadow: 0 0 8px red;"></span> <span
+          style="color: lightgreen; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
       </div>
-      <p class="modal-launching-text">✨ Launching in a moment... ✨</p>
 
       <div class="modal-progress mt-4">
         <div class="modal-progress-bar animate-bar"></div>
@@ -297,11 +300,9 @@
 
     <!-- YouTube Frame State -->
     <div class="video-container-launch" *ngIf="isVideoLaunched">
-      <iframe *ngIf="contactObj?.launchVideoUrl; else fallbackText" 
-              [src]="getSafeUrl(contactObj?.launchVideoUrl, true)" 
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
+      <iframe *ngIf="contactObj?.launchVideoUrl; else fallbackText" [src]="getSafeUrl(contactObj?.launchVideoUrl, true)"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
       </iframe>
       <ng-template #fallbackText>
         <div class="launch-fallback">Launch video is not configured by the admin yet!</div>
