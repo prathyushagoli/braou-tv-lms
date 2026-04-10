@@ -149,12 +149,15 @@
 
         <div class="link-column">
           <h4>CONTACT</h4>
-          <ul>
-            <li>Prof. D. Rabindranath Solomon</li>
-            <li>Director, Electronic Media Resources & Research Centre (EMR&RC)</li>
-            <li><a href="mailto:directoravprc@braou.ac.in">directoravprc&#64;braou.ac.in</a></li>
-            <li>040-23680320</li>
-            <li>9281013602</li>
+          <ul *ngIf="contactObj">
+            <li *ngIf="contactObj.name">{{ contactObj.name }}</li>
+            <li *ngIf="contactObj.designation">{{ contactObj.designation }}</li>
+            <li *ngIf="contactObj.email"><a [href]="'mailto:' + contactObj.email">{{ contactObj.email }}</a></li>
+            <li *ngIf="contactObj.mobile1">{{ contactObj.mobile1 }}</li>
+            <li *ngIf="contactObj.mobile2">{{ contactObj.mobile2 }}</li>
+          </ul>
+          <ul *ngIf="!contactObj">
+            <li>Contact details loading...</li>
           </ul>
         </div>
       </div>

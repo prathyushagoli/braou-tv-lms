@@ -8,6 +8,7 @@ import { EventsComponent } from './components/admin/events/events.component';
 import { ArchiveComponent } from './components/admin/archive/archive.component';
 import { ScheduleComponent } from './components/admin/schedule/schedule.component';
 import { CoursesComponent } from './components/admin/courses/courses.component';
+import { ContactComponent } from './components/admin/contact/contact.component';
 import { UserLayoutComponent } from './components/user/user-layout/user-layout.component';
 import { AboutComponent } from './components/user/about/about.component';
 import { UserArchiveComponent } from './components/user/archive/user-archive.component';
@@ -42,7 +43,8 @@ export const routes: Routes = [
       { path: 'events', component: EventsComponent },
       { path: 'archive', component: ArchiveComponent },
       { path: 'schedules', component: ScheduleComponent },
-      { path: 'courses', component: CoursesComponent }
+      { path: 'courses', component: CoursesComponent },
+      { path: 'contact', component: ContactComponent }
     ]
   }
 ];

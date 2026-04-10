@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ContactService, Contact } from '../../../services/contact.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -9,6 +10,17 @@ import { RouterModule } from '@angular/router';
   templateUrl: './user-layout.component.html',
   styleUrls: ['./user-layout.component.css']
 })
-export class UserLayoutComponent {
+export class UserLayoutComponent implements OnInit {
+  contactObj: Contact | null = null;
 
+  constructor(private contactService: ContactService) {}
+
+  ngOnInit() {
+    this.contactService.getContact().subscribe({
+      next: (data) => {
+        this.contactObj = data;
+      },
+      error: (err) => console.error('Error fetching contact', err)
+    });
+  }
 }

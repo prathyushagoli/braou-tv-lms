@@ -16,16 +16,24 @@
     
     <div class="contact-grid" style="grid-template-columns: 1fr;">
       <!-- Contact Details Single Card -->
-      <div class="contact-card">
+      <div class="contact-card" *ngIf="contactObj">
         <div class="card-header">
           <svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24" class="icon"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/></svg>
           <h3>Administration Contact</h3>
         </div>
-        <p><strong>Prof. D. Rabindranath Solomon</strong></p>
-        <p>Director, Electronic Media Resources & Research Centre (EMR&RC)</p>
-        <p><a href="mailto:directoravprc@braou.ac.in" style="color: #3b82f6;">directoravprc&#64;braou.ac.in</a></p>
-        <p>040-23680320</p>
-        <p>9281013602</p>
+        <p *ngIf="contactObj.name"><strong>{{ contactObj.name }}</strong></p>
+        <p *ngIf="contactObj.designation">{{ contactObj.designation }}</p>
+        <p *ngIf="contactObj.email"><a [href]="'mailto:' + contactObj.email" style="color: #3b82f6;">{{ contactObj.email }}</a></p>
+        <p *ngIf="contactObj.mobile1">{{ contactObj.mobile1 }}</p>
+        <p *ngIf="contactObj.mobile2">{{ contactObj.mobile2 }}</p>
+      </div>
+
+      <div class="contact-card" *ngIf="!contactObj">
+        <div class="card-header">
+          <svg aria-hidden="true" width="20" height="20" fill="none" viewBox="0 0 24 24" class="icon"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/></svg>
+          <h3>Administration Contact</h3>
+        </div>
+        <p>Loading contact details...</p>
       </div>
     </div>
   </div>
