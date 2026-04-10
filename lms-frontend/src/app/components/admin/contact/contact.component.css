@@ -1,7 +1,8 @@
-.archive-container {
-  padding: 2rem;
-  max-width: 1000px;
+.programmes-container {
+  padding: 1.25rem 1.5rem;
+  max-width: 1400px;
   margin: 0 auto;
+  font-size: 0.825rem;
 }
 
 .page-header {
@@ -9,48 +10,53 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
 }
 
 .page-header h1 {
   font-size: 1.875rem;
-  color: #1e293b;
+  font-weight: 500;
+  color: white;
   margin: 0;
 }
 
 .archive-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .archive-item {
+  background-color: #1e293b;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .archive-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #475569;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .archive-info h3 {
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 600;
   margin: 0 0 0.5rem 0;
-  color: #1e293b;
-  font-size: 1.25rem;
 }
 
 .archive-url {
-  color: #64748b;
+  color: #94a3b8;
+  font-size: 0.875rem;
   margin: 0.25rem 0;
-  font-size: 1rem;
+}
+
+.archive-url strong {
+  color: #cbd5e1;
+  font-weight: 500;
 }
 
 .archive-actions {
@@ -59,43 +65,56 @@
 }
 
 .btn-edit {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
+  background: transparent;
   color: #3b82f6;
-  border: 1px solid #3b82f6;
-  border-radius: 6px;
-  cursor: pointer;
+  border: none;
   font-weight: 500;
-  transition: all 0.2s;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
 .btn-edit:hover {
-  background-color: #eff6ff;
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 1rem;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .add-card {
-  background: white;
+  background-color: #0b122f;
+  border: 1px solid #1e293b;
   border-radius: 12px;
   padding: 2rem;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 550px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out forwards;
   max-height: 90vh;
   overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .card-header {
@@ -106,22 +125,23 @@
 }
 
 .card-header h3 {
+  color: white;
   margin: 0;
   font-size: 1.25rem;
-  color: #1e293b;
+  font-weight: 600;
 }
 
 .btn-close {
-  background: none;
+  background: transparent;
   border: none;
+  color: #94a3b8;
   font-size: 1.25rem;
-  color: #64748b;
   cursor: pointer;
-  padding: 0.25rem;
+  transition: color 0.2s;
 }
 
 .btn-close:hover {
-  color: #1e293b;
+  color: white;
 }
 
 .form-group {
@@ -130,24 +150,27 @@
 
 .form-group label {
   display: block;
-  font-weight: 500;
-  color: #334155;
-  margin-bottom: 0.5rem;
-}
-
-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  color: #f1f5f9;
   font-size: 0.95rem;
-  transition: all 0.2s;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
 }
 
-input:focus {
+.form-group input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background-color: #0d1425;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  color: #f8fafc;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 1px #3b82f6;
 }
 
 .form-actions {
@@ -155,32 +178,29 @@ input:focus {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
 }
 
 .btn-cancel {
-  padding: 0.75rem 1.5rem;
-  background-color: white;
-  color: #64748b;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-weight: 500;
+  background: transparent;
+  color: #f8fafc;
+  border: 1px solid #1e293b;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s;
+  font-weight: 500;
+  transition: background 0.2s;
 }
 
 .btn-cancel:hover:not(:disabled) {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background: rgba(255,255,255,0.05);
 }
 
 .btn-add {
-  padding: 0.75rem 1.5rem;
-  background: #3b82f6;
+  background-color: #2563eb;
   color: white;
   border: none;
-  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -190,11 +210,13 @@ input:focus {
 }
 
 .btn-add:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: #1d4ed8;
 }
 
 .btn-add:disabled, .btn-cancel:disabled {
-  opacity: 0.7;
+  background-color: #1e293b;
+  color: #64748b;
+  border-color: transparent;
   cursor: not-allowed;
 }
 
@@ -235,7 +257,8 @@ input:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #cbd5e1;
+  background-color: #0f172a;
+  border: 1px solid #334155;
   transition: .4s;
 }
 
@@ -244,21 +267,19 @@ input:focus {
   content: "";
   height: 20px;
   width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
+  left: 3px;
+  bottom: 3px;
+  background-color: #94a3b8;
   transition: .4s;
 }
 
 input:checked + .slider {
   background-color: #3b82f6;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #3b82f6;
+  border-color: #3b82f6;
 }
 
 input:checked + .slider:before {
+  background-color: white;
   transform: translateX(22px);
 }
 
