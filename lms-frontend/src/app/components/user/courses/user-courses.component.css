@@ -22,6 +22,17 @@
   margin: 0;
 }
 
+/* === Sticky Header Layout === */
+.sticky-group {
+  position: sticky;
+  top: 57px;
+  z-index: 90;
+  background-color: #0b122f;
+  padding-top: 1.5rem;
+  margin-top: -1.5rem;
+  padding-bottom: 0.5rem;
+}
+
 /* === Tabs === */
 .courses-navigation {
   margin-bottom: 1.5rem;

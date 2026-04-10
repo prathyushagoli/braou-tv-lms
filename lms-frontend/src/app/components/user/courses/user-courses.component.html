@@ -1,7 +1,8 @@
 <div class="user-courses-container">
-  <div class="page-header">
-    <h1 class="page-title">Courses</h1>
-  </div>
+  <div class="sticky-group">
+    <div class="page-header">
+      <h1 class="page-title">Courses</h1>
+    </div>
 
   <div class="courses-navigation">
     <div class="tabs-container">
@@ -96,9 +97,10 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Content Grid -->
-  <div class="courses-content-area">
+<!-- Content Grid -->
+<div class="courses-content-area">
 
     <div class="grid-container" *ngIf="filteredCourses.length > 0">
       <div class="video-card" *ngFor="let course of filteredCourses">
