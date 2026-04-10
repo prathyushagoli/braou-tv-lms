@@ -115,7 +115,22 @@ export class HomeComponent implements OnInit {
 
   previewFile(fileName: string | undefined) {
     if (fileName) {
-      window.open(this.getFileUrl(fileName), '_blank');
+      const url = this.getFileUrl(fileName);
+      const newTab = window.open('', '_blank');
+      if (newTab) {
+        newTab.document.write('Loading PDF preview securely...');
+        this.http.get(url, { responseType: 'blob' }).subscribe({
+          next: (data: Blob) => {
+            const blob = new Blob([data], { type: 'application/pdf' });
+            const blobUrl = window.URL.createObjectURL(blob);
+            newTab.location.href = blobUrl;
+          },
+          error: (err) => {
+            console.error('Error loading preview', err);
+            newTab.document.write('Failed to load PDF preview.');
+          }
+        });
+      }
     }
   }
 

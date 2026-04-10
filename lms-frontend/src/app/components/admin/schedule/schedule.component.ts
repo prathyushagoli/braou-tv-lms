@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScheduleService, Schedule } from '../../../services/schedule.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
@@ -26,7 +26,7 @@ export class ScheduleComponent implements OnInit {
   
   isDragging = false;
 
-  constructor(private scheduleService: ScheduleService) {}
+  constructor(private scheduleService: ScheduleService, private http: HttpClient) {}
 
   ngOnInit() {
     this.loadSchedules();
@@ -142,7 +142,22 @@ export class ScheduleComponent implements OnInit {
 
   openPdf(fileName: string | undefined) {
     if (fileName) {
-       window.open(`${environment.apiUrl}/schedules/files/${fileName}`, '_blank');
+      const url = `${environment.apiUrl}/schedules/files/${fileName}`;
+      const newTab = window.open('', '_blank');
+      if (newTab) {
+        newTab.document.write('Loading PDF preview securely...');
+        this.http.get(url, { responseType: 'blob' }).subscribe({
+          next: (data: Blob) => {
+            const blob = new Blob([data], { type: 'application/pdf' });
+            const blobUrl = window.URL.createObjectURL(blob);
+            newTab.location.href = blobUrl;
+          },
+          error: (err) => {
+            console.error('Error loading preview', err);
+            newTab.document.write('Failed to load PDF preview.');
+          }
+        });
+      }
     }
   }
 

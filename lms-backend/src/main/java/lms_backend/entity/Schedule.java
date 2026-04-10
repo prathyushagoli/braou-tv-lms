@@ -2,7 +2,6 @@ package lms_backend.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Schedule {
