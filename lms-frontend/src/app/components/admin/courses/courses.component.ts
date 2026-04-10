@@ -16,13 +16,13 @@ import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 })
 export class CoursesComponent implements OnInit {
   courses: Course[] = [];
-  
+
   showAddForm = false;
   showDeleteConfirm = false;
-  
+
   editingCourseId: number | null = null;
   deletingCourseId: number | null = null;
-  
+
   newCourseTitle = '';
   newCourseUrl = '';
   newCourseType = '';
@@ -83,20 +83,22 @@ export class CoursesComponent implements OnInit {
   // Dropdown data
   courseTypes = ['PG', 'UG', 'Diploma', 'Certificate Programmes', 'Professional Programmes', 'Ph.D'];
   years = [1, 2, 3];
-  semesters = [1, 2];
+  semesters = [1, 2, 3, 4, 5, 6];
 
   subjectsMap: { [key: string]: string[] } = {
     'PG': [
       'Economics', 'History', 'Political Science', 'Public Administration', 'Sociology',
       'Journalism and Mass Communication', 'English', 'Hindi', 'Telugu', 'Urdu',
       'Psychology', 'Mathematics / Applied Mathematics', 'Botany', 'Chemistry',
-      'Environmental Science', 'Physics', 'Zoology', 'Master of Commerce'
+      'Environmental Science', 'Physics', 'Zoology', 'Master of Commerce', 'Library Science',
+      'Computer Applications', 'M.Ed', 'Geography', 'Statistics', 'Geology'
     ],
     'UG': [
       'Economics', 'History', 'Political Science', 'Public Administration', 'Sociology',
       'Psychology', 'Journalism', 'Geography', 'Telugu', 'English', 'Hindi', 'Urdu',
       'Mathematics', 'Statistics', 'Computer Application', 'Physics', 'Chemistry',
-      'Geology', 'Botany', 'Zoology', 'Commerce'
+      'Geology', 'Botany', 'Zoology', 'Commerce', 'Library Science', 'Environmental Science',
+      'B.Ed', 'B.Ed Spl'
     ],
     'Diploma': [
       'Diploma in Financial Management (DFM)', 'Diploma in Marketing Management (DMM)',
@@ -120,7 +122,7 @@ export class CoursesComponent implements OnInit {
     'Ph.D': []
   };
 
-  constructor(private courseService: CourseService) {}
+  constructor(private courseService: CourseService) { }
 
   ngOnInit() {
     this.loadCourses();
@@ -164,14 +166,14 @@ export class CoursesComponent implements OnInit {
 
     this.filterSubjects = ['All Subjects', ...Array.from(uniqueSubjects).sort()];
     this.filterFaculties = ['All Faculties', ...Array.from(uniqueFaculties).sort()];
-    this.filterYears = ['All Years', ...Array.from(uniqueYears).sort((a,b) => a-b).map(y => y.toString())];
-    this.filterSemesters = ['All Semesters', ...Array.from(uniqueSemesters).sort((a,b) => a-b).map(s => s.toString())];
+    this.filterYears = ['All Years', ...Array.from(uniqueYears).sort((a, b) => a - b).map(y => y.toString())];
+    this.filterSemesters = ['All Semesters', ...Array.from(uniqueSemesters).sort((a, b) => a - b).map(s => s.toString())];
   }
 
   get availableSubjects(): string[] {
     return this.subjectsMap[this.newCourseType] || [];
   }
-  
+
   get requiresSubjectAndTerms(): boolean {
     return !!this.newCourseType && this.newCourseType !== 'Ph.D';
   }
@@ -183,7 +185,7 @@ export class CoursesComponent implements OnInit {
       const yearMatch = this.selectedFilterYear === 'All Years' || (c.courseYear && c.courseYear.toString() === this.selectedFilterYear);
       const semMatch = this.selectedFilterSemester === 'All Semesters' || (c.semester && c.semester.toString() === this.selectedFilterSemester);
       const searchMatch = !this.searchQuery || c.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-      
+
       return subjectMatch && facultyMatch && yearMatch && semMatch && searchMatch;
     });
   }
@@ -267,7 +269,7 @@ export class CoursesComponent implements OnInit {
     this.yearDropdownOpen = false;
     this.semDropdownOpen = false;
   }
-  
+
   toggleFacultyDropdown(event: Event) {
     event.stopPropagation();
     this.facultyDropdownOpen = !this.facultyDropdownOpen;
@@ -276,7 +278,7 @@ export class CoursesComponent implements OnInit {
     this.yearDropdownOpen = false;
     this.semDropdownOpen = false;
   }
-  
+
   toggleYearDropdown(event: Event) {
     event.stopPropagation();
     this.yearDropdownOpen = !this.yearDropdownOpen;
@@ -285,7 +287,7 @@ export class CoursesComponent implements OnInit {
     this.facultyDropdownOpen = false;
     this.semDropdownOpen = false;
   }
-  
+
   toggleSemDropdown(event: Event) {
     event.stopPropagation();
     this.semDropdownOpen = !this.semDropdownOpen;
@@ -299,7 +301,7 @@ export class CoursesComponent implements OnInit {
     this.newCourseType = type;
     this.newCourseSubject = ''; // Reset subject when type changes
     this.typeDropdownOpen = false;
-    
+
     if (type === 'Ph.D') {
       this.newCourseYear = null;
       this.newCourseSemester = null;
@@ -315,12 +317,12 @@ export class CoursesComponent implements OnInit {
     this.newCourseFaculty = fac;
     this.facultyDropdownOpen = false;
   }
-  
+
   selectYear(yr: number | null) {
     this.newCourseYear = yr;
     this.yearDropdownOpen = false;
   }
-  
+
   selectSem(sem: number | null) {
     this.newCourseSemester = sem;
     this.semDropdownOpen = false;
@@ -344,7 +346,7 @@ export class CoursesComponent implements OnInit {
     this.newCourseUrl = course.url;
     this.showAddForm = true;
   }
-  
+
   isFormValid(): boolean {
     if (!this.newCourseTitle.trim() || !this.newCourseUrl.trim() || !this.newCourseType) {
       return false;
@@ -354,6 +356,9 @@ export class CoursesComponent implements OnInit {
     }
     return true;
   }
+
+  showSnackbar = false;
+  snackbarMessage = '';
 
   saveCourse() {
     if (this.isFormValid()) {
@@ -375,6 +380,7 @@ export class CoursesComponent implements OnInit {
             this.loadCourses();
             this.isSaving = false;
             this.isSaved = true;
+            this.triggerSnackbar('Course successfully updated!');
             setTimeout(() => {
               this.toggleAddForm();
               this.isSaved = false;
@@ -391,8 +397,10 @@ export class CoursesComponent implements OnInit {
             this.loadCourses();
             this.isSaving = false;
             this.isSaved = true;
+            this.triggerSnackbar('Course formally added!');
             setTimeout(() => {
-              this.toggleAddForm();
+              // Instead of closing the modal, simply scrub inputs dynamically preparing subsequent bulk entries identically!
+              this.resetForm();
               this.isSaved = false;
             }, 1000);
           },
@@ -403,6 +411,14 @@ export class CoursesComponent implements OnInit {
         });
       }
     }
+  }
+
+  triggerSnackbar(message: string) {
+    this.snackbarMessage = message;
+    this.showSnackbar = true;
+    setTimeout(() => {
+      this.showSnackbar = false;
+    }, 3000);
   }
 
   promptDelete(id: number) {
@@ -436,7 +452,7 @@ export class CoursesComponent implements OnInit {
       });
     }
   }
-  
+
   resetForm() {
     this.editingCourseId = null;
     this.newCourseTitle = '';
@@ -446,13 +462,13 @@ export class CoursesComponent implements OnInit {
     this.newCourseYear = null;
     this.newCourseSemester = null;
     this.newCourseUrl = '';
-    
+
     this.searchModalType = '';
     this.searchModalSubject = '';
     this.searchModalFaculty = '';
     this.searchModalYear = '';
     this.searchModalSemester = '';
-    
+
     this.typeDropdownOpen = false;
     this.subjectDropdownOpen = false;
     this.facultyDropdownOpen = false;

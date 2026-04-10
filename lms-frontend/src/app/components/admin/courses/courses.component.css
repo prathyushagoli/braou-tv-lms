@@ -540,3 +540,38 @@ h1 {
   background-color: transparent !important;
   border: none !important;
 }
+
+/* Snackbar Overlay Styles */
+.custom-snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #22c55e;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%) translateY(20px);
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+}
+.custom-snackbar.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.snackbar-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.check-icon {
+  width: 20px;
+  height: 20px;
+}
