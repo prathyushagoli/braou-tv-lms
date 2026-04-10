@@ -75,8 +75,11 @@
               <span class="arrow">▼</span>
             </div>
             <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="yearDropdownOpen">
+              <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+                <input type="text" placeholder="Search..." [(ngModel)]="searchModalYear" class="inner-search-input" appAutoFocus>
+              </div>
               <li (click)="selectYear(null)">Select year</li>
-              <li *ngFor="let yr of years" (click)="selectYear(yr)">Year {{ yr }}</li>
+              <li *ngFor="let yr of years | searchFilter:searchModalYear" (click)="selectYear(yr)">Year {{ yr }}</li>
             </ul>
           </div>
         </div>
@@ -89,8 +92,11 @@
               <span class="arrow">▼</span>
             </div>
             <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="semDropdownOpen">
+              <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+                <input type="text" placeholder="Search..." [(ngModel)]="searchModalSemester" class="inner-search-input" appAutoFocus>
+              </div>
               <li (click)="selectSem(null)">Select semester</li>
-              <li *ngFor="let sem of semesters" (click)="selectSem(sem)">Semester {{ sem }}</li>
+              <li *ngFor="let sem of semesters | searchFilter:searchModalSemester" (click)="selectSem(sem)">Semester {{ sem }}</li>
             </ul>
           </div>
         </div>

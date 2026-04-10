@@ -47,6 +47,8 @@ export class CoursesComponent implements OnInit {
   searchModalType = '';
   searchModalSubject = '';
   searchModalFaculty = '';
+  searchModalYear = '';
+  searchModalSemester = '';
 
   // Search Filters
   filterSubjects: string[] = ['All Subjects'];
@@ -448,6 +450,8 @@ export class CoursesComponent implements OnInit {
     this.searchModalType = '';
     this.searchModalSubject = '';
     this.searchModalFaculty = '';
+    this.searchModalYear = '';
+    this.searchModalSemester = '';
     
     this.typeDropdownOpen = false;
     this.subjectDropdownOpen = false;
