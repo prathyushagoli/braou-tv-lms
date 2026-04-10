@@ -9,6 +9,7 @@ export interface Contact {
   email?: string;
   mobile1?: string;
   mobile2?: string;
+  launchVideoUrl?: string;
 }
 
 @Injectable({

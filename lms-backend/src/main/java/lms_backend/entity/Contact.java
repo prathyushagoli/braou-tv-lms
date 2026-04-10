@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id = 1L;
 
     private String name;
     private String designation;
     private String email;
     private String mobile1;
     private String mobile2;
+    private String launchVideoUrl;
 
     public Contact() {
     }
@@ -65,5 +65,13 @@ public class Contact {
 
     public void setMobile2(String mobile2) {
         this.mobile2 = mobile2;
+    }
+
+    public String getLaunchVideoUrl() {
+        return launchVideoUrl;
+    }
+
+    public void setLaunchVideoUrl(String launchVideoUrl) {
+        this.launchVideoUrl = launchVideoUrl;
     }
 }

@@ -63,6 +63,29 @@
     </div>
   </section>
 
+  <!-- LAUNCH BRAOU TV BANNER -->
+  <section class="launch-banner">
+    <div class="launch-icon-wrapper">
+      <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13.5 21v-3.5m0 0a3.5 3.5 0 00-7 0v3.5A7.5 7.5 0 0021 13.5h-3.5a3.5 3.5 0 00-7 0M10.5 21v-3.5a3.5 3.5 0 017 0v3.5m-3.5-3.5v-10A1.5 1.5 0 0113.5 6a1.5 1.5 0 011.5 1.5v10m-3.5 0v3.5a2.5 2.5 0 01-5 0"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3 4 2-5-4 12z"></path>
+      </svg>
+    </div>
+    <div class="launch-content">
+      <h2>Launch <span class="text-blue">BRAOU TV</span></h2>
+      <p>Experience the grand inauguration of our educational broadcasting platform</p>
+    </div>
+    <button class="btn-launch-now" (click)="initiateLaunch()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+        </path>
+      </svg>
+      Launch Now
+    </button>
+  </section>
+
   <!-- 2. LIVE TV SECTION -->
   <section class="module-section" *ngIf="activeLiveStream">
     <div class="module-header">
@@ -247,34 +270,43 @@
 
 </div>
 
-<!-- CSS CONFETTI LAUNCH MODAL (NATIVE) -->
-<div class="modal-overlay-bg" *ngIf="showLaunchModal">
-  <!-- CSS Confetti Logic mapped via absolute pseudo elements -->
-  <div class="css-confetti"></div>
-  <div class="css-confetti css-confetti-2"></div>
-  <div class="css-confetti css-confetti-3"></div>
-  <div class="css-confetti css-confetti-4"></div>
-  <div class="css-confetti css-confetti-5"></div>
-
-  <div class="modal-card">
-    <button class="modal-close" (click)="toggleModal()">✕</button>
-    <div class="modal-internal">
-      <div class="modal-tv-icon">
-        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+<!-- PROGRAMMATIC JS CONFETTI LAUNCH MODAL -->
+<div class="modal-overlay-bg launch-modal-overlay" *ngIf="showLaunchModal">
+  <div class="modal-card" [class.launch-expanded]="isVideoLaunched">
+    <button class="modal-close" (click)="closeLaunchModal()">✕</button>
+    
+    <!-- Countdown / Confetti Loader State -->
+    <div class="modal-internal" *ngIf="!isVideoLaunched">
+      <div class="modal-tv-icon pulse-tv-icon">
+        <svg width="80" height="80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"
             d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
           </path>
         </svg>
       </div>
-      <h2 class="modal-hero-title" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;"><span style="color: #3b82f6;">BRAOU</span> <span style="background-color: white; color: red; font-size: 0.95em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span></h2>
+      <h2 class="modal-hero-title"><span style="color: white; font-weight: 800;">BRAOU</span> <span style="color: #3b82f6;">TV</span></h2>
       <div class="modal-live-status">
-        <span class="live-pulse-dot"></span> IS LIVE NOW!
+        <span class="live-pulse-dot" style="background-color: red; box-shadow: 0 0 8px red;"></span> <span style="color: red; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
       </div>
       <p class="modal-launching-text">✨ Launching in a moment... ✨</p>
 
-      <div class="modal-progress">
-        <div class="modal-progress-bar"></div>
+      <div class="modal-progress mt-4">
+        <div class="modal-progress-bar animate-bar"></div>
       </div>
     </div>
+
+    <!-- YouTube Frame State -->
+    <div class="video-container-launch" *ngIf="isVideoLaunched">
+      <iframe *ngIf="contactObj?.launchVideoUrl; else fallbackText" 
+              [src]="getSafeUrl(contactObj?.launchVideoUrl, true)" 
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+      </iframe>
+      <ng-template #fallbackText>
+        <div class="launch-fallback">Launch video is not configured by the admin yet!</div>
+      </ng-template>
+    </div>
+
   </div>
 </div>

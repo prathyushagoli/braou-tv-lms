@@ -12,6 +12,7 @@
         <p class="archive-url"><strong>Email:</strong> {{ contactObj.email || 'None' }}</p>
         <p class="archive-url"><strong>Mobile 1:</strong> {{ contactObj.mobile1 || 'None' }}</p>
         <p class="archive-url"><strong>Mobile 2:</strong> {{ contactObj.mobile2 || 'None' }}</p>
+        <p class="archive-url"><strong>Launch Video:</strong> <a *ngIf="contactObj.launchVideoUrl" [href]="contactObj.launchVideoUrl" target="_blank">{{ contactObj.launchVideoUrl }}</a><span *ngIf="!contactObj.launchVideoUrl">None</span></p>
       </div>
       
       <div class="archive-actions" style="margin-left: auto;">
@@ -52,6 +53,11 @@
       <div class="form-group">
         <label>Mobile Number 2</label>
         <input type="text" [(ngModel)]="editObj.mobile2" (keydown.enter)="saveContact()" placeholder="Enter Mobile Number 2">
+      </div>
+
+      <div class="form-group">
+        <label>Launch Video URL</label>
+        <input type="text" [(ngModel)]="editObj.launchVideoUrl" (keydown.enter)="saveContact()" placeholder="Enter YouTube URL for Launch">
       </div>
       
       <div class="form-actions">

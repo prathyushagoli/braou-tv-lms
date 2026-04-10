@@ -8,8 +8,11 @@ import { CourseService, Course } from '../../services/course.service';
 import { ProgrammeService, Programme } from '../../services/programme.service';
 import { EventService, Event as AppEvent } from '../../services/event.service';
 import { ScheduleService, Schedule } from '../../services/schedule.service';
+import { ContactService, Contact } from '../../services/contact.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+
+declare var confetti: any;
 
 @Component({
   selector: 'app-home',
@@ -28,7 +31,11 @@ export class HomeComponent implements OnInit {
   activeLiveStream: LiveStream | null = null;
   activeLiveName: string = '';
   
+  contactObj: Contact | null = null;
+
   showLaunchModal = false;
+  isVideoLaunched = false;
+  private confettiInterval: any;
 
   constructor(
     private liveStreamService: LiveStreamService,
@@ -36,6 +43,7 @@ export class HomeComponent implements OnInit {
     private programmeService: ProgrammeService,
     private eventService: EventService,
     private scheduleService: ScheduleService,
+    private contactService: ContactService,
     private sanitizer: DomSanitizer,
     private http: HttpClient
   ) {}
@@ -43,6 +51,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.fetchLiveStreams();
     this.fetchLatestData();
+    this.fetchContact();
+  }
+
+  fetchContact() {
+    this.contactService.getContact().subscribe({
+      next: (data) => this.contactObj = data,
+      error: (err) => console.error('Error fetching contact configuration', err)
+    });
   }
 
   fetchLiveStreams() {
@@ -167,7 +183,54 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  toggleModal() {
-    this.showLaunchModal = !this.showLaunchModal;
+  initiateLaunch() {
+    this.showLaunchModal = true;
+    this.isVideoLaunched = false;
+    this.fireConfettiLoop();
+
+    // After 10s organically load the YouTube iframe
+    setTimeout(() => {
+      this.clearConfetti();
+      this.isVideoLaunched = true;
+    }, 10000);
+  }
+
+  fireConfettiLoop() {
+    if (typeof confetti === 'undefined') return;
+    
+    var duration = 10 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    this.confettiInterval = setInterval(() => {
+      var timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) {
+        return clearInterval(this.confettiInterval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      // Fire from multiple origins
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
+  }
+
+  clearConfetti() {
+    if (this.confettiInterval) {
+      clearInterval(this.confettiInterval);
+    }
+    if (typeof confetti !== 'undefined' && typeof confetti.reset === 'function') {
+      confetti.reset();
+    }
+  }
+
+  closeLaunchModal() {
+    this.showLaunchModal = false;
+    this.isVideoLaunched = false;
+    this.clearConfetti();
   }
 }
