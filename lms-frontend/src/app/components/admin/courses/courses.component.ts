@@ -143,8 +143,35 @@ export class CoursesComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
+  selectFirstDropdownItem(dropdown: string, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const filterPipe = new SearchFilterPipe();
+    
+    if (dropdown === 'type') {
+      const filtered = filterPipe.transform(this.courseTypes, this.searchModalType);
+      if (filtered.length) this.selectType(filtered[0]);
+    } else if (dropdown === 'subject') {
+      const filtered = filterPipe.transform(this.availableSubjects, this.searchModalSubject);
+      if (filtered.length) this.selectSubject(filtered[0]);
+    } else if (dropdown === 'faculty') {
+      const filtered = filterPipe.transform(this.faculties, this.searchModalFaculty);
+      if (filtered.length) this.selectFaculty(filtered[0]);
+    } else if (dropdown === 'year') {
+      const filtered = filterPipe.transform(this.years, this.searchModalYear);
+      if (filtered.length) this.selectYear(filtered[0]);
+    } else if (dropdown === 'semester') {
+      const filtered = filterPipe.transform(this.semesters, this.searchModalSemester);
+      if (filtered.length) this.selectSem(filtered[0]);
+    }
+  }
+
   @HostListener('document:keydown.enter', ['$event'])
   handleEnter(event: KeyboardEvent) {
+    if (this.typeDropdownOpen || this.subjectDropdownOpen || this.facultyDropdownOpen || this.yearDropdownOpen || this.semDropdownOpen) {
+      return;
+    }
+
     if (this.showAddForm && !this.isSaving && !this.isSaved) {
       if (this.isFormValid()) {
         event.preventDefault();

@@ -36,7 +36,7 @@
           <ul class="custom-select-options custom-scrollbar" *ngIf="typeDropdownOpen">
             <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
               <input type="text" placeholder="Search..." [(ngModel)]="searchModalType" class="inner-search-input"
-                appAutoFocus>
+                  appAutoFocus (keydown.enter)="selectFirstDropdownItem('type', $event)">
             </div>
             <li *ngFor="let type of courseTypes | searchFilter:searchModalType" (click)="selectType(type)">{{ type }}
             </li>
@@ -56,7 +56,7 @@
           <ul class="custom-select-options custom-scrollbar" *ngIf="subjectDropdownOpen && availableSubjects.length">
             <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
               <input type="text" placeholder="Search..." [(ngModel)]="searchModalSubject" class="inner-search-input"
-                appAutoFocus>
+                  appAutoFocus (keydown.enter)="selectFirstDropdownItem('subject', $event)">
             </div>
             <li *ngFor="let sub of availableSubjects | searchFilter:searchModalSubject" (click)="selectSubject(sub)">{{
               sub }}</li>
@@ -75,7 +75,7 @@
           <ul class="custom-select-options custom-scrollbar" *ngIf="facultyDropdownOpen">
             <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
               <input type="text" placeholder="Search..." [(ngModel)]="searchModalFaculty" class="inner-search-input"
-                appAutoFocus>
+                  appAutoFocus (keydown.enter)="selectFirstDropdownItem('faculty', $event)">
             </div>
             <li *ngFor="let fac of faculties | searchFilter:searchModalFaculty" (click)="selectFaculty(fac)">{{ fac }}
             </li>
@@ -95,7 +95,7 @@
             <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="yearDropdownOpen">
               <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
                 <input type="text" placeholder="Search..." [(ngModel)]="searchModalYear" class="inner-search-input"
-                  appAutoFocus>
+                  appAutoFocus (keydown.enter)="selectFirstDropdownItem('year', $event)">
               </div>
               <li *ngFor="let yr of years | searchFilter:searchModalYear" (click)="selectYear(yr)">Year {{ yr }}</li>
             </ul>
@@ -112,7 +112,7 @@
             <ul class="custom-select-options custom-scrollbar min-h-select" *ngIf="semDropdownOpen">
               <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
                 <input type="text" placeholder="Search..." [(ngModel)]="searchModalSemester" class="inner-search-input"
-                  appAutoFocus>
+                  appAutoFocus (keydown.enter)="selectFirstDropdownItem('semester', $event)">
               </div>
               <li *ngFor="let sem of semesters | searchFilter:searchModalSemester" (click)="selectSem(sem)">Semester {{
                 sem }}</li>
