@@ -4,10 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CourseService, Course } from '../../../services/course.service';
 
+import { SearchFilterPipe } from '../../../pipes/search-filter.pipe';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
+
 @Component({
   selector: 'app-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, SearchFilterPipe, AutoFocusDirective],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
@@ -24,16 +27,53 @@ export class CoursesComponent implements OnInit {
   newCourseUrl = '';
   newCourseType = '';
   newCourseSubject = '';
+  newCourseFaculty = '';
   newCourseYear: number | null = null;
   newCourseSemester: number | null = null;
 
   searchQuery = '';
 
-  // Dropdown states
+  // Dropdown states for Add Form
   typeDropdownOpen = false;
   subjectDropdownOpen = false;
+  facultyDropdownOpen = false;
   yearDropdownOpen = false;
   semDropdownOpen = false;
+
+  // Search Terms for Add Form Dropdowns
+  searchModalType = '';
+  searchModalSubject = '';
+  searchModalFaculty = '';
+
+  // Search Filters
+  filterSubjects: string[] = ['All Subjects'];
+  selectedFilterSubject: string = 'All Subjects';
+  isFilterSubjectOpen = false;
+  searchFilterSubject = '';
+
+  filterFaculties: string[] = ['All Faculties'];
+  selectedFilterFaculty: string = 'All Faculties';
+  isFilterFacultyOpen = false;
+  searchFilterFaculty = '';
+
+  filterYears: string[] = ['All Years'];
+  selectedFilterYear: string = 'All Years';
+  isFilterYearOpen = false;
+  searchFilterYear = '';
+
+  filterSemesters: string[] = ['All Semesters'];
+  selectedFilterSemester: string = 'All Semesters';
+  isFilterSemOpen = false;
+  searchFilterSem = '';
+
+  // Dropdown data
+  faculties = [
+    'Faculty of Arts',
+    'Faculty of Commerce and Business Management',
+    'Faculty of Sciences',
+    'Faculty of Social Sciences',
+    'Faculty of Education'
+  ];
 
   // Dropdown data
   courseTypes = ['PG', 'UG', 'Diploma', 'Certificate Programmes', 'Professional Programmes', 'Ph.D'];
@@ -83,9 +123,31 @@ export class CoursesComponent implements OnInit {
 
   loadCourses() {
     this.courseService.getCourses().subscribe({
-      next: (data) => this.courses = data,
+      next: (data) => {
+        this.courses = data;
+        this.extractCourseFilters();
+      },
       error: (err) => console.error('Error loading courses', err)
     });
+  }
+
+  extractCourseFilters() {
+    const uniqueSubjects = new Set<string>();
+    const uniqueFaculties = new Set<string>();
+    const uniqueYears = new Set<number>();
+    const uniqueSemesters = new Set<number>();
+
+    this.courses.forEach(c => {
+      if (c.subject) uniqueSubjects.add(c.subject);
+      if (c.faculty) uniqueFaculties.add(c.faculty);
+      if (c.courseYear) uniqueYears.add(c.courseYear);
+      if (c.semester) uniqueSemesters.add(c.semester);
+    });
+
+    this.filterSubjects = ['All Subjects', ...Array.from(uniqueSubjects).sort()];
+    this.filterFaculties = ['All Faculties', ...Array.from(uniqueFaculties).sort()];
+    this.filterYears = ['All Years', ...Array.from(uniqueYears).sort((a,b) => a-b).map(y => y.toString())];
+    this.filterSemesters = ['All Semesters', ...Array.from(uniqueSemesters).sort((a,b) => a-b).map(s => s.toString())];
   }
 
   get availableSubjects(): string[] {
@@ -97,27 +159,84 @@ export class CoursesComponent implements OnInit {
   }
 
   get filteredCourses(): Course[] {
-    if (!this.searchQuery) return this.courses;
-    const q = this.searchQuery.toLowerCase();
-    return this.courses.filter(c => c.title.toLowerCase().includes(q));
+    return this.courses.filter(c => {
+      const subjectMatch = this.selectedFilterSubject === 'All Subjects' || c.subject === this.selectedFilterSubject;
+      const facultyMatch = this.selectedFilterFaculty === 'All Faculties' || c.faculty === this.selectedFilterFaculty;
+      const yearMatch = this.selectedFilterYear === 'All Years' || (c.courseYear && c.courseYear.toString() === this.selectedFilterYear);
+      const semMatch = this.selectedFilterSemester === 'All Semesters' || (c.semester && c.semester.toString() === this.selectedFilterSemester);
+      const searchMatch = !this.searchQuery || c.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+      
+      return subjectMatch && facultyMatch && yearMatch && semMatch && searchMatch;
+    });
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    // Basic way to close dropdowns when clicking outside
     const target = event.target as HTMLElement;
-    if (!target.closest('.custom-select-btn')) {
+    if (!target.closest('.custom-select-btn') && !target.closest('.custom-dropdown') && !target.closest('.dropdown-inner-search')) {
       this.typeDropdownOpen = false;
       this.subjectDropdownOpen = false;
+      this.facultyDropdownOpen = false;
       this.yearDropdownOpen = false;
       this.semDropdownOpen = false;
+
+      this.isFilterSubjectOpen = false;
+      this.isFilterFacultyOpen = false;
+      this.isFilterYearOpen = false;
+      this.isFilterSemOpen = false;
     }
+  }
+
+  toggleFilterDropdown(dropdown: 'subject' | 'faculty' | 'year' | 'semester', event: Event) {
+    event.stopPropagation();
+    if (dropdown === 'subject') {
+      this.isFilterSubjectOpen = !this.isFilterSubjectOpen;
+      this.isFilterFacultyOpen = false;
+      this.isFilterYearOpen = false;
+      this.isFilterSemOpen = false;
+    } else if (dropdown === 'faculty') {
+      this.isFilterFacultyOpen = !this.isFilterFacultyOpen;
+      this.isFilterSubjectOpen = false;
+      this.isFilterYearOpen = false;
+      this.isFilterSemOpen = false;
+    } else if (dropdown === 'year') {
+      this.isFilterYearOpen = !this.isFilterYearOpen;
+      this.isFilterSubjectOpen = false;
+      this.isFilterFacultyOpen = false;
+      this.isFilterSemOpen = false;
+    } else if (dropdown === 'semester') {
+      this.isFilterSemOpen = !this.isFilterSemOpen;
+      this.isFilterSubjectOpen = false;
+      this.isFilterFacultyOpen = false;
+      this.isFilterYearOpen = false;
+    }
+  }
+
+  setFilterSubject(sub: string) {
+    this.selectedFilterSubject = sub;
+    this.isFilterSubjectOpen = false;
+  }
+
+  setFilterFaculty(fac: string) {
+    this.selectedFilterFaculty = fac;
+    this.isFilterFacultyOpen = false;
+  }
+
+  setFilterYear(yr: string) {
+    this.selectedFilterYear = yr;
+    this.isFilterYearOpen = false;
+  }
+
+  setFilterSem(sem: string) {
+    this.selectedFilterSemester = sem;
+    this.isFilterSemOpen = false;
   }
 
   toggleTypeDropdown(event: Event) {
     event.stopPropagation();
     this.typeDropdownOpen = !this.typeDropdownOpen;
     this.subjectDropdownOpen = false;
+    this.facultyDropdownOpen = false;
     this.yearDropdownOpen = false;
     this.semDropdownOpen = false;
   }
@@ -126,6 +245,16 @@ export class CoursesComponent implements OnInit {
     event.stopPropagation();
     this.subjectDropdownOpen = !this.subjectDropdownOpen;
     this.typeDropdownOpen = false;
+    this.facultyDropdownOpen = false;
+    this.yearDropdownOpen = false;
+    this.semDropdownOpen = false;
+  }
+  
+  toggleFacultyDropdown(event: Event) {
+    event.stopPropagation();
+    this.facultyDropdownOpen = !this.facultyDropdownOpen;
+    this.typeDropdownOpen = false;
+    this.subjectDropdownOpen = false;
     this.yearDropdownOpen = false;
     this.semDropdownOpen = false;
   }
@@ -135,6 +264,7 @@ export class CoursesComponent implements OnInit {
     this.yearDropdownOpen = !this.yearDropdownOpen;
     this.typeDropdownOpen = false;
     this.subjectDropdownOpen = false;
+    this.facultyDropdownOpen = false;
     this.semDropdownOpen = false;
   }
   
@@ -143,6 +273,7 @@ export class CoursesComponent implements OnInit {
     this.semDropdownOpen = !this.semDropdownOpen;
     this.typeDropdownOpen = false;
     this.subjectDropdownOpen = false;
+    this.facultyDropdownOpen = false;
     this.yearDropdownOpen = false;
   }
 
@@ -160,6 +291,11 @@ export class CoursesComponent implements OnInit {
   selectSubject(sub: string) {
     this.newCourseSubject = sub;
     this.subjectDropdownOpen = false;
+  }
+
+  selectFaculty(fac: string) {
+    this.newCourseFaculty = fac;
+    this.facultyDropdownOpen = false;
   }
   
   selectYear(yr: number | null) {
@@ -184,6 +320,7 @@ export class CoursesComponent implements OnInit {
     this.newCourseTitle = course.title;
     this.newCourseType = course.type;
     this.newCourseSubject = course.subject || '';
+    this.newCourseFaculty = course.faculty || '';
     this.newCourseYear = course.courseYear || null;
     this.newCourseSemester = course.semester || null;
     this.newCourseUrl = course.url;
@@ -206,6 +343,7 @@ export class CoursesComponent implements OnInit {
         title: this.newCourseTitle,
         type: this.newCourseType,
         subject: this.requiresSubjectAndTerms ? this.newCourseSubject : null,
+        faculty: this.newCourseFaculty || null,
         courseYear: this.requiresSubjectAndTerms ? this.newCourseYear : null,
         semester: this.requiresSubjectAndTerms ? this.newCourseSemester : null,
         url: this.newCourseUrl
@@ -258,12 +396,18 @@ export class CoursesComponent implements OnInit {
     this.newCourseTitle = '';
     this.newCourseType = '';
     this.newCourseSubject = '';
+    this.newCourseFaculty = '';
     this.newCourseYear = null;
     this.newCourseSemester = null;
     this.newCourseUrl = '';
     
+    this.searchModalType = '';
+    this.searchModalSubject = '';
+    this.searchModalFaculty = '';
+    
     this.typeDropdownOpen = false;
     this.subjectDropdownOpen = false;
+    this.facultyDropdownOpen = false;
     this.yearDropdownOpen = false;
     this.semDropdownOpen = false;
   }

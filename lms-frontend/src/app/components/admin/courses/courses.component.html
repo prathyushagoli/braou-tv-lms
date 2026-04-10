@@ -23,7 +23,10 @@
             <span class="arrow">▼</span>
           </div>
           <ul class="custom-select-options custom-scrollbar" *ngIf="typeDropdownOpen">
-            <li *ngFor="let type of courseTypes" (click)="selectType(type)">{{ type }}</li>
+            <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+              <input type="text" placeholder="Search..." [(ngModel)]="searchModalType" class="inner-search-input" appAutoFocus>
+            </div>
+            <li *ngFor="let type of courseTypes | searchFilter:searchModalType" (click)="selectType(type)">{{ type }}</li>
           </ul>
         </div>
       </div>
@@ -37,7 +40,27 @@
             <span class="arrow">▼</span>
           </div>
           <ul class="custom-select-options custom-scrollbar" *ngIf="subjectDropdownOpen && availableSubjects.length">
-            <li *ngFor="let sub of availableSubjects" (click)="selectSubject(sub)">{{ sub }}</li>
+            <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+              <input type="text" placeholder="Search..." [(ngModel)]="searchModalSubject" class="inner-search-input" appAutoFocus>
+            </div>
+            <li *ngFor="let sub of availableSubjects | searchFilter:searchModalSubject" (click)="selectSubject(sub)">{{ sub }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FACULTY -->
+      <div class="form-group">
+        <label>Faculty</label>
+        <div class="custom-select-container">
+          <div class="custom-select-btn" (click)="toggleFacultyDropdown($event)">
+            {{ newCourseFaculty || 'Select Faculty' }}
+            <span class="arrow">▼</span>
+          </div>
+          <ul class="custom-select-options custom-scrollbar" *ngIf="facultyDropdownOpen">
+            <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+              <input type="text" placeholder="Search..." [(ngModel)]="searchModalFaculty" class="inner-search-input" appAutoFocus>
+            </div>
+            <li *ngFor="let fac of faculties | searchFilter:searchModalFaculty" (click)="selectFaculty(fac)">{{ fac }}</li>
           </ul>
         </div>
       </div>
@@ -106,9 +129,90 @@
     </div>
   </div>
 
-  <!-- Search Bar -->
-  <div class="search-bar-container">
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Search course by title..." class="search-input">
+  <!-- Search Bar and Filters -->
+  <div class="filters-container">
+    <div class="search-box-container">
+      <svg class="search-icon" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input type="text" class="custom-search" placeholder="Search courses..." [(ngModel)]="searchQuery">
+    </div>
+
+    <!-- Custom Subject Dropdown -->
+    <div class="custom-dropdown" (click)="toggleFilterDropdown('subject', $event)">
+      <div class="dropdown-trigger" [class.active-trigger]="isFilterSubjectOpen">
+        <span>{{ selectedFilterSubject }}</span>
+        <svg class="trigger-icon" [class.rotated]="isFilterSubjectOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+        </svg>
+      </div>
+      <ul class="dropdown-menu custom-scrollbar" *ngIf="isFilterSubjectOpen" (click)="$event.stopPropagation()">
+        <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchFilterSubject" class="inner-search-input" appAutoFocus>
+        </div>
+        <li *ngFor="let sub of filterSubjects | searchFilter:searchFilterSubject" class="dropdown-option" [class.selected]="sub === selectedFilterSubject" (click)="setFilterSubject(sub)">
+          <svg *ngIf="sub === selectedFilterSubject" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          {{ sub }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Custom Faculty Dropdown -->
+    <div class="custom-dropdown" (click)="toggleFilterDropdown('faculty', $event)">
+      <div class="dropdown-trigger" [class.active-trigger]="isFilterFacultyOpen">
+        <span>{{ selectedFilterFaculty }}</span>
+        <svg class="trigger-icon" [class.rotated]="isFilterFacultyOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+        </svg>
+      </div>
+      <ul class="dropdown-menu custom-scrollbar" *ngIf="isFilterFacultyOpen" (click)="$event.stopPropagation()">
+        <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchFilterFaculty" class="inner-search-input" appAutoFocus>
+        </div>
+        <li *ngFor="let fac of filterFaculties | searchFilter:searchFilterFaculty" class="dropdown-option" [class.selected]="fac === selectedFilterFaculty" (click)="setFilterFaculty(fac)">
+          <svg *ngIf="fac === selectedFilterFaculty" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          {{ fac }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Custom Year Dropdown -->
+    <div class="custom-dropdown" (click)="toggleFilterDropdown('year', $event)">
+      <div class="dropdown-trigger" [class.active-trigger]="isFilterYearOpen">
+        <span>{{ selectedFilterYear !== 'All Years' ? 'Year ' + selectedFilterYear : selectedFilterYear }}</span>
+        <svg class="trigger-icon" [class.rotated]="isFilterYearOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+        </svg>
+      </div>
+      <ul class="dropdown-menu custom-scrollbar" *ngIf="isFilterYearOpen" (click)="$event.stopPropagation()">
+        <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchFilterYear" class="inner-search-input" appAutoFocus>
+        </div>
+        <li *ngFor="let yr of filterYears | searchFilter:searchFilterYear" class="dropdown-option" [class.selected]="yr === selectedFilterYear" (click)="setFilterYear(yr)">
+          <svg *ngIf="yr === selectedFilterYear" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          {{ yr !== 'All Years' ? 'Year ' + yr : yr }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Custom Semester Dropdown -->
+    <div class="custom-dropdown" (click)="toggleFilterDropdown('semester', $event)">
+      <div class="dropdown-trigger" [class.active-trigger]="isFilterSemOpen">
+        <span>{{ selectedFilterSemester !== 'All Semesters' ? 'Semester ' + selectedFilterSemester : selectedFilterSemester }}</span>
+        <svg class="trigger-icon" [class.rotated]="isFilterSemOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+        </svg>
+      </div>
+      <ul class="dropdown-menu custom-scrollbar" *ngIf="isFilterSemOpen" (click)="$event.stopPropagation()">
+        <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+          <input type="text" placeholder="Search..." [(ngModel)]="searchFilterSem" class="inner-search-input" appAutoFocus>
+        </div>
+        <li *ngFor="let sem of filterSemesters | searchFilter:searchFilterSem" class="dropdown-option" [class.selected]="sem === selectedFilterSemester" (click)="setFilterSem(sem)">
+          <svg *ngIf="sem === selectedFilterSemester" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          {{ sem !== 'All Semesters' ? 'Semester ' + sem : sem }}
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="table-container">
@@ -118,6 +222,7 @@
           <th>Title</th>
           <th>Type</th>
           <th>Subject</th>
+          <th>Faculty</th>
           <th>Year / Sem</th>
           <th>Actions</th>
         </tr>
@@ -127,6 +232,7 @@
           <td>{{ course.title }}</td>
           <td>{{ course.type }}</td>
           <td>{{ course.subject || '—' }}</td>
+          <td>{{ course.faculty || '—' }}</td>
           <td>
              <ng-container *ngIf="course.courseYear || course.semester; else noneMeta">
                {{ course.courseYear ? 'Year ' + course.courseYear : '' }}
@@ -135,11 +241,13 @@
              </ng-container>
              <ng-template #noneMeta>—</ng-template>
           </td>
-          <td class="table-actions">
-            <!-- Edit HTML Button -->
-            <button class="btn-edit" (click)="openEditForm(course)">Edit</button>
-            <!-- Delete HTML Button -->
-            <button class="btn-delete" (click)="promptDelete(course.id!)">Delete</button>
+          <td>
+            <div class="table-actions">
+              <!-- Edit HTML Button -->
+              <button class="btn-edit" (click)="openEditForm(course)">Edit</button>
+              <!-- Delete HTML Button -->
+              <button class="btn-delete" (click)="promptDelete(course.id!)">Delete</button>
+            </div>
           </td>
         </tr>
         <tr *ngIf="filteredCourses.length === 0">

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LiveStreamService, LiveStream } from '../../../services/live-stream.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchFilterPipe } from '../../../pipes/search-filter.pipe';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 @Component({
   selector: 'app-live-stream',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, SearchFilterPipe, AutoFocusDirective],
   templateUrl: './live-stream.component.html',
   styleUrls: ['./live-stream.component.css']
 })
@@ -29,6 +31,9 @@ export class LiveStreamComponent implements OnInit {
   newStreamName = '';
   newStreamUrl = '';
   newStreamCategory = 'University live programs';
+  searchType = '';
+  
+  tabs = ['University live programs', 'Teleconferences'];
 
   constructor(private liveStreamService: LiveStreamService) {}
 
@@ -181,6 +186,8 @@ export class LiveStreamComponent implements OnInit {
     this.newStreamName = '';
     this.newStreamUrl = '';
     this.newStreamCategory = this.activeTab; // default to the current tab
+    this.searchType = '';
+    this.dropdownOpen = false;
   }
 }
 

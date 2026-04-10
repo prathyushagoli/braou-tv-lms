@@ -26,9 +26,11 @@
             {{ newStreamCategory }}
             <span class="arrow">▼</span>
           </div>
-          <ul class="custom-select-options" *ngIf="dropdownOpen">
-            <li (click)="newStreamCategory = 'University live programs'; dropdownOpen = false">University Live Programs</li>
-            <li (click)="newStreamCategory = 'Teleconferences'; dropdownOpen = false">Teleconferences</li>
+          <ul class="custom-select-options custom-scrollbar" *ngIf="dropdownOpen">
+            <div class="dropdown-inner-search" (click)="$event.stopPropagation()">
+              <input type="text" placeholder="Search..." [(ngModel)]="searchType" class="inner-search-input" appAutoFocus>
+            </div>
+            <li *ngFor="let tab of tabs | searchFilter:searchType" (click)="newStreamCategory = tab; dropdownOpen = false">{{ tab }}</li>
           </ul>
         </div>
       </div>

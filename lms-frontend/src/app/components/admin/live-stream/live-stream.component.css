@@ -1,6 +1,6 @@
 .live-container {
   padding: 1.25rem 1.5rem;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   font-size: 0.825rem; /* Reduced by ~2 */
 }
@@ -13,7 +13,6 @@
 }
 
 h1 {
-  font-family: serif;
   font-size: 1.875rem; /* reduced from 2 */
   font-weight: 500;
   color: white;
@@ -44,7 +43,7 @@ h1 {
   width: max-content;
   border-radius: 8px;
   padding: 0.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .tab {
@@ -78,9 +77,9 @@ h1 {
 
 .stream-item {
   background-color: #1e293b;
-  border: 1px solid #334155;
+  border: 1px solid #1e293b;
   border-radius: 10px;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -408,7 +407,7 @@ input:checked + .slider:before {
 .btn-cancel {
   background: transparent;
   color: #f8fafc;
-  border: 1px solid #334155;
+  border: 1px solid #1e293b;
   padding: 0.7rem 1.5rem;
   border-radius: 10px;
   cursor: pointer;

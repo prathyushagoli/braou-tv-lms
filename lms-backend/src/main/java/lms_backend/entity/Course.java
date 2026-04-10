@@ -15,6 +15,7 @@ public class Course {
     private String title;
     private String type; // PG, UG, etc.
     private String subject; 
+    private String faculty; // Faculty of Arts, Sciences, etc.
     private Integer courseYear; // 1, 2, 3
     private Integer semester; // 1, 2
     private String url;
@@ -22,10 +23,11 @@ public class Course {
     public Course() {
     }
 
-    public Course(String title, String type, String subject, Integer courseYear, Integer semester, String url) {
+    public Course(String title, String type, String subject, String faculty, Integer courseYear, Integer semester, String url) {
         this.title = title;
         this.type = type;
         this.subject = subject;
+        this.faculty = faculty;
         this.courseYear = courseYear;
         this.semester = semester;
         this.url = url;
@@ -62,6 +64,14 @@ public class Course {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
     public Integer getCourseYear() {

@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   latestProgrammes: Programme[] = [];
   latestEvents: AppEvent[] = [];
   latestSchedules: Schedule[] = [];
+  uniqueFaculties: string[] = [];
   
   activeLiveStream: LiveStream | null = null;
   activeLiveName: string = '';
@@ -62,6 +63,18 @@ export class HomeComponent implements OnInit {
   fetchLatestData() {
     this.courseService.getCourses().subscribe(data => {
       this.latestCourses = data.slice(-4).reverse();
+      
+      const faculties = new Set<string>([
+        'Faculty of Arts',
+        'Faculty of Commerce and Business Management',
+        'Faculty of Sciences',
+        'Faculty of Social Sciences',
+        'Faculty of Education'
+      ]);
+      data.forEach(c => {
+        if (c.faculty) faculties.add(c.faculty);
+      });
+      this.uniqueFaculties = Array.from(faculties).sort();
     });
     
     this.programmeService.getProgrammes().subscribe(data => {

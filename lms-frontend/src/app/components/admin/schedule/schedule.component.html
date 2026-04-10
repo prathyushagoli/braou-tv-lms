@@ -84,18 +84,10 @@
       
       <div class="schedule-actions">
         <button class="btn-view" (click)="openPdf(schedule.fileName)">View PDF</button>
-        <!-- Edit Icon -->
-        <button class="btn-icon btn-edit-icon" (click)="openEditForm(schedule)" aria-label="Edit">
-           <svg aria-hidden="true" width="18" height="18" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
-           </svg>
-        </button>
-        <!-- Delete Icon -->
-        <button class="btn-icon btn-delete-icon" (click)="promptDelete(schedule.id!)" aria-label="Delete">
-           <svg aria-hidden="true" width="18" height="18" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-           </svg>
-        </button>
+        <!-- Edit Button -->
+        <button class="btn-edit" (click)="openEditForm(schedule)">Edit</button>
+        <!-- Delete Button -->
+        <button class="btn-delete" (click)="promptDelete(schedule.id!)">Delete</button>
       </div>
     </div>
     

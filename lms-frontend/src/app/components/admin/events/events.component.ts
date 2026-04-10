@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EventService, Event } from '../../../services/event.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchFilterPipe } from '../../../pipes/search-filter.pipe';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, SearchFilterPipe, AutoFocusDirective],
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css']
 })
@@ -26,6 +28,7 @@ export class EventsComponent implements OnInit {
   newEventUrl = '';
   newEventType = 'Convocations';
   newEventDate = '';
+  searchType = '';
 
   tabs = ['Convocations', 'Seminars', 'Concerts', 'Workshop'];
 
@@ -134,5 +137,7 @@ export class EventsComponent implements OnInit {
     this.newEventUrl = '';
     this.newEventType = this.activeTab;
     this.newEventDate = '';
+    this.dropdownOpen = false;
+    this.searchType = '';
   }
 }

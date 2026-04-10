@@ -8,6 +8,7 @@ export interface Course {
   title: string;
   type: string;
   subject?: string | null;
+  faculty?: string | null;
   courseYear?: number | null;
   semester?: number | null;
   url: string;

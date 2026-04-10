@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProgrammeService, Programme } from '../../../services/programme.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchFilterPipe } from '../../../pipes/search-filter.pipe';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 @Component({
   selector: 'app-programmes',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, SearchFilterPipe, AutoFocusDirective],
   templateUrl: './programmes.component.html',
   styleUrls: ['./programmes.component.css']
 })
@@ -25,6 +27,7 @@ export class ProgrammesComponent implements OnInit {
   newProgrammeTitle = '';
   newProgrammeUrl = '';
   newProgrammeType = 'Academic Discussions';
+  searchType = '';
 
   tabs = ['Academic Discussions', 'Faculty Interviews', 'Special Lectures', 'Documentary'];
 
@@ -129,5 +132,7 @@ export class ProgrammesComponent implements OnInit {
     this.newProgrammeTitle = '';
     this.newProgrammeUrl = '';
     this.newProgrammeType = this.activeTab; // default to the current tab
+    this.searchType = '';
+    this.dropdownOpen = false;
   }
 }

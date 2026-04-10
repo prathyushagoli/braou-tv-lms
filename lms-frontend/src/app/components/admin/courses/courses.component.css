@@ -1,6 +1,6 @@
 .courses-container {
   padding: 1.25rem 1.5rem;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   font-size: 0.825rem;
 }
@@ -13,7 +13,6 @@
 }
 
 h1 {
-  font-family: serif;
   font-size: 1.875rem;
   font-weight: 500;
   color: white;
@@ -38,34 +37,163 @@ h1 {
   background-color: #2563eb;
 }
 
-/* === Search Bar & Table === */
-.search-bar-container {
+/* === Filters === */
+.filters-container {
+  display: flex;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.search-input {
-  width: 100%;
+.search-box-container {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
   max-width: 400px;
-  padding: 0.8rem 1rem;
-  background-color: #0d1425;
+}
+
+.custom-search {
+  background-color: #0b122f;
+  color: white;
   border: 1px solid #1e293b;
   border-radius: 8px;
-  color: #f8fafc;
-  font-size: 0.875rem;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
-.search-input:focus {
+.custom-search::placeholder {
+  color: #64748b;
+}
+
+.custom-search:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+}
+
+.custom-dropdown {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+}
+
+.dropdown-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b122f;
+  color: #94a3b8;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.dropdown-trigger:hover, .dropdown-trigger.active-trigger {
+  border-color: #3b82f6;
+  color: white;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.trigger-icon {
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+  color: #64748b;
+}
+
+.trigger-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 250px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 50;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.dropdown-inner-search {
+  padding: 0.5rem;
+  background-color: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 8px 8px 0 0;
+}
+
+.inner-search-input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  background-color: #0b122f;
+  border: 1px solid #1e293b;
+  color: white;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.inner-search-input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.dropdown-option {
+  padding: 0.6rem 1rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-option:hover {
+  background-color: #1e293b;
+  color: white;
+}
+
+.dropdown-option.selected {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  font-weight: 500;
 }
 
 .table-container {
   background-color: #1e293b;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #334155;
+  border: 1px solid #1e293b;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -76,7 +204,7 @@ h1 {
 }
 
 .courses-table th, .courses-table td {
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1rem;
   color: #f1f5f9;
   font-size: 0.875rem;
   border-bottom: 1px solid #334155;
@@ -361,7 +489,7 @@ h1 {
 .btn-cancel {
   background: transparent;
   color: #f8fafc;
-  border: 1px solid #334155;
+  border: 1px solid #1e293b;
   padding: 0.7rem 1.5rem;
   border-radius: 10px;
   cursor: pointer;

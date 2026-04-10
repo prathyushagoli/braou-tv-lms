@@ -32,6 +32,7 @@ public class CourseController {
                     course.setTitle(updatedCourse.getTitle());
                     course.setType(updatedCourse.getType());
                     course.setSubject(updatedCourse.getSubject());
+                    course.setFaculty(updatedCourse.getFaculty());
                     course.setCourseYear(updatedCourse.getCourseYear());
                     course.setSemester(updatedCourse.getSemester());
                     course.setUrl(updatedCourse.getUrl());

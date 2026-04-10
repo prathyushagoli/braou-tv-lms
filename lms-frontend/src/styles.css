@@ -39,3 +39,30 @@ a {
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+/* Global Fixed Inner Dropdown Search */
+.dropdown-inner-search {
+  padding: 0.5rem;
+  background-color: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 8px 8px 0 0;
+}
+
+.inner-search-input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  background-color: #0b122f;
+  border: 1px solid #1e293b;
+  color: white;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.inner-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
