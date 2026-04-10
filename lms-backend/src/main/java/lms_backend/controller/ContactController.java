@@ -15,16 +15,18 @@ public class ContactController {
 
     @GetMapping
     public ResponseEntity<Contact> getContact() {
-        // We only maintain a single row for Contact with ID 1
-        return contactRepository.findById(1L)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.ok(new Contact())); // return empty contact if not created yet
+        java.util.List<Contact> all = contactRepository.findAll();
+        if (!all.isEmpty()) {
+            return ResponseEntity.ok(all.get(0));
+        }
+        return ResponseEntity.ok(new Contact());
     }
 
     @PutMapping
     public ResponseEntity<Contact> updateContact(@RequestBody Contact req) {
-        Contact contact = contactRepository.findById(1L).orElse(new Contact());
-        contact.setId(1L); // Ensure ID is always 1
+        java.util.List<Contact> all = contactRepository.findAll();
+        Contact contact = all.isEmpty() ? new Contact() : all.get(0);
+        
         contact.setName(req.getName());
         contact.setDesignation(req.getDesignation());
         contact.setEmail(req.getEmail());
