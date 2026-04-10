@@ -1,15 +1,17 @@
 <div class="user-live-container">
 
-  <div class="page-header">
-    <h1 class="page-title">Live TV</h1>
-  </div>
+  <div class="sticky-group">
+    <div class="page-header">
+      <h1 class="page-title">Live TV</h1>
+    </div>
 
-  <div class="live-navigation">
-    <div class="tabs-container">
-      <button *ngFor="let type of liveTypes" class="tab-btn" [ngClass]="{'active': activeType === type}"
-        (click)="setActiveTab(type)">
-        {{ type }}
-      </button>
+    <div class="live-navigation">
+      <div class="tabs-container">
+        <button *ngFor="let type of liveTypes" class="tab-btn" [ngClass]="{'active': activeType === type}"
+          (click)="setActiveTab(type)">
+          {{ type }}
+        </button>
+      </div>
     </div>
   </div>
 
