@@ -266,7 +266,7 @@ input:checked + .slider:before {
 }
 
 .add-card {
-  background-color: #0b1120;
+  background-color: #0b122f;
   border: 1px solid #1e293b;
   border-radius: 12px;
   padding: 2rem;
@@ -447,7 +447,7 @@ input:checked + .slider:before {
 }
 
 .delete-card {
-  background-color: #0b1120;
+  background-color: #0b122f;
   border: 1px solid #1e293b;
   border-radius: 12px;
   padding: 2rem;
