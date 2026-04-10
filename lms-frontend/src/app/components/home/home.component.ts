@@ -188,35 +188,52 @@ export class HomeComponent implements OnInit {
     this.isVideoLaunched = false;
     this.fireConfettiLoop();
 
-    // After 10s organically load the YouTube iframe
+    // After 3.5s organically scale-in the YouTube iframe
     setTimeout(() => {
       this.clearConfetti();
       this.isVideoLaunched = true;
-    }, 10000);
+    }, 3500);
   }
 
   fireConfettiLoop() {
     if (typeof confetti === 'undefined') return;
     
-    var duration = 10 * 1000;
+    // Side confetti streams continuously for 3 seconds
+    var duration = 3000;
     var animationEnd = Date.now() + duration;
-    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+    
+    var defaults = {
+      spread: 55,
+      ticks: 100,
+      gravity: 0.8,
+      decay: 0.94,
+      startVelocity: 55,
+      colors: ['#3b82f6', '#ef4444', '#10b981', '#fcd34d', '#ffffff'],
+      zIndex: 9999
+    };
 
-    function randomInRange(min: number, max: number) {
-      return Math.random() * (max - min) + min;
-    }
+    // Single intense center burst immediately
+    setTimeout(() => {
+      confetti({
+        particleCount: 100,
+        spread: 120,
+        origin: { y: 0.5 },
+        startVelocity: 45,
+        zIndex: 9999
+      });
+    }, 100);
 
+    // Continuous Left (60deg) and Right (120deg) streams
     this.confettiInterval = setInterval(() => {
       var timeLeft = animationEnd - Date.now();
       if (timeLeft <= 0) {
         return clearInterval(this.confettiInterval);
       }
-
-      var particleCount = 50 * (timeLeft / duration);
-      // Fire from multiple origins
-      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-    }, 250);
+      var particleCount = 40 * (timeLeft / duration);
+      
+      confetti(Object.assign({}, defaults, { particleCount, angle: 60, origin: { x: 0, y: 0.7 } }));
+      confetti(Object.assign({}, defaults, { particleCount, angle: 120, origin: { x: 1, y: 0.7 } }));
+    }, 200);
   }
 
   clearConfetti() {
