@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +14,7 @@ import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css']
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
 
   showAddForm = false;
@@ -136,6 +136,11 @@ export class CoursesComponent implements OnInit {
       },
       error: (err) => console.error('Error loading courses', err)
     });
+  }
+
+  ngOnDestroy() {
+    // Failsafe ensuring application locks unlock organically if navigation interrupts modal instances implicitly!
+    document.body.style.overflow = '';
   }
 
   @HostListener('document:keydown.enter', ['$event'])
@@ -332,6 +337,9 @@ export class CoursesComponent implements OnInit {
     this.showAddForm = !this.showAddForm;
     if (!this.showAddForm) {
       this.resetForm();
+      document.body.style.overflow = '';
+    } else {
+      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -345,6 +353,7 @@ export class CoursesComponent implements OnInit {
     this.newCourseSemester = course.semester || null;
     this.newCourseUrl = course.url;
     this.showAddForm = true;
+    document.body.style.overflow = 'hidden';
   }
 
   isFormValid(): boolean {
@@ -424,11 +433,13 @@ export class CoursesComponent implements OnInit {
   promptDelete(id: number) {
     this.deletingCourseId = id;
     this.showDeleteConfirm = true;
+    document.body.style.overflow = 'hidden';
   }
 
   cancelDelete() {
     this.deletingCourseId = null;
     this.showDeleteConfirm = false;
+    document.body.style.overflow = '';
   }
 
   confirmDelete() {
