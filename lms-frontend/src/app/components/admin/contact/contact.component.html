@@ -78,10 +78,8 @@
   <div class="archive-list">
     <div class="archive-item" style="flex-direction: column; align-items: stretch; gap: 1rem;">
       <div
-        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 0.5rem;">
-        <div>
-          <h3 style="margin: 0; color: white; font-size: 1.15rem; font-weight: 600;">Home Page Launch Module</h3>
-        </div>
+        style="display: flex; align-items: center; justify-content: flex-start; gap: 1rem; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 0.5rem;">
+        <h3 style="margin: 0; color: white; font-size: 1.15rem; font-weight: 600;">Home Page Launch Module</h3>
 
         <!-- Native Toggle Switch -->
         <label class="toggle-switch">
@@ -95,9 +93,10 @@
         <label>YouTube URL</label>
         <div style="display: flex; gap: 1rem;">
           <input type="text" [(ngModel)]="contactObj.launchVideoUrl" placeholder="https://youtube.com/...">
-          <button class="btn-add" (click)="saveContactConfigOnly()" [disabled]="isSavingBanner">
+          <button class="btn-add" (click)="saveContactConfigOnly()"
+            [disabled]="isSavingBanner || contactObj.launchVideoUrl === originalLaunchVideoUrl">
             <span *ngIf="isSavingBanner" class="btn-spinner"></span>
-            <span *ngIf="!isSavingBanner">Save Links</span>
+            <span *ngIf="!isSavingBanner">Save</span>
           </button>
         </div>
       </div>

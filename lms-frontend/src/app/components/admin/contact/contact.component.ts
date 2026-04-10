@@ -17,6 +17,7 @@ export class ContactComponent implements OnInit {
   showEditForm = false;
   isSaving = false;
   isSaved = false;
+  originalLaunchVideoUrl: string = '';
 
   constructor(private contactService: ContactService) {}
 
@@ -24,6 +25,7 @@ export class ContactComponent implements OnInit {
     this.contactService.getContact().subscribe({
       next: (data) => {
         if (data) Object.assign(this.contactObj, data);
+        this.originalLaunchVideoUrl = this.contactObj.launchVideoUrl || '';
       },
       error: (err) => console.error('Error fetching contact', err)
     });
@@ -78,6 +80,7 @@ export class ContactComponent implements OnInit {
     this.contactService.updateContact(this.contactObj).subscribe({
       next: (data) => {
         this.contactObj = data;
+        this.originalLaunchVideoUrl = data.launchVideoUrl || '';
         setTimeout(() => {
           this.isSavingBanner = false;
         }, 700);
