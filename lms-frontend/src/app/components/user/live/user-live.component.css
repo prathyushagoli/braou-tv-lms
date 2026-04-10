@@ -1,15 +1,15 @@
 .user-live-container {
-  padding: 3rem 2rem 5rem 2rem;
+  padding: 1.5rem 2rem 4rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .page-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .page-title {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: white;
   margin-bottom: 0.5rem;
@@ -18,7 +18,7 @@
 
 /* === Tabs === */
 .live-navigation {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .tabs-container {
@@ -163,7 +163,7 @@
   background-color: #161e2c;
   border: 1px dashed #334155;
   border-radius: 16px;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .fallback-content {

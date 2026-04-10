@@ -1,15 +1,15 @@
 .user-archive-container {
-  padding: 4rem 2rem;
+  padding: 1.5rem 2rem 4rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .page-header {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .page-title {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: white;
   margin-bottom: 0.5rem;
