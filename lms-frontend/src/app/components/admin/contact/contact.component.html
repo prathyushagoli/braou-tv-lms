@@ -81,8 +81,6 @@
         style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 0.5rem;">
         <div>
           <h3 style="margin: 0; color: white; font-size: 1.15rem; font-weight: 600;">Home Page Launch Module</h3>
-          <p style="margin: 0.25rem 0 0 0; color: #94a3b8; font-size: 0.875rem;">When toggled ON, the celebratory Launch
-            Banner will prominently render universally across the entire User Home Page organically.</p>
         </div>
 
         <!-- Native Toggle Switch -->
@@ -94,7 +92,7 @@
 
       <!-- Video URL Payload Configuration directly editable dynamically -->
       <div class="form-group" style="margin-bottom: 0;">
-        <label>Custom Overlay YouTube URL</label>
+        <label>YouTube URL</label>
         <div style="display: flex; gap: 1rem;">
           <input type="text" [(ngModel)]="contactObj.launchVideoUrl" placeholder="https://youtube.com/...">
           <button class="btn-add" (click)="saveContactConfigOnly()" [disabled]="isSavingBanner">

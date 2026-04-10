@@ -1,6 +1,6 @@
 .programmes-container {
   padding: 1.25rem 1.5rem;
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
   font-size: 0.825rem;
 }
@@ -44,14 +44,15 @@
 .archive-info h3 {
   color: white;
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 400;
   margin: 0 0 0.5rem 0;
 }
 
 .archive-url {
   color: #94a3b8;
-  font-size: 0.875rem;
-  margin: 0.25rem 0;
+  font-size: 1.05rem;
+  margin: 0.35rem 0;
+  font-weight: 400;
 }
 
 .archive-url strong {
