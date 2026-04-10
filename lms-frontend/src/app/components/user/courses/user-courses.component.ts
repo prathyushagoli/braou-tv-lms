@@ -5,11 +5,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService, Course } from '../../../services/course.service';
 import { SearchFilterPipe } from '../../../pipes/search-filter.pipe';
+import { AutoFocusDirective } from '../../../directives/auto-focus.directive';
 
 @Component({
   selector: 'app-user-courses',
   standalone: true,
-  imports: [CommonModule, FormsModule, SearchFilterPipe],
+  imports: [CommonModule, FormsModule, SearchFilterPipe, AutoFocusDirective],
   templateUrl: './user-courses.component.html',
   styleUrls: ['./user-courses.component.css']
 })
