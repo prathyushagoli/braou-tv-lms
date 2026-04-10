@@ -12,10 +12,14 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.core.io.UrlResource;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -23,6 +27,8 @@ public class ScheduleController {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+
+    private final Path fileStorageLocation = Paths.get("uploads/schedules").toAbsolutePath().normalize();
 
     @GetMapping
     public List<Schedule> getAllSchedules() {
@@ -78,6 +84,13 @@ public class ScheduleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSchedule(@PathVariable Long id) {
         return scheduleRepository.findById(id).map(schedule -> {
+            // Optional: Cleanup legacy disk file if exists
+            if (schedule.getFileName() != null) {
+                try {
+                    Path target = this.fileStorageLocation.resolve(schedule.getFileName());
+                    Files.deleteIfExists(target);
+                } catch (IOException ex) {}
+            }
             scheduleRepository.delete(schedule);
             return ResponseEntity.ok().build();
         }).orElse(ResponseEntity.notFound().build());
@@ -95,6 +108,19 @@ public class ScheduleController {
                             .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + schedule.getFileName() + "\"")
                             .body((Resource) new ByteArrayResource(schedule.getFileData()));
                 } else {
+                    // Fallback to legacy disk storage for backwards compatibility
+                    try {
+                        Path filePath = this.fileStorageLocation.resolve(schedule.getFileName()).normalize();
+                        Resource resource = new UrlResource(filePath.toUri());
+                        if (resource.exists()) {
+                            return ResponseEntity.ok()
+                                    .contentType(MediaType.APPLICATION_PDF)
+                                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                                    .body(resource);
+                        }
+                    } catch (MalformedURLException ex) {
+                        // Ignore and return not found
+                    }
                     return ResponseEntity.notFound().build();
                 }
             }).orElse(ResponseEntity.notFound().build());
