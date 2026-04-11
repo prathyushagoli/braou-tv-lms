@@ -91,7 +91,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
       'Journalism and Mass Communication', 'English', 'Hindi', 'Telugu', 'Urdu',
       'Psychology', 'Mathematics / Applied Mathematics', 'Botany', 'Chemistry',
       'Environmental Science', 'Physics', 'Zoology', 'Master of Commerce', 'Library Science',
-      'Computer Applications', 'M.Ed', 'Geography', 'Statistics', 'Geology'
+      'Computer Applications', 'M.Ed', 'Geography', 'Statistics', 'Geology', 'MBA', 'MBA(HHCM)'
     ],
     'UG': [
       'Economics', 'History', 'Political Science', 'Public Administration', 'Sociology',
@@ -147,7 +147,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     const filterPipe = new SearchFilterPipe();
-    
+
     if (dropdown === 'type') {
       const filtered = filterPipe.transform(this.courseTypes, this.searchModalType);
       if (filtered.length) this.selectType(filtered[0]);

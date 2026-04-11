@@ -10,8 +10,9 @@
           <img class="ambedkar-img" src="assets/images/ambedkar.png" alt="Dr. B. R. Ambedkar">
         </div>
         <div class="quote-area">
-          <p>"We may forego material benefits of civilization, but we cannot forego our right and opportunity to reap
-            the benefit of the highest education to the fullest extent."</p>
+          <p>"We may forgo material benefits of civilization, but we cannot forgo our right and opportunity to reap the
+            benefits of the highest education to the fullest extent as the education is the greatest material benefit."
+          </p>
           <span class="quote-author">— Dr. B. R. Ambedkar</span>
         </div>
       </div>
@@ -67,16 +68,18 @@
   <!-- LAUNCH BRAOU TV BANNER -->
   <section class="launch-banner" *ngIf="contactObj?.isLaunchVideoActive">
     <div class="launch-icon-wrapper">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
-        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
-        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
-        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
       </svg>
     </div>
     <div class="launch-content">
       <h2 style="display: flex; align-items: center; gap: 0.5rem;">
-        Launch <span style="color: #3b82f6;">BRAOU</span> <span style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+        Launch <span style="color: #3b82f6;">BRAOU</span> <span
+          style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
       </h2>
       <p>Experience the grand inauguration of our educational broadcasting platform</p>
     </div>
@@ -137,27 +140,31 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let course of latestCourses">
-          <!-- Facade Wrapper -->
-          <div class="facade-container" *ngIf="activeVideoKey !== 'course-' + course.id" (click)="playVideo('course-' + course.id)">
-            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(course.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
-            <div class="facade-play-btn">
-              <svg viewBox="0 0 68 48" class="youtube-play-icon">
-                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
-                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
-              </svg>
-            </div>
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoKey !== 'course-' + course.id"
+          (click)="playVideo('course-' + course.id)">
+          <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(course.url) + '/hqdefault.jpg'"
+            alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg viewBox="0 0 68 48" class="youtube-play-icon">
+              <path class="ytp-large-play-button-bg"
+                d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                fill="#FF0000"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+            </svg>
           </div>
+        </div>
 
-          <!-- iframe conditionally renders -->
-          <div class="iframe-container" *ngIf="activeVideoKey === 'course-' + course.id">
-            <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-            <div class="invalid-url" *ngIf="!getSafeUrl(course.url)">
-              <span>Media Unavailable</span>
-            </div>
+        <!-- iframe conditionally renders -->
+        <div class="iframe-container" *ngIf="activeVideoKey === 'course-' + course.id">
+          <iframe *ngIf="getSafeUrl(course.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="invalid-url" *ngIf="!getSafeUrl(course.url)">
+            <span>Media Unavailable</span>
           </div>
+        </div>
         <div class="card-details">
           <h3>{{ course.title }}</h3>
           <p class="meta-sub">{{ course.subject || 'General' }}</p>
@@ -188,27 +195,31 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let prog of latestProgrammes">
-          <!-- Facade Wrapper -->
-          <div class="facade-container" *ngIf="activeVideoKey !== 'prog-' + prog.id" (click)="playVideo('prog-' + prog.id)">
-            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(prog.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
-            <div class="facade-play-btn">
-              <svg viewBox="0 0 68 48" class="youtube-play-icon">
-                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
-                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
-              </svg>
-            </div>
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoKey !== 'prog-' + prog.id"
+          (click)="playVideo('prog-' + prog.id)">
+          <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(prog.url) + '/hqdefault.jpg'"
+            alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg viewBox="0 0 68 48" class="youtube-play-icon">
+              <path class="ytp-large-play-button-bg"
+                d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                fill="#FF0000"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+            </svg>
           </div>
+        </div>
 
-          <!-- iframe conditionally renders -->
-          <div class="iframe-container" *ngIf="activeVideoKey === 'prog-' + prog.id">
-            <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-            <div class="invalid-url" *ngIf="!getSafeUrl(prog.url)">
-              <span>Media Unavailable</span>
-            </div>
+        <!-- iframe conditionally renders -->
+        <div class="iframe-container" *ngIf="activeVideoKey === 'prog-' + prog.id">
+          <iframe *ngIf="getSafeUrl(prog.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="invalid-url" *ngIf="!getSafeUrl(prog.url)">
+            <span>Media Unavailable</span>
           </div>
+        </div>
         <div class="card-details">
           <h3>{{ prog.title }}</h3>
           <div class="badges-row-simple">
@@ -236,27 +247,30 @@
 
     <div class="card-grid">
       <div class="ui-card" *ngFor="let ev of latestEvents">
-          <!-- Facade Wrapper -->
-          <div class="facade-container" *ngIf="activeVideoKey !== 'event-' + ev.id" (click)="playVideo('event-' + ev.id)">
-            <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(ev.url) + '/hqdefault.jpg'" alt="Video Thumbnail" class="facade-img">
-            <div class="facade-play-btn">
-              <svg viewBox="0 0 68 48" class="youtube-play-icon">
-                <path class="ytp-large-play-button-bg" d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
-                <path d="M 45,24 27,14 27,34" fill="#fff"></path>
-              </svg>
-            </div>
+        <!-- Facade Wrapper -->
+        <div class="facade-container" *ngIf="activeVideoKey !== 'event-' + ev.id" (click)="playVideo('event-' + ev.id)">
+          <img loading="lazy" [src]="'https://img.youtube.com/vi/' + extractVideoId(ev.url) + '/hqdefault.jpg'"
+            alt="Video Thumbnail" class="facade-img">
+          <div class="facade-play-btn">
+            <svg viewBox="0 0 68 48" class="youtube-play-icon">
+              <path class="ytp-large-play-button-bg"
+                d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z"
+                fill="#FF0000"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+            </svg>
           </div>
+        </div>
 
-          <!-- iframe conditionally renders -->
-          <div class="iframe-container" *ngIf="activeVideoKey === 'event-' + ev.id">
-            <iframe *ngIf="getSafeUrl(ev.url); let safeUrl" [src]="safeUrl" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-            <div class="invalid-url" *ngIf="!getSafeUrl(ev.url)">
-              <span>Media Unavailable</span>
-            </div>
+        <!-- iframe conditionally renders -->
+        <div class="iframe-container" *ngIf="activeVideoKey === 'event-' + ev.id">
+          <iframe *ngIf="getSafeUrl(ev.url); let safeUrl" [src]="safeUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="invalid-url" *ngIf="!getSafeUrl(ev.url)">
+            <span>Media Unavailable</span>
           </div>
+        </div>
         <div class="card-details">
           <h3>{{ ev.title }}</h3>
           <p class="meta-sub" *ngIf="ev.eventDate">📅 {{ ev.eventDate | date:'mediumDate' }}</p>
@@ -326,7 +340,7 @@
 
     <!-- Countdown / Confetti Loader State -->
     <div class="modal-internal" *ngIf="!isVideoLaunched">
-      
+
       <!-- New Glowing Orbs and Ring Container -->
       <div class="pulsing-orbs mt-4 mb-4">
         <div class="pinging-rings"></div>
@@ -334,13 +348,15 @@
       </div>
 
       <!-- Typography precisely matching Home Page aesthetics -->
-      <h2 class="modal-hero-title mt-4 mb-4" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; letter-spacing: 0;">
-        <span style="color: #3b82f6; font-weight: 800;">BRAOU</span> 
-        <span style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      <h2 class="modal-hero-title mt-4 mb-4"
+        style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; letter-spacing: 0;">
+        <span style="color: #3b82f6; font-weight: 800;">BRAOU</span>
+        <span
+          style="background-color: white; color: red; font-size: 0.85em; padding: 0.05em 0.15em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
       </h2>
-      
+
       <div class="modal-live-status mt-2 mb-4">
-        <span class="live-pulse-dot" style="background-color: #10b981; box-shadow: 0 0 8px #10b981;"></span> 
+        <span class="live-pulse-dot" style="background-color: #10b981; box-shadow: 0 0 8px #10b981;"></span>
         <span style="color: #10b981; font-weight: 900; letter-spacing: 1px;">IS LIVE NOW!</span>
       </div>
 
