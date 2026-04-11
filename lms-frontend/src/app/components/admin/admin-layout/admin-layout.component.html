@@ -2,7 +2,11 @@
   <!-- Mobile Header -->
   <div class="mobile-header">
     <div class="brand" style="display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0; border: none;">
-      <img src="assets/images/braoutv-latest-logo.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+      <img src="assets/images/braoutv-latest-logo.png" alt="Logo" style="height: 35px; width: auto; object-fit: contain;">
+      <span style="display: flex; align-items: center; gap: 0.3rem; font-weight: bold; font-size: 1.25rem;">
+        <span style="color: #3b82f6;">BRAOU</span>
+        <span style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      </span>
     </div>
     <button class="hamburger-btn" (click)="toggleMobileMenu()">
       <svg aria-hidden="true" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -17,6 +21,10 @@
   <aside class="sidebar" [class.mobile-open]="isMobileMenuOpen">
     <div class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
       <img src="assets/images/braoutv-latest-logo.png" alt="Logo" style="height: 45px; width: auto; object-fit: contain;">
+      <span style="display: flex; align-items: center; gap: 0.3rem; font-weight: bold; font-size: 1.25rem;">
+        <span style="color: #3b82f6;">BRAOU</span>
+        <span style="background-color: white; color: red; font-size: 1.1em; padding: 0.05em 0.08em; border-radius: 6px; font-weight: 900; line-height: 1;">TV</span>
+      </span>
       <button class="close-sidebar-btn" (click)="closeMobileMenu()">
         ✕
       </button>
