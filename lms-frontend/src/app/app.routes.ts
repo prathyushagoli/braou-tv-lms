@@ -17,11 +17,12 @@ export const routes: Routes = [
       { path: 'live', loadComponent: () => import('./components/user/live/user-live.component').then(m => m.UserLiveComponent) }
     ]
   },
-  { path: 'admin', loadComponent: () => import('./components/admin/login/login.component').then(m => m.AdminLoginComponent) },
+  { path: 'admin', pathMatch: 'full', loadComponent: () => import('./components/admin/login/login.component').then(m => m.AdminLoginComponent) },
   { 
     path: 'admin', 
     loadComponent: () => import('./components/admin/admin-layout/admin-layout.component').then(m => m.AdminLayoutComponent),
     canActivate: [adminGuard],
+    canActivateChild: [adminGuard],
     children: [
       { path: 'live-stream', loadComponent: () => import('./components/admin/live-stream/live-stream.component').then(m => m.LiveStreamComponent) },
       { path: 'programmes', loadComponent: () => import('./components/admin/programmes/programmes.component').then(m => m.ProgrammesComponent) },

@@ -23,7 +23,8 @@ export class AdminLayoutComponent {
   }
 
   logout() {
-    localStorage.removeItem('isAdminLoggedIn');
+    sessionStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('isAdminLoggedIn'); // Clean explicitly legacy local tokens smoothly
     this.router.navigate(['/admin']);
   }
 }

@@ -5,7 +5,7 @@ export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
   
   if (typeof window !== 'undefined') {
-    const isLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
+    const isLoggedIn = sessionStorage.getItem('isAdminLoggedIn') === 'true';
     if (isLoggedIn) {
       return true;
     }

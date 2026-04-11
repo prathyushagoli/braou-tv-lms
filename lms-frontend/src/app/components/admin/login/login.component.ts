@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class AdminLoginComponent {
+export class AdminLoginComponent implements OnInit {
   currentView: 'LOGIN' | 'FORGOT' | 'RESET' = 'LOGIN';
 
   email = '';
@@ -30,6 +30,10 @@ export class AdminLoginComponent {
 
   constructor(private router: Router, private http: HttpClient) { }
 
+  ngOnInit() {
+    // Purposely empty to natively ensure the /admin explicitly loads the Login Portal interface smoothly.
+  }
+
   onSignIn() {
     if (!this.email || !this.password) {
       this.showMessage('Please enter email and password', true);
@@ -42,7 +46,7 @@ export class AdminLoginComponent {
         next: (res) => {
           this.isLoading = false;
           if (res.success) {
-            localStorage.setItem('isAdminLoggedIn', 'true');
+            sessionStorage.setItem('isAdminLoggedIn', 'true');
             this.router.navigate(['/admin/live-stream']);
           } else {
             this.showMessage(res.message || 'Invalid Credentials', true);
