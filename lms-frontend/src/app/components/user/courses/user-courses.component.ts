@@ -19,8 +19,8 @@ export class UserCoursesComponent implements OnInit {
   isLoading: boolean = true;
   filteredCourses: Course[] = [];
   searchQuery: string = '';
-  
-  courseTypes: string[] = ['All Courses', 'UG', 'PG', 'Ph.D', 'Diploma', 'Certificate', 'Professional'];
+
+  courseTypes: string[] = ['All Courses', 'UG', 'PG', 'Ph.D', 'Diploma', 'Certificate Programmes', 'Professional Programmes'];
   activeType: string = 'All Courses';
 
   subjects: string[] = ['All Subjects'];
@@ -48,7 +48,7 @@ export class UserCoursesComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private eRef: ElementRef,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.courseService.getCourses().subscribe({
@@ -56,7 +56,7 @@ export class UserCoursesComponent implements OnInit {
         this.courses = data.sort((a, b) => (b.id || 0) - (a.id || 0));
         this.isLoading = false;
         this.extractFilters();
-        
+
         this.route.queryParams.subscribe(params => {
           if (params['faculty']) {
             this.activeType = 'All Courses';
@@ -87,8 +87,8 @@ export class UserCoursesComponent implements OnInit {
 
     this.subjects = ['All Subjects', ...Array.from(uniqueSubjects).sort()];
     this.faculties = ['All Faculties', ...Array.from(uniqueFaculties).sort()];
-    this.years = ['All Years', ...Array.from(uniqueYears).sort((a,b) => a-b).map(y => y.toString())];
-    this.semesters = ['All Semesters', ...Array.from(uniqueSemesters).sort((a,b) => a-b).map(s => s.toString())];
+    this.years = ['All Years', ...Array.from(uniqueYears).sort((a, b) => a - b).map(y => y.toString())];
+    this.semesters = ['All Semesters', ...Array.from(uniqueSemesters).sort((a, b) => a - b).map(s => s.toString())];
   }
 
   setActiveTab(type: string) {
@@ -170,7 +170,7 @@ export class UserCoursesComponent implements OnInit {
       const yearMatch = this.selectedYear === 'All Years' || (c.courseYear && c.courseYear.toString() === this.selectedYear);
       const semMatch = this.selectedSemester === 'All Semesters' || (c.semester && c.semester.toString() === this.selectedSemester);
       const searchMatch = !this.searchQuery || c.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-      
+
       return typeMatch && subjectMatch && facultyMatch && yearMatch && semMatch && searchMatch;
     });
     this.activeVideoId = undefined;
