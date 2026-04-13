@@ -78,7 +78,11 @@ export class UserCoursesComponent implements OnInit {
     const uniqueYears = new Set<number>();
     const uniqueSemesters = new Set<number>();
 
-    this.courses.forEach(c => {
+    const tabCourses = this.courses.filter(c => 
+      this.activeType === 'All Courses' || (c.type && c.type.toLowerCase() === this.activeType.toLowerCase())
+    );
+
+    tabCourses.forEach(c => {
       if (c.subject) uniqueSubjects.add(c.subject);
       if (c.faculty) uniqueFaculties.add(c.faculty);
       if (c.courseYear) uniqueYears.add(c.courseYear);
@@ -97,6 +101,7 @@ export class UserCoursesComponent implements OnInit {
     this.selectedFaculty = 'All Faculties';
     this.selectedYear = 'All Years';
     this.selectedSemester = 'All Semesters';
+    this.extractFilters();
     this.filterCourses();
   }
 

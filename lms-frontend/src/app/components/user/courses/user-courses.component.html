@@ -59,7 +59,7 @@
     </div>
 
       <!-- Custom Year Dropdown -->
-      <div class="custom-dropdown" (click)="toggleDropdown('year', $event)">
+      <div class="custom-dropdown" (click)="toggleDropdown('year', $event)" *ngIf="activeType !== 'Ph.D'">
         <div class="dropdown-trigger" [class.active-trigger]="isYearDropdownOpen">
           <span>{{ selectedYear !== 'All Years' ? 'Year ' + selectedYear : selectedYear }}</span>
           <svg class="trigger-icon" [class.rotated]="isYearDropdownOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
       </div>
 
       <!-- Custom Semester Dropdown -->
-      <div class="custom-dropdown" (click)="toggleDropdown('semester', $event)">
+      <div class="custom-dropdown" (click)="toggleDropdown('semester', $event)" *ngIf="activeType !== 'Ph.D'">
         <div class="dropdown-trigger" [class.active-trigger]="isSemesterDropdownOpen">
           <span>{{ selectedSemester !== 'All Semesters' ? 'Semester ' + selectedSemester : selectedSemester }}</span>
           <svg class="trigger-icon" [class.rotated]="isSemesterDropdownOpen" aria-hidden="true" width="16" height="16" fill="none" viewBox="0 0 24 24">
